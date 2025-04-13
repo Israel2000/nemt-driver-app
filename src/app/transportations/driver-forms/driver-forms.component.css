@@ -1,0 +1,43 @@
+h2 {
+  font-family: "DM Sans", sans-serif;
+  font-size: 30px;
+  font-weight: none;
+}
+h3 {
+  background-color: #0058b1; 
+  color: white; 
+  text-align: center; 
+  border-radius: 7px 7px 0 0;
+  margin: 0; 
+  padding: 8px;
+  /* text capitiazed */
+  text-transform: capitalize;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* .title */
+.titles {
+  border-bottom: black 1px solid !important;
+  width: 100%; margin: 10px 0;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.form-button {
+  grid-column: span 3;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 16px; /* Space between items */
+}
+
+/* table */

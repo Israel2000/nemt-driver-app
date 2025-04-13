@@ -1,0 +1,33 @@
+a.mat-button {
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  
+  a.mat-button:hover {
+    background-color: white!important;
+  }
+  
+  .active-link {
+    border-bottom: 2px solid white;
+  }
+  
+span {
+    color: white !important;
+    font-weight: 500;
+  }
+  .home-card {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+  }
+  
+  .whitecss {
+    color: white!important;
+    font-weight: 500;
+  }
+
+  .whitecss:hover {
+    color: #1976d2!important;
+    background-color: white!important;
+  }
