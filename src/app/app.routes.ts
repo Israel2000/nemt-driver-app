@@ -23,13 +23,15 @@ import { WorkspaceBillingComponent } from './pages/admin/workspace-billing/works
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  // --- STANDALONE PUBLIC DRIVER ONBOARDING (Direct template navbar, no layout inheritance) ---
+  { path: 'driver', component: DriverApplicationComponent },
+
   // --- PUBLIC MARKETING & ONBOARDING SURFACE ---
   {
     path: '',
     component: PublicLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'driver', component: DriverApplicationComponent },
       { path: 'w4-upload', component: W4UploadComponent },
       { path: 'w-4-upload', redirectTo: 'w4-upload', pathMatch: 'full' },
       { path: 'driver/vault', component: DriverVaultComponent },
