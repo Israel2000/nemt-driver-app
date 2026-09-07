@@ -23,8 +23,9 @@ import { WorkspaceBillingComponent } from './pages/admin/workspace-billing/works
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // --- STANDALONE PUBLIC DRIVER ONBOARDING (Direct template navbar, no layout inheritance) ---
+  // --- STANDALONE DISTRACTION-FREE APPLICANT PORTAL (Decoupled from marketing shell) ---
   { path: 'driver', component: DriverApplicationComponent },
+  { path: 'apply', component: DriverApplicationComponent },
 
   // --- PUBLIC MARKETING & ONBOARDING SURFACE ---
   {
@@ -37,6 +38,7 @@ export const routes: Routes = [
       { path: 'driver/vault', component: DriverVaultComponent },
       { path: 'driver/dvir', component: DriverDvirComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'admin/login', redirectTo: 'login', pathMatch: 'full' },
       { path: 'access-denied', component: AccessDeniedComponent }
     ]
   },

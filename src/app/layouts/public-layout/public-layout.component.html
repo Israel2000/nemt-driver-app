@@ -1,34 +1,6 @@
 <div class="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
-  <!-- Public Marketing Navbar -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <a routerLink="/" class="flex items-center gap-2 text-blue-600 font-bold text-xl tracking-tight hover:opacity-90">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-        </svg>
-        <span>NEMT <span class="text-slate-900">FleetOS</span></span>
-      </a>
-
-      <!-- Center Informational Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-        <a routerLink="/" class="hover:text-blue-600 transition-colors">Home</a>
-        <a routerLink="/driver" routerLinkActive="text-blue-600 font-semibold" class="hover:text-blue-600 transition-colors">Driver Application</a>
-        <a routerLink="/w4-upload" routerLinkActive="text-blue-600 font-semibold" class="hover:text-blue-600 transition-colors">W-4 Upload</a>
-      </nav>
-
-      <!-- Right Action CTAs -->
-      <div class="flex items-center gap-4">
-        <a routerLink="/admin" class="text-sm font-medium text-slate-700 hover:text-blue-600 px-3 py-2 transition-colors">
-          Sign In
-        </a>
-        <a routerLink="/admin" class="text-sm font-semibold bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow-sm transition-colors">
-          Start Free Trial
-        </a>
-      </div>
-    </div>
-  </header>
+  <!-- Public Marketing Navbar (Strictly business-facing) -->
+  <app-public-navbar></app-public-navbar>
 
   <!-- Content Canvas -->
   <main class="flex-1 py-10 px-4 sm:px-6 lg:px-8">

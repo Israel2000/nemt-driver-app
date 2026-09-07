@@ -1,4 +1,105 @@
 /* ==========================================================================
+   Applicant Topbar (Distraction-Free Minimalist Shell)
+   ========================================================================== */
+.applicant-topbar {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin-bottom: 24px;
+}
+
+.applicant-topbar-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.applicant-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.applicant-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+}
+
+.applicant-logo-icon mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.applicant-brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.applicant-company-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.applicant-portal-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.applicant-secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+.applicant-secure-badge mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #059669;
+}
+
+@media (max-width: 640px) {
+  .applicant-topbar-container {
+    padding: 0 14px;
+    height: 56px;
+  }
+  .applicant-secure-badge span {
+    display: none;
+  }
+  .applicant-secure-badge {
+    padding: 6px;
+  }
+}
+
+/* ==========================================================================
    Header Banner (Polished Embedded Card Banner)
    ========================================================================== */
 .header-banner {

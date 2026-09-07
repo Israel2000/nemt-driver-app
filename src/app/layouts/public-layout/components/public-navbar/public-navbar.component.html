@@ -16,18 +16,13 @@
     <!-- Center Navigation Links (Desktop) -->
     <nav class="center-nav desktop-nav">
       <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'features'">
-        Features
+        Product &amp; Features
       </a>
       <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'compliance'">
-        Medicaid Compliance
+        Medicaid Audit Shield
       </a>
       <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'pricing'">
         Pricing
-      </a>
-      <a mat-button class="nav-item-link driver-portal-btn" routerLink="/driver" routerLinkActive="active-portal">
-        <mat-icon class="driver-icon">badge</mat-icon>
-        <span class="portal-text">Driver Portal</span>
-        <span class="apply-badge">Apply to Drive</span>
       </a>
     </nav>
 
@@ -95,22 +90,15 @@
     <div class="mobile-links-stack">
       <a [routerLink]="['/']" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-nav-link">
         <mat-icon>star</mat-icon>
-        <span>Features</span>
+        <span>Product &amp; Features</span>
       </a>
       <a [routerLink]="['/']" [fragment]="'compliance'" (click)="closeMobileMenu()" class="mobile-nav-link">
         <mat-icon>security</mat-icon>
-        <span>Medicaid Compliance</span>
+        <span>Medicaid Audit Shield</span>
       </a>
       <a [routerLink]="['/']" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-nav-link">
         <mat-icon>payments</mat-icon>
         <span>Pricing</span>
-      </a>
-      <a routerLink="/driver" (click)="closeMobileMenu()" class="mobile-nav-link mobile-driver-link">
-        <div class="mobile-driver-label">
-          <mat-icon>badge</mat-icon>
-          <span>Driver Portal</span>
-        </div>
-        <span class="mobile-apply-pill">Apply to Drive</span>
       </a>
 
       <mat-divider></mat-divider>

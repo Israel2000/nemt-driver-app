@@ -14,7 +14,6 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
-import { RouterModule, RouterLink } from '@angular/router';
 
 // Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
@@ -41,8 +40,6 @@ import { W4UploadComponent, UploadedDoc } from '../w4-upload/w4-upload.component
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule,
-    RouterLink,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
