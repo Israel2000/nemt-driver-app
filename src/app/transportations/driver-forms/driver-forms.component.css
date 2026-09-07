@@ -1,13 +1,17 @@
 /* ==========================================================================
-   Header Banner
+   Header Banner (Polished Embedded Card Banner)
    ========================================================================== */
 .header-banner {
+  max-width: 896px;
+  margin: 0 auto 24px auto;
+  border-radius: 16px;
   background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
   color: #ffffff;
-  padding: 44px 20px 60px 20px;
+  padding: 36px 24px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
 }
 
 .header-banner::before {
@@ -51,7 +55,7 @@
 }
 
 .banner-title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   line-height: 1.25;
   margin: 0 0 10px 0;
@@ -59,7 +63,7 @@
 }
 
 .banner-subtitle {
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.55;
   color: #e2e8f0;
   margin: 0;
@@ -73,8 +77,8 @@
    ========================================================================== */
 .form-container {
   max-width: 896px; /* max-w-4xl */
-  margin: -36px auto 64px auto;
-  padding: 0 16px;
+  margin: 0 auto 48px auto;
+  padding: 0;
   position: relative;
   z-index: 10;
 }
@@ -270,6 +274,7 @@
 /* ==========================================================================
    Step Body & Section Headers
    ========================================================================== */
+.stepper-body,
 .stepper-content-body {
   padding: 32px 36px;
 }
@@ -441,29 +446,32 @@
 .sub-section-box {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 .sub-section-header {
   border-bottom: 1px solid #f1f5f9;
-  padding-bottom: 12px;
+  padding-bottom: 14px;
 }
 
 .sub-section-title {
   font-size: 16px;
   font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 3px 0;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.2px;
 }
 
 .sub-section-desc {
   font-size: 13px;
   color: #64748b;
   margin: 0;
+  line-height: 1.5;
 }
 
 .dynamic-entries-list {
@@ -475,11 +483,17 @@
 .entry-card {
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.entry-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .entry-card-header {
@@ -487,7 +501,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .entry-card-title {
@@ -495,7 +509,7 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: #0f172a;
 }
 
@@ -508,13 +522,23 @@
 
 .btn-remove-entry {
   font-size: 12.5px !important;
+  font-weight: 600 !important;
   color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 4px !important;
-  padding: 0 8px !important;
+  padding: 0 10px !important;
   height: 32px !important;
-  line-height: 32px !important;
+  line-height: 30px !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.btn-remove-entry:hover {
+  background-color: #fee2e2 !important;
+  border-color: #fca5a5 !important;
 }
 
 .btn-remove-entry mat-icon {
@@ -526,21 +550,26 @@
 .add-entry-row {
   display: flex;
   justify-content: flex-start;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .btn-add-entry {
-  border: 1px dashed #2563eb !important;
+  border: 1.5px dashed #2563eb !important;
   color: #2563eb !important;
   background-color: #eff6ff !important;
   border-radius: 8px !important;
   font-weight: 600 !important;
-  font-size: 13px !important;
-  padding: 6px 16px !important;
+  font-size: 13.5px !important;
+  padding: 8px 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
 }
 
 .btn-add-entry:hover {
   background-color: #dbeafe !important;
+  border-color: #1d4ed8 !important;
 }
 
 .education-cards-grid {
@@ -1316,6 +1345,16 @@
   }
 }
 
+@media (max-width: 860px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .col-span-3 {
+    grid-column: span 2 / span 2;
+  }
+}
+
 @media (max-width: 640px) {
   .header-banner {
     padding: 32px 16px 48px 16px;
@@ -1330,14 +1369,15 @@
   }
 
   .form-container {
-    margin: -24px auto 40px auto;
-    padding: 0 10px;
+    margin: 0 auto 32px auto;
+    padding: 0;
   }
 
   .stepper-card-container {
     border-radius: 12px;
   }
 
+  .stepper-body,
   .stepper-content-body {
     padding: 18px 14px;
   }
