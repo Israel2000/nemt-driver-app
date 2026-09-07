@@ -194,85 +194,109 @@
 
               <!-- Personal Fields Grid -->
               <div formGroupName="personal" class="fields-grid grid-cols-3">
-                <mat-form-field appearance="outline">
-                  <mat-label>First Name <span class="req-star">*</span></mat-label>
-                  <input matInput formControlName="firstName" placeholder="e.g. John" autocomplete="given-name" required />
-                  <mat-error *ngIf="personalGroup.get('firstName')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    First Name <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="text" formControlName="firstName" placeholder="John"
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                  <p *ngIf="personalGroup.get('firstName')?.touched && personalGroup.get('firstName')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     First name is required.
-                  </mat-error>
-                </mat-form-field>
+                  </p>
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Middle Name</mat-label>
-                  <input matInput formControlName="middleName" placeholder="e.g. A." autocomplete="additional-name" />
-                </mat-form-field>
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Middle Name
+                  </label>
+                  <input type="text" formControlName="middleName" placeholder="A."
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Last Name <span class="req-star">*</span></mat-label>
-                  <input matInput formControlName="lastName" placeholder="e.g. Doe" autocomplete="family-name" required />
-                  <mat-error *ngIf="personalGroup.get('lastName')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Last Name <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="text" formControlName="lastName" placeholder="Doe"
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                  <p *ngIf="personalGroup.get('lastName')?.touched && personalGroup.get('lastName')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     Last name is required.
-                  </mat-error>
-                </mat-form-field>
+                  </p>
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Phone Number <span class="req-star">*</span></mat-label>
-                  <input matInput formControlName="phone" type="tel" placeholder="(555) 000-0000" autocomplete="tel" required />
-                  <mat-error *ngIf="personalGroup.get('phone')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Phone Number <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="tel" formControlName="phone" placeholder="(555) 000-0000"
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                  <p *ngIf="personalGroup.get('phone')?.touched && personalGroup.get('phone')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     Phone number is required.
-                  </mat-error>
-                </mat-form-field>
+                  </p>
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Email Address <span class="req-star">*</span></mat-label>
-                  <input matInput formControlName="email" type="email" placeholder="john.doe@example.com" autocomplete="email" required />
-                  <mat-error *ngIf="personalGroup.get('email')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Email Address <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="email" formControlName="email" placeholder="john.doe@example.com"
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                  <p *ngIf="personalGroup.get('email')?.touched && personalGroup.get('email')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     Email is required.
-                  </mat-error>
-                  <mat-error *ngIf="personalGroup.get('email')?.hasError('email')">
+                  </p>
+                  <p *ngIf="personalGroup.get('email')?.touched && personalGroup.get('email')?.hasError('email')" class="text-xs text-rose-500 mt-1 font-medium">
                     Please enter a valid email address.
-                  </mat-error>
-                </mat-form-field>
+                  </p>
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Date of Birth <span class="req-star">*</span></mat-label>
-                  <input matInput [matDatepicker]="dobPicker" formControlName="dob" placeholder="MM/DD/YYYY" required />
-                  <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
-                  <mat-datepicker #dobPicker></mat-datepicker>
-                  <mat-error *ngIf="personalGroup.get('dob')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Date of Birth <span class="text-rose-500">*</span>
+                  </label>
+                  <div class="relative flex items-center">
+                    <input [matDatepicker]="dobPicker" formControlName="dob" placeholder="MM/DD/YYYY"
+                           class="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                    <mat-datepicker-toggle matSuffix [for]="dobPicker" class="absolute right-1 text-slate-400"></mat-datepicker-toggle>
+                    <mat-datepicker #dobPicker></mat-datepicker>
+                  </div>
+                  <p *ngIf="personalGroup.get('dob')?.touched && personalGroup.get('dob')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     Date of birth is required.
-                  </mat-error>
-                </mat-form-field>
+                  </p>
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Social Security Number (SSN) <span class="req-star">*</span></mat-label>
-                  <input matInput formControlName="ssn" placeholder="XXX-XX-XXXX" required />
-                  <mat-error *ngIf="personalGroup.get('ssn')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Social Security Number (SSN) <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="text" formControlName="ssn" placeholder="XXX-XX-XXXX"
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                  <p *ngIf="personalGroup.get('ssn')?.touched && personalGroup.get('ssn')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     SSN is required.
-                  </mat-error>
-                </mat-form-field>
+                  </p>
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Position Applied For <span class="req-star">*</span></mat-label>
-                  <input matInput formControlName="positionAppliedFor" required />
-                </mat-form-field>
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Position Applied For <span class="text-rose-500">*</span>
+                  </label>
+                  <input type="text" formControlName="positionAppliedFor" placeholder="e.g. NEMT Driver"
+                         class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                </div>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Available Start Date <span class="req-star">*</span></mat-label>
-                  <input matInput [matDatepicker]="startDatePicker" formControlName="availableStartDate" placeholder="MM/DD/YYYY" required />
-                  <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                  <mat-datepicker #startDatePicker></mat-datepicker>
-                  <mat-error *ngIf="personalGroup.get('availableStartDate')?.hasError('required')">
+                <div class="space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Available Start Date <span class="text-rose-500">*</span>
+                  </label>
+                  <div class="relative flex items-center">
+                    <input [matDatepicker]="startDatePicker" formControlName="availableStartDate" placeholder="MM/DD/YYYY"
+                           class="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker" class="absolute right-1 text-slate-400"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
+                  </div>
+                  <p *ngIf="personalGroup.get('availableStartDate')?.touched && personalGroup.get('availableStartDate')?.hasError('required')" class="text-xs text-rose-500 mt-1 font-medium">
                     Start date is required.
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="hidden-field" style="display: none;">
-                  <mat-label>Date of Application</mat-label>
-                  <input matInput [matDatepicker]="appDatePicker" formControlName="dateOfApplication" />
-                  <mat-datepicker-toggle matIconSuffix [for]="appDatePicker"></mat-datepicker-toggle>
-                  <mat-datepicker #appDatePicker></mat-datepicker>
-                </mat-form-field>
+                  </p>
+                </div>
 
                 <div class="radio-card-row col-span-3">
                   <div class="radio-card-header">
@@ -323,32 +347,48 @@
                     </div>
 
                     <div class="fields-grid grid-cols-3">
-                      <mat-form-field appearance="outline" class="col-span-2">
-                        <mat-label>Street Address <span class="req-star">*</span></mat-label>
-                        <input matInput formControlName="street" placeholder="123 Main St, Apt 4" autocomplete="street-address" required />
-                      </mat-form-field>
+                      <div class="space-y-1 col-span-2">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                          Street Address <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" formControlName="street" placeholder="123 Main St, Apt 4" autocomplete="street-address"
+                               class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                      </div>
 
-                      <mat-form-field appearance="outline">
-                        <mat-label>City <span class="req-star">*</span></mat-label>
-                        <input matInput formControlName="city" placeholder="City" autocomplete="address-level2" required />
-                      </mat-form-field>
+                      <div class="space-y-1">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                          City <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" formControlName="city" placeholder="City" autocomplete="address-level2"
+                               class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                      </div>
 
-                      <mat-form-field appearance="outline">
-                        <mat-label>State <span class="req-star">*</span></mat-label>
-                        <mat-select formControlName="state" required>
-                          <mat-option *ngFor="let state of usStates" [value]="state">{{ state }}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
+                      <div class="space-y-1">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                          State <span class="text-rose-500">*</span>
+                        </label>
+                        <select formControlName="state"
+                                class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm">
+                          <option value="" disabled selected>Select State</option>
+                          <option *ngFor="let state of usStates" [value]="state">{{ state }}</option>
+                        </select>
+                      </div>
 
-                      <mat-form-field appearance="outline">
-                        <mat-label>Zip Code <span class="req-star">*</span></mat-label>
-                        <input matInput formControlName="zipCode" placeholder="12345" autocomplete="postal-code" required />
-                      </mat-form-field>
+                      <div class="space-y-1">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                          Zip Code <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" formControlName="zipCode" placeholder="12345" autocomplete="postal-code"
+                               class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                      </div>
 
-                      <mat-form-field appearance="outline">
-                        <mat-label>Years at Address <span class="req-star">*</span></mat-label>
-                        <input matInput formControlName="yearsAtAddress" type="number" placeholder="e.g. 3" required />
-                      </mat-form-field>
+                      <div class="space-y-1">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+                          Years at Address <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="number" formControlName="yearsAtAddress" placeholder="e.g. 3"
+                               class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm" />
+                      </div>
                     </div>
                   </div>
 

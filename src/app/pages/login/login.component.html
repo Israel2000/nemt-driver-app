@@ -89,8 +89,10 @@
               <p class="form-subtitle">Sign in with your email to access your workspace. Administrators unlock the full dispatch & compliance SaaS.</p>
 
               <form (ngSubmit)="onLogin()" class="auth-form">
-                <div class="field-group">
-                  <label class="input-label">Email Address</label>
+                <div class="field-group space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Email Address <span class="text-rose-500">*</span>
+                  </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-5 h-5 flex items-center justify-center">
                       <mat-icon class="field-icon">email</mat-icon>
@@ -101,13 +103,15 @@
                       name="loginEmail"
                       placeholder="e.g. admin@nemtos.com"
                       required
-                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
                     />
                   </div>
                 </div>
 
-                <div class="field-group">
-                  <label class="input-label">Password</label>
+                <div class="field-group space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Password <span class="text-rose-500">*</span>
+                  </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-5 h-5 flex items-center justify-center">
                       <mat-icon class="field-icon">lock</mat-icon>
@@ -118,7 +122,7 @@
                       name="loginPassword"
                       placeholder="Enter password"
                       required
-                      class="pl-11 pr-11 py-2.5 w-full rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      class="pl-11 pr-11 py-2.5 w-full rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
                     />
                     <button
                       type="button"
@@ -150,8 +154,10 @@
 
               <form (ngSubmit)="onRegister()" class="auth-form">
                 <!-- 1. Full Name -->
-                <div class="field-group">
-                  <label class="input-label">Your Full Name</label>
+                <div class="field-group space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Your Full Name <span class="text-rose-500">*</span>
+                  </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-5 h-5 flex items-center justify-center">
                       <mat-icon class="field-icon">person</mat-icon>
@@ -161,14 +167,17 @@
                       [(ngModel)]="regFullName"
                       name="regFullName"
                       placeholder="e.g. Alex Miller"
-                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      required
+                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
                     />
                   </div>
                 </div>
 
                 <!-- 2. NEMT Company / Fleet Name -->
-                <div class="field-group">
-                  <label class="input-label">NEMT Company / Fleet Name</label>
+                <div class="field-group space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    NEMT Company / Fleet Name <span class="text-rose-500">*</span>
+                  </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-5 h-5 flex items-center justify-center">
                       <mat-icon class="field-icon">domain</mat-icon>
@@ -179,14 +188,16 @@
                       name="regCompanyName"
                       placeholder="e.g. Apex Care Transit LLC"
                       required
-                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
                     />
                   </div>
                 </div>
 
                 <!-- 3. Work Email -->
-                <div class="field-group">
-                  <label class="input-label">Work Email</label>
+                <div class="field-group space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Work Email <span class="text-rose-500">*</span>
+                  </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-5 h-5 flex items-center justify-center">
                       <mat-icon class="field-icon">email</mat-icon>
@@ -197,14 +208,16 @@
                       name="regEmail"
                       placeholder="e.g. alex@apexcaretransit.com"
                       required
-                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
                     />
                   </div>
                 </div>
 
                 <!-- 4. Create Password -->
-                <div class="field-group">
-                  <label class="input-label">Create Password</label>
+                <div class="field-group space-y-1">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1">
+                    Create Password <span class="text-rose-500">*</span>
+                  </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 w-5 h-5 flex items-center justify-center">
                       <mat-icon class="field-icon">lock</mat-icon>
@@ -215,7 +228,7 @@
                       name="regPassword"
                       placeholder="Create a secure password"
                       required
-                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      class="pl-11 pr-4 py-2.5 w-full rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition shadow-sm"
                     />
                   </div>
                 </div>

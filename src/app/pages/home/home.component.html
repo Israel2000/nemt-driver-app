@@ -206,7 +206,7 @@
   <!-- =========================================================================
        3. 3-CARD FEATURE BREAKDOWN
        ========================================================================= -->
-  <section class="features-section" id="features">
+  <section class="features-section scroll-mt-20" id="features" style="scroll-margin-top: 5rem;">
     <div class="features-container">
       
       <div class="section-intro-header">
@@ -244,14 +244,13 @@
           </ul>
         </div>
 
-        <!-- Card 2: Medicaid Audit Shield -->
-        <div class="feature-card highlight-border" id="compliance">
-          <span id="audit-shield" class="anchor-target"></span>
-          <div class="card-top-tag">Continuous Protection</div>
+        <!-- Card 2: Expiration Radar & Alerts -->
+        <div class="feature-card highlight-border">
+          <div class="card-top-tag">Proactive Sentinels</div>
           <div class="feature-icon-circle emerald">
             <mat-icon>verified_user</mat-icon>
           </div>
-          <h3 class="feature-card-title">Medicaid Audit Shield</h3>
+          <h3 class="feature-card-title">Automated Expiry Radar</h3>
           <p class="feature-card-description">
             Real-time tracking of CPR cards, driver licenses, and vehicle inspections with zero manual spreadsheets.
           </p>
@@ -303,17 +302,104 @@
 
 
   <!-- =========================================================================
-       4. TRANSPARENT SAAS PRICING TABLE
+       4. COMPLIANCE & MEDICAID AUDIT SHIELD DEDICATED SECTION
        ========================================================================= -->
-  <section class="pricing-section" id="pricing">
-    <div class="pricing-container">
-      
-      <div class="section-intro-header">
-        <span class="intro-pill-badge">Transparent Plans</span>
-        <h2 class="section-title">Simple, Transparent SaaS Pricing</h2>
-        <p class="section-subtitle">
-          Protect your transportation business from devastating audit clawbacks. Every plan includes our 14-day free trial.
+  <!-- Compliance / Audit Shield Section -->
+  <section id="compliance" class="scroll-mt-20 py-20 bg-slate-900 text-white" style="scroll-margin-top: 5rem;">
+    <span id="audit-shield" class="anchor-target" style="scroll-margin-top: 5rem;"></span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Medicaid Audit Shield &bull; Continuous Defense
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+          Never Fail an NEMT Audit Again. Ditch the Paper Binders.
+        </h2>
+        <p class="mt-4 text-base text-slate-300 leading-relaxed">
+          State Medicaid agencies and national brokers like Modivcare and MTM audit driver rosters without warning. 
+          FleetOS continuously verifies credentials, screens federal exclusion databases, and compiles inspection binders in 1 click.
         </p>
+      </div>
+
+      <!-- 4 Pillars Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-emerald-500/50 transition shadow-lg">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+            <mat-icon>security</mat-icon>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">OIG &amp; SAM Screening</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Automated recurring monthly checks against federal LEIE &amp; SAM exclusion databases to prevent illegal Medicaid billing.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-blue-500/50 transition shadow-lg">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
+            <mat-icon>notifications_active</mat-icon>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">30/15/7-Day Radar</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Proactive multi-channel SMS and email expiration alerts for CPR, DOT physicals, and driver licenses before trips are booked.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-purple-500/50 transition shadow-lg">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
+            <mat-icon>picture_as_pdf</mat-icon>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">1-Click Audit Export</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Instantly package complete, timestamped DQF dossiers into broker-compliant PDF binders for immediate field inspection.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-amber-500/50 transition shadow-lg">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
+            <mat-icon>gavel</mat-icon>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Dispatch Lockout</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Automated safety shield automatically blocks non-compliant drivers or expired vehicles from receiving dispatched trips.
+          </p>
+        </div>
+      </div>
+
+      <!-- Live Compliance Status Banner inside Section -->
+      <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center shrink-0">
+            <mat-icon>verified</mat-icon>
+          </div>
+          <div>
+            <div class="text-white font-bold text-base">Medicaid Audit Shield Active Guarantee</div>
+            <p class="text-xs text-slate-400 mt-0.5">Tested against Department of Health, Modivcare, and MTM audit protocols.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a mat-flat-button color="primary" routerLink="/login" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-md transition">
+            Activate Audit Shield
+          </a>
+          <a mat-stroked-button routerLink="/driver" class="border border-slate-600 text-slate-300 hover:text-white px-5 py-2.5 rounded-lg transition">
+            Driver Preview
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       5. TRANSPARENT SAAS PRICING TABLE
+       ========================================================================= -->
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing-section scroll-mt-20 py-20 bg-slate-50" style="scroll-margin-top: 5rem;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-3xl font-bold text-slate-900">Simple, Transparent Fleet Pricing</h2>
+        <p class="mt-3 text-base text-slate-600">Everything you need to stay Medicaid audit-proof.</p>
       </div>
 
       <div class="pricing-grid">

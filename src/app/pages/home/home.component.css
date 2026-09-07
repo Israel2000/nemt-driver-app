@@ -710,9 +710,10 @@
    4. TRANSPARENT SAAS PRICING TABLE
    -------------------------------------------------------------------------- */
 .pricing-section {
-  padding: 96px 24px;
+  padding: 80px 24px;
   background-color: #f8fafc;
   border-top: 1px solid #e2e8f0;
+  scroll-margin-top: 5rem;
 }
 
 .pricing-container {
