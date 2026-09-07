@@ -194,10 +194,13 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   getStatusClass(status: string): string {
     switch (status) {
       case 'new': return 'status-new';
-      case 'under_review': return 'status-review';
+      case 'under_review': return 'status-review bg-amber-50 text-amber-700 border border-amber-200';
       case 'mvr_pending': return 'status-pending';
-      case 'approved': return 'status-approved';
-      case 'rejected': return 'status-rejected';
+      case 'approved': return 'status-approved bg-emerald-50 text-emerald-700 border border-emerald-200';
+      case 'rejected':
+      case 'urgent':
+      case 'expiring':
+        return 'status-rejected bg-rose-50 text-rose-700 border border-rose-200';
       default: return 'status-default';
     }
   }
@@ -208,7 +211,10 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
       case 'under_review': return 'Under Review';
       case 'mvr_pending': return 'MVR / Drug Test Pending';
       case 'approved': return 'Approved & Hired';
-      case 'rejected': return 'Rejected';
+      case 'rejected':
+      case 'urgent':
+      case 'expiring':
+        return 'Urgent Attention / Expiring';
       default: return status;
     }
   }

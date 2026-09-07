@@ -22,3 +22,40 @@ body {
 img, canvas, svg {
   max-width: 100%;
 }
+
+/* Status Pill Utilities */
+.bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+}
+.text-emerald-700 {
+  color: #047857 !important;
+}
+.border-emerald-200 {
+  border-color: #a7f3d0 !important;
+}
+
+.bg-amber-50 {
+  background-color: #fffbeb !important;
+}
+.text-amber-700 {
+  color: #b45309 !important;
+}
+.border-amber-200 {
+  border-color: #fde68a !important;
+}
+
+.bg-rose-50 {
+  background-color: #fff1f2 !important;
+}
+.text-rose-700 {
+  color: #be123c !important;
+}
+.border-rose-200 {
+  border-color: #fecdd3 !important;
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
+
