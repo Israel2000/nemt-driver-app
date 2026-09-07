@@ -1,0 +1,68 @@
+<footer class="public-footer">
+  <div class="footer-container">
+    <div class="footer-top-grid">
+      <!-- Brand & Mission -->
+      <div class="footer-brand-column">
+        <div class="footer-brand">
+          <div class="footer-brand-icon">
+            <mat-icon>local_hospital</mat-icon>
+          </div>
+          <span class="footer-brand-title">NEMT FleetOS</span>
+        </div>
+        <p class="footer-desc">
+          The enterprise operating system and automated audit shield for Non-Emergency Medical Transportation providers, drivers, and Medicaid fleet operators.
+        </p>
+        <div class="footer-badges">
+          <span class="shield-badge"><mat-icon>security</mat-icon> Medicaid Audit Shield</span>
+          <span class="shield-badge"><mat-icon>lock</mat-icon> HIPAA & DQF Ready</span>
+        </div>
+      </div>
+
+      <!-- Navigation Column 1: Platform -->
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a [routerLink]="['/']" [fragment]="'features'">Feature Tour</a></li>
+          <li><a [routerLink]="['/']" [fragment]="'compliance'">Medicaid Audit Defense</a></li>
+          <li><a [routerLink]="['/']" [fragment]="'pricing'">Subscription Plans</a></li>
+          <li><a routerLink="/login">Start 14-Day Free Trial</a></li>
+        </ul>
+      </div>
+
+      <!-- Navigation Column 2: Driver Onboarding -->
+      <div class="footer-col">
+        <h4>Driver Onboarding</h4>
+        <ul>
+          <li><a routerLink="/driver">Driver Application Portal</a></li>
+          <li><a routerLink="/w4-upload">W-4 Document Upload</a></li>
+          <li><a routerLink="/driver/vault">Driver DQF Vault</a></li>
+          <li><a routerLink="/driver/dvir">Daily Pre-Trip DVIR</a></li>
+        </ul>
+      </div>
+
+      <!-- Navigation Column 3: Operator SaaS -->
+      <div class="footer-col">
+        <h4>Operator SaaS</h4>
+        <ul>
+          <li><a routerLink="/login">Operator Sign In</a></li>
+          <li><a routerLink="/admin">Executive Dashboard</a></li>
+          <li><a routerLink="/admin/candidates">Candidate ATS Pipeline</a></li>
+          <li><a routerLink="/admin/audit-shield">OIG/SAM Exclusion Scan</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <p class="copyright-text">
+        &copy; {{ currentYear }} NEMT FleetOS. All rights reserved. Purpose-built for NEMT fleets, Medicaid brokers, and Department of Health compliance.
+      </p>
+      <div class="legal-links">
+        <span>Privacy Policy</span>
+        <span>&bull;</span>
+        <span>Terms of Service</span>
+        <span>&bull;</span>
+        <span>FCRA & DQF Compliance</span>
+      </div>
+    </div>
+  </div>
+</footer>

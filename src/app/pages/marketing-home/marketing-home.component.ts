@@ -53,3 +53,5 @@ export class MarketingHomeComponent {
     }
   ];
 }
+
+export { MarketingHomeComponent as HomeComponent };

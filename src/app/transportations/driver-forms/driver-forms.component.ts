@@ -565,3 +565,5 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
     }, 100);
   }
 }
+
+export { DriverFormsComponent as DriverApplicationComponent };

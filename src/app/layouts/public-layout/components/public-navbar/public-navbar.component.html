@@ -1,0 +1,143 @@
+<header class="public-header-wrapper">
+  <mat-toolbar class="public-navbar">
+    <!-- Brand Logo -->
+    <a class="navbar-brand" routerLink="/" (click)="closeMobileMenu()">
+      <div class="brand-badge-icon">
+        <mat-icon>local_hospital</mat-icon>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">NEMT FleetOS</span>
+        <span class="brand-sub">Operations & Audit Shield</span>
+      </div>
+    </a>
+
+    <span class="navbar-spacer"></span>
+
+    <!-- Center Navigation Links (Desktop) -->
+    <nav class="center-nav desktop-nav">
+      <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'features'">
+        Features
+      </a>
+      <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'compliance'">
+        Medicaid Compliance
+      </a>
+      <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'pricing'">
+        Pricing
+      </a>
+      <a mat-button class="nav-item-link driver-portal-btn" routerLink="/driver" routerLinkActive="active-portal">
+        <mat-icon class="driver-icon">badge</mat-icon>
+        <span class="portal-text">Driver Portal</span>
+        <span class="apply-badge">Apply to Drive</span>
+      </a>
+    </nav>
+
+    <span class="navbar-spacer"></span>
+
+    <!-- Right-side Action Buttons (Desktop) -->
+    <div class="right-actions desktop-actions">
+      <!-- Guest actions -->
+      <ng-container *ngIf="!isAuthenticated">
+        <a mat-button class="signin-btn" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          <span>Sign In</span>
+        </a>
+        <a mat-flat-button color="primary" class="trial-btn" routerLink="/login">
+          <span>Start Free Trial</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </ng-container>
+
+      <!-- Authenticated actions -->
+      <ng-container *ngIf="isAuthenticated">
+        <a *ngIf="isAdmin" mat-stroked-button color="primary" class="console-btn" routerLink="/admin">
+          <mat-icon>dashboard</mat-icon>
+          <span>Admin Console</span>
+        </a>
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-account-btn">
+          <mat-icon class="account-icon">account_circle</mat-icon>
+          <span class="user-name">{{ currentUser?.fullName || currentWorkspace?.name }}</span>
+          <mat-icon class="dropdown-icon">expand_more</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <div class="user-menu-info">
+            <strong>{{ currentWorkspace?.name }}</strong>
+            <small>{{ currentUser?.email }} ({{ currentUser?.role | uppercase }})</small>
+          </div>
+          <mat-divider></mat-divider>
+          <a *ngIf="isAdmin" mat-menu-item routerLink="/admin">
+            <mat-icon>dashboard</mat-icon>
+            <span>Operator Hub</span>
+          </a>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon color="warn">logout</mat-icon>
+            <span style="color: #dc2626;">Sign Out</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+    </div>
+
+    <!-- Mobile Hamburger Menu Button -->
+    <div class="mobile-nav-toggle">
+      <a *ngIf="!isAuthenticated" mat-flat-button color="primary" routerLink="/login" class="mobile-trial-cta">
+        Free Trial
+      </a>
+      <a *ngIf="isAuthenticated && isAdmin" mat-stroked-button color="primary" routerLink="/admin" class="mobile-console-cta">
+        Console
+      </a>
+      <button mat-icon-button (click)="toggleMobileMenu()" class="mobile-menu-btn" aria-label="Toggle navigation">
+        <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <!-- Mobile Dropdown Menu -->
+  <div *ngIf="mobileMenuOpen" class="mobile-dropdown-menu">
+    <div class="mobile-links-stack">
+      <a [routerLink]="['/']" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-nav-link">
+        <mat-icon>star</mat-icon>
+        <span>Features</span>
+      </a>
+      <a [routerLink]="['/']" [fragment]="'compliance'" (click)="closeMobileMenu()" class="mobile-nav-link">
+        <mat-icon>security</mat-icon>
+        <span>Medicaid Compliance</span>
+      </a>
+      <a [routerLink]="['/']" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-nav-link">
+        <mat-icon>payments</mat-icon>
+        <span>Pricing</span>
+      </a>
+      <a routerLink="/driver" (click)="closeMobileMenu()" class="mobile-nav-link mobile-driver-link">
+        <div class="mobile-driver-label">
+          <mat-icon>badge</mat-icon>
+          <span>Driver Portal</span>
+        </div>
+        <span class="mobile-apply-pill">Apply to Drive</span>
+      </a>
+
+      <mat-divider></mat-divider>
+
+      <div class="mobile-actions-panel">
+        <ng-container *ngIf="!isAuthenticated">
+          <a mat-stroked-button routerLink="/login" (click)="closeMobileMenu()" class="mobile-signin-btn">
+            <mat-icon>login</mat-icon>
+            <span>Sign In</span>
+          </a>
+          <a mat-flat-button color="primary" routerLink="/login" (click)="closeMobileMenu()" class="mobile-primary-btn">
+            <span>Start Free Trial</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </a>
+        </ng-container>
+
+        <ng-container *ngIf="isAuthenticated">
+          <a *ngIf="isAdmin" mat-flat-button color="primary" routerLink="/admin" (click)="closeMobileMenu()" class="mobile-primary-btn">
+            <mat-icon>dashboard</mat-icon>
+            <span>Enter Admin Console</span>
+          </a>
+          <button mat-stroked-button color="warn" (click)="logout()" class="mobile-signin-btn">
+            <mat-icon>logout</mat-icon>
+            <span>Sign Out</span>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</header>

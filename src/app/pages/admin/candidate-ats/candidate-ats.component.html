@@ -1,0 +1,157 @@
+<div class="ats-container">
+  <div class="section-header-banner">
+    <div>
+      <h1 class="canvas-title">Candidate ATS & Hiring Pipeline</h1>
+      <p class="canvas-subtitle">Review incoming applications, inspect digital signatures and W-4s, and execute Medicaid background clearance.</p>
+    </div>
+    <div class="canvas-actions">
+      <button mat-flat-button color="primary" (click)="copyApplicationLink()" class="canvas-action-btn">
+        <mat-icon>share</mat-icon> Copy Job Application Link
+      </button>
+      <a mat-stroked-button color="primary" routerLink="/driver" target="_blank" class="canvas-action-btn">
+        <mat-icon>open_in_new</mat-icon> View Applicant Portal
+      </a>
+    </div>
+  </div>
+
+  <mat-card class="canvas-card">
+    <!-- Search and Filter Bar -->
+    <div class="toolbar-filter-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search candidates, license, or ref #</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          [(ngModel)]="searchQuery"
+          placeholder="Filter by name, email, phone, or license..."
+          (ngModelChange)="onSearchChange()"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="status-filter-field">
+        <mat-label>Application Status</mat-label>
+        <mat-select [(ngModel)]="statusFilter" (selectionChange)="onStatusFilterChange()">
+          <mat-option value="all">All Applications</mat-option>
+          <mat-option value="new">New Applications</mat-option>
+          <mat-option value="under_review">Under Review</mat-option>
+          <mat-option value="mvr_pending">MVR / Drug Test Pending</mat-option>
+          <mat-option value="approved">Approved & Hired</mat-option>
+          <mat-option value="rejected">Rejected</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="table-responsive">
+      <table mat-table [dataSource]="filteredApplications" class="custom-table">
+        <!-- Reference Column -->
+        <ng-container matColumnDef="ref">
+          <th mat-header-cell *matHeaderCellDef>Ref Code</th>
+          <td mat-cell *matCellDef="let app">
+            <span class="ref-code">{{ app.confirmationNumber }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Candidate Column -->
+        <ng-container matColumnDef="candidate">
+          <th mat-header-cell *matHeaderCellDef>Applicant</th>
+          <td mat-cell *matCellDef="let app">
+            <div class="candidate-cell">
+              <span class="candidate-name">{{ app.personal.firstName }} {{ app.personal.lastName }}</span>
+              <span class="candidate-contact">{{ app.personal.email }} &bull; {{ app.personal.phone }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>Position</th>
+          <td mat-cell *matCellDef="let app">
+            <span class="position-badge">{{ app.personal.positionAppliedFor }}</span>
+          </td>
+        </ng-container>
+
+        <!-- License Column -->
+        <ng-container matColumnDef="license">
+          <th mat-header-cell *matHeaderCellDef>License</th>
+          <td mat-cell *matCellDef="let app">
+            <div class="license-cell">
+              <span>{{ app.license.state }} - {{ app.license.licenseNumber }}</span>
+              <small class="text-muted">Exp: {{ formatDate(app.license.expirationDate) }}</small>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Date Applied Column -->
+        <ng-container matColumnDef="appliedDate">
+          <th mat-header-cell *matHeaderCellDef>Submitted</th>
+          <td mat-cell *matCellDef="let app">
+            {{ formatDate(app.submittedAt) }}
+          </td>
+        </ng-container>
+
+        <!-- W-4 Column -->
+        <ng-container matColumnDef="w4">
+          <th mat-header-cell *matHeaderCellDef>W-4 File</th>
+          <td mat-cell *matCellDef="let app">
+            <span *ngIf="app.documents?.w4FileName" class="w4-pill">
+              <mat-icon>description</mat-icon> Uploaded
+            </span>
+            <span *ngIf="!app.documents?.w4FileName" class="text-muted">Pending</span>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let app">
+            <span class="status-badge" [ngClass]="getStatusClass(app.status)">
+              {{ getStatusLabel(app.status) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let app">
+            <div class="actions-group">
+              <button mat-stroked-button color="primary" class="review-btn" (click)="viewDetails(app)">
+                Review
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="actionMenu" title="Update status">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #actionMenu="matMenu">
+                <button mat-menu-item (click)="updateStatus(app, 'under_review')">
+                  <mat-icon color="primary">visibility</mat-icon> Mark Under Review
+                </button>
+                <button mat-menu-item (click)="updateStatus(app, 'mvr_pending')">
+                  <mat-icon>local_police</mat-icon> Order MVR / Drug Test
+                </button>
+                <button mat-menu-item (click)="updateStatus(app, 'approved')">
+                  <mat-icon style="color: #16a34a;">check_circle</mat-icon> Approve & Hire Driver
+                </button>
+                <button mat-menu-item (click)="updateStatus(app, 'rejected')">
+                  <mat-icon color="warn">cancel</mat-icon> Reject Application
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="deleteApplicant(app)">
+                  <mat-icon color="warn">delete</mat-icon> Delete Application
+                </button>
+              </mat-menu>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row-hover"></tr>
+      </table>
+
+      <div *ngIf="filteredApplications.length === 0" class="empty-state">
+        <mat-icon class="empty-icon">search_off</mat-icon>
+        <p>No applications match your search criteria.</p>
+      </div>
+    </div>
+  </mat-card>
+</div>

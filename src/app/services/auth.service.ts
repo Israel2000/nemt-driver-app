@@ -10,6 +10,7 @@ export interface CompanyWorkspace {
   providerId: string;
   fleetSize: string;
   plan: SubscriptionTier;
+  planTier?: string;
   billingCycle: 'monthly' | 'annual';
   createdAt: string;
 }

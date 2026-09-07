@@ -112,8 +112,23 @@ export class DriverAdminService {
   private applicationsSubject = new BehaviorSubject<DriverApplication[]>([]);
   public applications$: Observable<DriverApplication[]> = this.applicationsSubject.asObservable();
 
+  private selectedApplicantSubject = new BehaviorSubject<DriverApplication | null>(null);
+  public selectedApplicant$: Observable<DriverApplication | null> = this.selectedApplicantSubject.asObservable();
+
   constructor() {
     this.loadApplications();
+  }
+
+  public openReview(applicant: DriverApplication): void {
+    this.selectedApplicantSubject.next(applicant);
+  }
+
+  public closeReview(): void {
+    this.selectedApplicantSubject.next(null);
+  }
+
+  public getSelectedApplicant(): DriverApplication | null {
+    return this.selectedApplicantSubject.value;
   }
 
   private loadApplications(): void {
@@ -153,11 +168,15 @@ export class DriverAdminService {
   public updateStatus(confirmationNumber: string, newStatus: ApplicationStatus, notes?: string): void {
     const updated = this.applicationsSubject.value.map(app => {
       if (app.confirmationNumber === confirmationNumber) {
-        return {
+        const updatedApp = {
           ...app,
           status: newStatus,
           notes: notes !== undefined ? notes : app.notes
         };
+        if (this.selectedApplicantSubject.value?.confirmationNumber === confirmationNumber) {
+          this.selectedApplicantSubject.next(updatedApp);
+        }
+        return updatedApp;
       }
       return app;
     });
@@ -167,6 +186,9 @@ export class DriverAdminService {
   }
 
   public deleteApplication(confirmationNumber: string): void {
+    if (this.selectedApplicantSubject.value?.confirmationNumber === confirmationNumber) {
+      this.selectedApplicantSubject.next(null);
+    }
     const updated = this.applicationsSubject.value.filter(a => a.confirmationNumber !== confirmationNumber);
     this.saveToStorage(updated);
     this.applicationsSubject.next(updated);

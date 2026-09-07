@@ -1,0 +1,135 @@
+<div class="fleet-container">
+  <div class="section-header-banner">
+    <div>
+      <h1 class="canvas-title">Fleet & Vehicle Registry</h1>
+      <p class="canvas-subtitle">Wheelchair ramp vans, bariatric stretchers, and ambulatory vehicles tracked for annual DOT inspection compliance.</p>
+    </div>
+    <div class="canvas-actions">
+      <a mat-flat-button color="primary" routerLink="/driver/dvir" target="_blank" class="canvas-action-btn">
+        <mat-icon>fact_check</mat-icon> Launch Driver Daily DVIR Pre-Trip
+      </a>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-box blue-bg">
+        <mat-icon>directions_car</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Active Fleet</span>
+        <span class="kpi-value">{{ fleetVehicles.length }} Units</span>
+        <span class="kpi-subtext">Wheelchair / Stretcher / Sedan</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-box emerald-bg">
+        <mat-icon>verified</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">In Service</span>
+        <span class="kpi-value">3 Units</span>
+        <span class="kpi-subtext">Cleared for Medicaid trips</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card alert-border">
+      <div class="kpi-icon-box rose-bg">
+        <mat-icon>build</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Inspection Due</span>
+        <span class="kpi-value text-rose">1 Unit</span>
+        <span class="kpi-subtext">DOT inspection &lt; 14 days</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <div class="kpi-icon-box amber-bg">
+        <mat-icon>checklist</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Daily DVIRs Logged</span>
+        <span class="kpi-value">100%</span>
+        <span class="kpi-subtext">Pre-trip checklist audit rate</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <mat-card class="canvas-card">
+    <div class="table-responsive">
+      <table mat-table [dataSource]="fleetVehicles" class="custom-table">
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef>Unit #</th>
+          <td mat-cell *matCellDef="let v">
+            <strong style="color: #0284c7; font-family: monospace; font-size: 13px;">{{ v.unitNumber }}</strong>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Vehicle Type</th>
+          <td mat-cell *matCellDef="let v">
+            <span class="vehicle-pill">
+              <mat-icon>accessible_forward</mat-icon> {{ v.type }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="makeModel">
+          <th mat-header-cell *matHeaderCellDef>Make & Model</th>
+          <td mat-cell *matCellDef="let v">
+            <div class="candidate-cell">
+              <strong>{{ v.makeModel }}</strong>
+              <span class="text-muted">{{ v.mileage | number }} miles</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vinPlate">
+          <th mat-header-cell *matHeaderCellDef>VIN / Plate</th>
+          <td mat-cell *matCellDef="let v">
+            <div class="candidate-cell">
+              <span style="font-family: monospace; font-size: 11px;">{{ v.vin }}</span>
+              <span class="text-muted">Plate: {{ v.licensePlate }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let v">
+            <span class="status-badge" [ngClass]="v.status === 'In Service' ? 'status-approved' : 'status-rejected'">
+              <mat-icon class="badge-icon">{{ v.status === 'In Service' ? 'check_circle' : 'warning' }}</mat-icon>
+              {{ v.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="inspection">
+          <th mat-header-cell *matHeaderCellDef>Annual DOT Due</th>
+          <td mat-cell *matCellDef="let v">
+            <span class="compliance-badge" [ngClass]="v.status === 'In Service' ? 'valid' : 'expired'">
+              Due: {{ formatDate(v.dotInspectionDue) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="driver">
+          <th mat-header-cell *matHeaderCellDef>Assigned Driver</th>
+          <td mat-cell *matCellDef="let v">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span>{{ v.assignedDriver }}</span>
+              <button mat-icon-button (click)="scheduleInspection(v)" title="Schedule DOT Inspection">
+                <mat-icon>schedule</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="vehicleColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: vehicleColumns;" class="table-row-hover"></tr>
+      </table>
+    </div>
+  </mat-card>
+</div>

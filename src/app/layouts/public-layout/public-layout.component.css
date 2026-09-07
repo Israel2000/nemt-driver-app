@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.public-layout-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background: #f8fafc;
+}
+
+.flex-grow {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

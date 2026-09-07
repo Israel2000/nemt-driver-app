@@ -1,0 +1,120 @@
+<div class="overview-container">
+  <div class="section-header-banner">
+    <div>
+      <h1 class="canvas-title">Executive Operations Hub</h1>
+      <p class="canvas-subtitle">Real-time driver acquisition metrics, credential tracking, and compliance shield health.</p>
+    </div>
+    <div class="canvas-actions">
+      <button mat-flat-button color="primary" (click)="copyApplicationLink()" class="canvas-action-btn">
+        <mat-icon>content_copy</mat-icon> Share Job Link
+      </button>
+      <a mat-stroked-button routerLink="/admin/candidates" class="canvas-action-btn">
+        <mat-icon>person_search</mat-icon> Review Candidates ({{ metrics.pendingReview }})
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Grid -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card" routerLink="/admin/candidates">
+      <div class="kpi-icon-box blue-bg">
+        <mat-icon>people_outline</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Total Applications</span>
+        <span class="kpi-value">{{ metrics.totalApplicants }}</span>
+        <span class="kpi-subtext">All-time received</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card" routerLink="/admin/candidates">
+      <div class="kpi-icon-box amber-bg">
+        <mat-icon>pending_actions</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Pending Review</span>
+        <span class="kpi-value">{{ metrics.pendingReview }}</span>
+        <span class="kpi-subtext">Requires recruiter action</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card" routerLink="/admin/audit-shield">
+      <div class="kpi-icon-box emerald-bg">
+        <mat-icon>how_to_reg</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Active Drivers</span>
+        <span class="kpi-value">{{ metrics.approvedDrivers }}</span>
+        <span class="kpi-subtext">Credentialed for Medicaid dispatch</span>
+      </div>
+    </mat-card>
+
+    <mat-card class="kpi-card alert-border" routerLink="/admin/audit-shield">
+      <div class="kpi-icon-box rose-bg">
+        <mat-icon>warning_amber</mat-icon>
+      </div>
+      <div class="kpi-content">
+        <span class="kpi-title">Urgent Alerts</span>
+        <span class="kpi-value text-rose">{{ metrics.expiringCredentialsCount }}</span>
+        <span class="kpi-subtext">Credentials expiring soon</span>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Two-Column Operations Layout -->
+  <div class="overview-two-col">
+    <!-- Recent Candidate Queue -->
+    <mat-card class="overview-widget">
+      <div class="widget-header">
+        <div class="widget-title-row">
+          <mat-icon class="widget-icon">assignment_ind</mat-icon>
+          <h3>Pending Candidate Screening</h3>
+        </div>
+        <a mat-button color="primary" routerLink="/admin/candidates">
+          View All ({{ applications.length }}) &rarr;
+        </a>
+      </div>
+      <div class="mini-candidates-list">
+        <div class="mini-candidate-item" *ngFor="let app of applications.slice(0, 3)">
+          <div class="mini-cand-info">
+            <span class="cand-name">{{ app.personal.firstName }} {{ app.personal.lastName }}</span>
+            <span class="cand-meta">{{ app.personal.email }} &bull; Applied: {{ formatDate(app.submittedAt) }}</span>
+          </div>
+          <span class="status-badge" [ngClass]="getStatusClass(app.status)">
+            {{ getStatusLabel(app.status) }}
+          </span>
+          <button mat-stroked-button class="review-btn" (click)="viewDetails(app)">
+            Review
+          </button>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Audit Shield Status Widget -->
+    <mat-card class="overview-widget">
+      <div class="widget-header">
+        <div class="widget-title-row">
+          <mat-icon class="widget-icon" style="color: #10b981;">shield</mat-icon>
+          <h3>Medicaid Audit Shield Status</h3>
+        </div>
+        <a mat-button color="primary" routerLink="/admin/audit-shield">
+          Audit Roster &rarr;
+        </a>
+      </div>
+      <div class="shield-summary-box">
+        <div class="shield-metric-row">
+          <span>Active Credentialed Roster:</span>
+          <strong>{{ activeDrivers.length }} Drivers Monitored</strong>
+        </div>
+        <div class="shield-metric-row">
+          <span>Fleet Vehicles In Service:</span>
+          <strong>{{ fleetVehiclesCount }} Vehicles Ready</strong>
+        </div>
+        <div class="shield-metric-row">
+          <span>Expiring Licenses/CPRs:</span>
+          <strong style="color: #be123c;">{{ metrics.expiringCredentialsCount }} Immediate Attention</strong>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

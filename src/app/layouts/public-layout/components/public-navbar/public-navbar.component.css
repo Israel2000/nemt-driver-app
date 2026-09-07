@@ -1,0 +1,352 @@
+/* Public Marketing Navbar Styles */
+:host {
+  display: block;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.public-header-wrapper {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.public-navbar {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 68px;
+  background: transparent !important;
+  color: #0f172a !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand Logo */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brand-badge-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+}
+
+.brand-badge-icon mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.navbar-spacer {
+  flex: 1;
+}
+
+/* Center Navigation (Desktop) */
+.center-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-item-link {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  transition: all 0.15s ease !important;
+}
+
+.nav-item-link:hover {
+  color: #0284c7 !important;
+  background-color: #f1f5f9 !important;
+}
+
+/* Driver Portal Button with Badge */
+.driver-portal-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 12px !important;
+  color: #0f172a !important;
+}
+
+.driver-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #0284c7;
+}
+
+.portal-text {
+  font-weight: 600;
+}
+
+.apply-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  letter-spacing: 0.2px;
+}
+
+/* Right-side Actions (Desktop) */
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signin-btn {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+}
+
+.signin-btn:hover {
+  color: #0f172a !important;
+  background-color: #f1f5f9 !important;
+}
+
+.trial-btn {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  border-radius: 8px !important;
+  padding: 0 16px !important;
+  height: 38px !important;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.3) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.trial-btn:hover {
+  background: #0369a1 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35) !important;
+}
+
+.trial-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.console-btn {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  height: 36px !important;
+}
+
+.user-account-btn {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  color: #1e293b !important;
+}
+
+.account-icon {
+  color: #0284c7;
+}
+
+.user-name {
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-icon {
+  color: #64748b;
+}
+
+.user-menu-info {
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-menu-info strong {
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.user-menu-info small {
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* Mobile Navigation */
+.mobile-nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-trial-cta {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  padding: 0 10px !important;
+  border-radius: 6px !important;
+}
+
+.mobile-console-cta {
+  font-size: 12px !important;
+  height: 32px !important;
+  line-height: 30px !important;
+  padding: 0 10px !important;
+  border-radius: 6px !important;
+}
+
+.mobile-menu-btn {
+  color: #1e293b !important;
+}
+
+.mobile-dropdown-menu {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 16px 20px;
+  animation: fadeInDown 0.2s ease;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-links-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.mobile-nav-link:hover {
+  background: #f1f5f9;
+  color: #0284c7;
+}
+
+.mobile-nav-link mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #64748b;
+}
+
+.mobile-driver-link {
+  justify-content: space-between;
+}
+
+.mobile-driver-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-apply-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.mobile-actions-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.mobile-signin-btn,
+.mobile-primary-btn {
+  width: 100%;
+  height: 42px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .desktop-actions {
+    display: none;
+  }
+
+  .mobile-nav-toggle {
+    display: flex;
+  }
+}
