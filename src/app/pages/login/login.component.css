@@ -198,6 +198,24 @@
   width: 100%;
 }
 
+.mat-mdc-tab-group.auth-tabs,
+.auth-tabs {
+  padding: 10px;
+}
+
+.tab-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.tab-label mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
 .tab-content {
   padding: 24px 0 8px 0;
 }
