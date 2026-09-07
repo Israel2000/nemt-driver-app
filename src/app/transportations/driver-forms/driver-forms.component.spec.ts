@@ -99,4 +99,42 @@ describe('DriverFormsComponent', () => {
     const stepButtons = compiled.querySelectorAll('.step-node-btn');
     expect(stepButtons.length).toBe(4);
   });
+
+  it('should include mobile camera capture input for driver license in Step 2', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const cameraInput = compiled.querySelector('input[capture="environment"]') as HTMLInputElement;
+    expect(cameraInput).toBeTruthy();
+    expect(cameraInput.getAttribute('accept')).toBe('image/*');
+  });
+
+  it('should clear license photo properly when removeLicensePhoto is called', () => {
+    component.licensePhotoDataUrl = 'data:image/jpeg;base64,samplelicense';
+    component.licensePhotoName = 'license.jpg';
+    component.licensePhotoSize = 102400;
+
+    component.removeLicensePhoto();
+
+    expect(component.licensePhotoDataUrl).toBe('');
+    expect(component.licensePhotoName).toBe('');
+    expect(component.licensePhotoSize).toBeNull();
+  });
+
+  it('should require statement attestation checkbox for Step 4 completion', () => {
+    component.certificationGroup.patchValue({
+      certifyTrue: true,
+      authorizeInvestigation: true,
+      statementAttestation: false,
+      printedName: 'John Doe',
+      signatureDate: new Date(),
+      signatureDataUrl: 'data:image/png;base64,sample'
+    });
+    component.hasSignature = true;
+
+    // False because statementAttestation is false
+    expect(component.isStepCompleted(3)).toBeFalse();
+
+    // Set attestation to true
+    component.certificationGroup.patchValue({ statementAttestation: true });
+    expect(component.isStepCompleted(3)).toBeTrue();
+  });
 });

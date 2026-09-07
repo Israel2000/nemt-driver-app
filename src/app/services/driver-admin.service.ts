@@ -47,6 +47,8 @@ export interface DriverApplication {
     expirationDate: string;
     hasSuspensions: string;
     suspensionDetails?: string;
+    licensePhotoDataUrl?: string;
+    licensePhotoName?: string;
   };
   employment: Employment[];
   education: {
@@ -67,10 +69,13 @@ export interface DriverApplication {
     w4FileName?: string;
     w4FileSize?: number;
     w4FileData?: string;
+    licensePhotoDataUrl?: string;
+    licensePhotoName?: string;
   };
   certification: {
     certifyTrue: boolean;
     authorizeInvestigation: boolean;
+    statementAttestation?: boolean;
     printedName: string;
     signatureDate: string;
     signatureDataUrl: string;

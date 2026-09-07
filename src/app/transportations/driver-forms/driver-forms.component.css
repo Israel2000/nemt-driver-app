@@ -743,6 +743,271 @@
 }
 
 /* ==========================================================================
+   Mobile-Friendly Driver's License Upload Card (Step 2)
+   ========================================================================== */
+.license-upload-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.upload-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.upload-title-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon-circle mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.upload-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+}
+
+.upload-card-subtitle {
+  font-size: 12.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+.upload-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.upload-badge-pill mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+/* Clear Dashed Border Dropzone */
+.upload-dropzone {
+  border: 2px dashed #94a3b8;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-dropzone:hover {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.dropzone-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.dropzone-icon-circle mat-icon {
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+}
+
+.dropzone-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dropzone-primary-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.dropzone-secondary-text {
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.dropzone-btn-row {
+  margin-top: 4px;
+}
+
+.btn-snap-photo {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 18px !important;
+}
+
+/* Instant Image Thumbnail Preview Panel */
+.license-preview-panel {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.preview-thumbnail-container {
+  position: relative;
+  width: 140px;
+  height: 96px;
+  min-width: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.license-image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.preview-overlay-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background-color: rgba(16, 185, 129, 0.92);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  backdrop-filter: blur(2px);
+}
+
+.preview-overlay-badge mat-icon {
+  font-size: 11px;
+  width: 11px;
+  height: 11px;
+}
+
+.preview-meta-and-actions {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.preview-file-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.preview-filename {
+  font-size: 14px;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.preview-filesize {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.preview-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-preview-action {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 4px 14px !important;
+}
+
+.btn-preview-remove {
+  color: #dc2626 !important;
+  border-color: #fca5a5 !important;
+}
+
+/* Attestation Checkbox under Signature Pad */
+.signature-attestation-box {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+
+.attestation-checkbox {
+  width: 100%;
+}
+
+.attestation-checkbox-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
    Bottom Action Bar (Standardized Secondary Back & Primary Solid Blue Next)
    ========================================================================== */
 .stepper-action-bar {

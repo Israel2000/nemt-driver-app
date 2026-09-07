@@ -276,6 +276,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   updateStatus(app: DriverApplication, newStatus: ApplicationStatus): void {
+    app.status = newStatus;
     this.adminService.updateStatus(app.confirmationNumber, newStatus, this.applicantNotes);
     if (this.selectedApplicant && this.selectedApplicant.confirmationNumber === app.confirmationNumber) {
       this.selectedApplicant = {
@@ -286,6 +287,29 @@ export class AdminDashboardComponent implements OnInit {
     }
     const label = this.getStatusLabel(newStatus);
     this.snackBar.open(`Applicant marked as "${label}".`, 'OK', { duration: 3000 });
+  }
+
+  approveCandidate(app: DriverApplication): void {
+    this.updateStatus(app, 'approved');
+  }
+
+  requestDocumentReupload(app: DriverApplication): void {
+    const timestamp = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const noteEntry = `[${timestamp}] Document re-upload requested: Candidate prompted for clear driver license and/or Form W-4.`;
+    this.applicantNotes = this.applicantNotes ? `${this.applicantNotes}\n${noteEntry}` : noteEntry;
+    app.status = 'under_review';
+    app.notes = this.applicantNotes;
+    this.adminService.updateStatus(app.confirmationNumber, 'under_review', this.applicantNotes);
+    if (this.selectedApplicant && this.selectedApplicant.confirmationNumber === app.confirmationNumber) {
+      this.selectedApplicant = {
+        ...this.selectedApplicant,
+        status: 'under_review',
+        notes: this.applicantNotes
+      };
+    }
+    this.snackBar.open(`Document re-upload request sent to ${app.personal.firstName} ${app.personal.lastName} (${app.personal.email}).`, 'Sent', {
+      duration: 4000
+    });
   }
 
   saveApplicantNotes(): void {

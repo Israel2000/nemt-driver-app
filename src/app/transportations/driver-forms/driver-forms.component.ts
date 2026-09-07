@@ -83,6 +83,11 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
   private ctx: CanvasRenderingContext2D | null = null;
   hasSignature = false;
 
+  // License photo capture state
+  licensePhotoDataUrl = '';
+  licensePhotoName = '';
+  licensePhotoSize: number | null = null;
+
   usStates: string[] = [
     'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
     'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
@@ -135,7 +140,9 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
         licenseClass: ['Class C (Standard)', Validators.required],
         expirationDate: ['', Validators.required],
         hasSuspensions: ['no', Validators.required],
-        suspensionDetails: ['']
+        suspensionDetails: [''],
+        licensePhotoDataUrl: [''],
+        licensePhotoName: ['']
       }),
 
       employment: this.fb.array([this.createEmploymentGroup(true)]),
@@ -160,12 +167,15 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
       documents: this.fb.group({
         w4FileName: [''],
         w4FileSize: [null],
-        w4FileData: ['']
+        w4FileData: [''],
+        licensePhotoDataUrl: [''],
+        licensePhotoName: ['']
       }),
 
       certification: this.fb.group({
         certifyTrue: [false, Validators.requiredTrue],
         authorizeInvestigation: [false, Validators.requiredTrue],
+        statementAttestation: [false, Validators.requiredTrue],
         printedName: ['', [Validators.required, Validators.minLength(2)]],
         signatureDate: [today, Validators.required],
         signatureDataUrl: ['', Validators.required]
@@ -271,6 +281,57 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
     this.snackBar.open('W-4 Document detached.', 'Dismiss', { duration: 2000 });
   }
 
+  // License Photo Upload & Camera Capture Handlers
+  onLicensePhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    this.licensePhotoName = file.name;
+    this.licensePhotoSize = file.size;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.licensePhotoDataUrl = reader.result as string;
+      this.licenseGroup.patchValue({
+        licensePhotoDataUrl: this.licensePhotoDataUrl,
+        licensePhotoName: this.licensePhotoName
+      });
+      this.documentsGroup.patchValue({
+        licensePhotoDataUrl: this.licensePhotoDataUrl,
+        licensePhotoName: this.licensePhotoName
+      });
+      this.snackBar.open(`Driver license photo "${file.name}" attached successfully!`, 'OK', {
+        duration: 3000
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removeLicensePhoto(fileInput?: HTMLInputElement): void {
+    this.licensePhotoDataUrl = '';
+    this.licensePhotoName = '';
+    this.licensePhotoSize = null;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+    this.licenseGroup.patchValue({
+      licensePhotoDataUrl: '',
+      licensePhotoName: ''
+    });
+    this.documentsGroup.patchValue({
+      licensePhotoDataUrl: '',
+      licensePhotoName: ''
+    });
+    this.snackBar.open('Driver license photo removed.', 'Dismiss', { duration: 2000 });
+  }
+
+  formatFileSize(bytes?: number | null): string {
+    if (!bytes) return '0 KB';
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  }
+
   onStepChange(event: any) {
     this.currentStepIndex = event.selectedIndex;
     // When navigating to Step 4 (W-4 & Signature)
@@ -318,7 +379,9 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
       case 2:
         return this.employmentArray && this.educationGroup ? this.employmentArray.valid && this.educationGroup.valid : false;
       case 3:
-        return this.certificationGroup ? this.certificationGroup.valid : false;
+        return this.certificationGroup
+          ? this.certificationGroup.valid && this.hasSignature && !!this.certificationGroup.get('statementAttestation')?.value
+          : false;
       default:
         return false;
     }
@@ -439,9 +502,9 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
 
   // Form Submission
   onSubmit() {
-    if (this.driverForm.invalid) {
+    if (this.driverForm.invalid || !this.hasSignature || !this.certificationGroup.get('statementAttestation')?.value) {
       this.driverForm.markAllAsTouched();
-      this.snackBar.open('Please fill in all required fields and sign the application.', 'Close', {
+      this.snackBar.open('Please complete all required fields, draw your signature, and check the attestation.', 'Close', {
         duration: 4500
       });
       return;
@@ -452,6 +515,8 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
     this.submittedData = {
       confirmationNumber: this.confirmationNumber,
       submittedAt: new Date().toISOString(),
+      licensePhotoDataUrl: this.licensePhotoDataUrl,
+      licensePhotoName: this.licensePhotoName,
       ...formValue
     };
 
@@ -490,6 +555,9 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
     this.submittedData = null;
     this.hasSignature = false;
     this.currentStepIndex = 0;
+    this.licensePhotoDataUrl = '';
+    this.licensePhotoName = '';
+    this.licensePhotoSize = null;
     this.initForm();
     setTimeout(() => {
       this.setupCanvas();

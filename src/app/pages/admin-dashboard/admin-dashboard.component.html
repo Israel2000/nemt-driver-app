@@ -821,155 +821,313 @@
     </main>
   </div>
 
-  <!-- CANDIDATE DOSSIER MODAL -->
-  <div *ngIf="selectedApplicant" class="modal-backdrop" (click)="closeDetails()">
-    <div class="modal-dialog" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <h2>{{ selectedApplicant.personal.firstName }} {{ selectedApplicant.personal.middleName }} {{ selectedApplicant.personal.lastName }}</h2>
-          <div class="modal-meta-row">
-            <span class="ref-badge">{{ selectedApplicant.confirmationNumber }}</span>
+  <!-- CANDIDATE REVIEW SLIDE-OVER DRAWER COMPONENT -->
+  <div *ngIf="selectedApplicant" class="drawer-backdrop" (click)="closeDetails()"></div>
+
+  <aside *ngIf="selectedApplicant" class="review-slideover-drawer" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <!-- Drawer Top Header -->
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <div class="candidate-avatar">
+          <span>{{ selectedApplicant.personal.firstName[0] }}{{ selectedApplicant.personal.lastName[0] }}</span>
+        </div>
+        <div class="drawer-header-meta">
+          <div class="drawer-candidate-name-row">
+            <h2>{{ selectedApplicant.personal.firstName }} {{ selectedApplicant.personal.middleName }} {{ selectedApplicant.personal.lastName }}</h2>
             <span class="status-badge" [ngClass]="getStatusClass(selectedApplicant.status)">
               {{ getStatusLabel(selectedApplicant.status) }}
             </span>
-            <span class="date-meta">Applied: {{ formatDate(selectedApplicant.submittedAt) }}</span>
+          </div>
+          <div class="drawer-submeta">
+            <span class="ref-pill">{{ selectedApplicant.confirmationNumber }}</span>
+            <span>&bull;</span>
+            <span>Applied {{ formatDate(selectedApplicant.submittedAt) }}</span>
+            <span>&bull;</span>
+            <span class="position-tag">{{ selectedApplicant.personal.positionAppliedFor }}</span>
           </div>
         </div>
-        <button mat-icon-button (click)="closeDetails()" title="Close Dossier">
-          <mat-icon>close</mat-icon>
-        </button>
       </div>
+      <button mat-icon-button (click)="closeDetails()" class="drawer-close-btn" title="Close Drawer">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
 
-      <div class="modal-content">
-        <!-- Decision Action Bar -->
-        <div class="decision-bar">
-          <span class="decision-label">Recruiter Hiring Decision:</span>
-          <div class="decision-buttons">
-            <button mat-stroked-button (click)="updateStatus(selectedApplicant, 'under_review')">
-              Under Review
-            </button>
-            <button mat-stroked-button (click)="updateStatus(selectedApplicant, 'mvr_pending')">
-              Order MVR / Drug Test
-            </button>
-            <button mat-flat-button color="primary" (click)="updateStatus(selectedApplicant, 'approved')">
-              Approve & Hire
-            </button>
-            <button mat-stroked-button color="warn" (click)="updateStatus(selectedApplicant, 'rejected')">
-              Reject
-            </button>
-          </div>
+    <!-- Primary Action Buttons Banner (Emerald Approve & Amber Re-upload) -->
+    <div class="drawer-actions-banner">
+      <button
+        mat-flat-button
+        class="action-btn-approve"
+        (click)="approveCandidate(selectedApplicant)"
+        title="Approve candidate and add to credentialed driver roster"
+      >
+        <mat-icon>check_circle</mat-icon>
+        <span>Approve Candidate</span>
+      </button>
+
+      <button
+        mat-flat-button
+        class="action-btn-reupload"
+        (click)="requestDocumentReupload(selectedApplicant)"
+        title="Notify candidate to re-upload driver license or W-4 documents"
+      >
+        <mat-icon>upload_file</mat-icon>
+        <span>Request Document Re-upload</span>
+      </button>
+    </div>
+
+    <!-- Scrollable Drawer Body -->
+    <div class="drawer-body">
+      <!-- Section 1: Uploaded Document Previews -->
+      <div class="drawer-section">
+        <div class="section-heading">
+          <mat-icon class="section-icon">folder_shared</mat-icon>
+          <h3>Uploaded Document Previews</h3>
         </div>
 
-        <!-- Section 1: Contact Details -->
-        <div class="dossier-section">
-          <h4 class="section-title"><mat-icon>badge</mat-icon> Contact & Identification</h4>
-          <div class="dossier-grid">
-            <div><strong>Email:</strong> {{ selectedApplicant.personal.email }}</div>
-            <div><strong>Phone:</strong> {{ selectedApplicant.personal.phone }}</div>
-            <div><strong>Date of Birth:</strong> {{ formatDate(selectedApplicant.personal.dob) }}</div>
-            <div><strong>SSN:</strong> {{ selectedApplicant.personal.ssn }}</div>
-            <div><strong>Position:</strong> {{ selectedApplicant.personal.positionAppliedFor }}</div>
-            <div><strong>Available Start:</strong> {{ formatDate(selectedApplicant.personal.availableStartDate) }}</div>
-          </div>
-        </div>
-
-        <!-- Section 2: Driver's License -->
-        <div class="dossier-section">
-          <h4 class="section-title"><mat-icon>drive_eta</mat-icon> Driver's License & Driving History</h4>
-          <div class="dossier-grid">
-            <div><strong>State:</strong> {{ selectedApplicant.license.state }}</div>
-            <div><strong>License #:</strong> {{ selectedApplicant.license.licenseNumber }}</div>
-            <div><strong>Class:</strong> {{ selectedApplicant.license.licenseClass }}</div>
-            <div><strong>Expiration:</strong> {{ formatDate(selectedApplicant.license.expirationDate) }}</div>
-            <div class="col-span-2">
-              <strong>Past 5-Yr Suspensions:</strong>
-              <span [style.color]="selectedApplicant.license.hasSuspensions === 'yes' ? 'red' : 'green'">
-                {{ selectedApplicant.license.hasSuspensions === 'yes' ? 'YES (Disclosed)' : 'NO' }}
+        <div class="docs-preview-grid">
+          <!-- Document 1: Driver's License Card / Camera Capture -->
+          <div class="doc-preview-card">
+            <div class="doc-preview-header">
+              <div class="doc-preview-title">
+                <mat-icon class="doc-type-icon">badge</mat-icon>
+                <strong>Driver's License (Front)</strong>
+              </div>
+              <span *ngIf="selectedApplicant.license.licensePhotoDataUrl || selectedApplicant.documents?.licensePhotoDataUrl" class="doc-status-tag verified">
+                <mat-icon>check_circle</mat-icon> Verified
               </span>
-              <p *ngIf="selectedApplicant.license.suspensionDetails" class="suspension-note">
-                Details: {{ selectedApplicant.license.suspensionDetails }}
-              </p>
+              <span *ngIf="!(selectedApplicant.license.licensePhotoDataUrl || selectedApplicant.documents?.licensePhotoDataUrl)" class="doc-status-tag pending">
+                <mat-icon>pending</mat-icon> Missing
+              </span>
             </div>
-          </div>
-        </div>
 
-        <!-- Section 3: 7-Year Address History -->
-        <div class="dossier-section">
-          <h4 class="section-title"><mat-icon>home</mat-icon> 7-Year Address History</h4>
-          <div class="history-list">
-            <div *ngFor="let res of selectedApplicant.residences; let i = index" class="history-card">
-              <span class="history-badge">Address #{{ i + 1 }}</span>
-              <div class="history-details">
-                <strong>{{ res.street }}</strong>, {{ res.city }}, {{ res.state }} {{ res.zipCode }}
-                <div class="text-muted">Resided for: {{ res.yearsAtAddress }} years</div>
+            <div class="doc-preview-content">
+              <div *ngIf="selectedApplicant.license.licensePhotoDataUrl || selectedApplicant.documents?.licensePhotoDataUrl" class="license-img-wrapper">
+                <img
+                  [src]="selectedApplicant.license.licensePhotoDataUrl || selectedApplicant.documents?.licensePhotoDataUrl"
+                  alt="Driver License Front Photo"
+                  class="preview-doc-image"
+                />
+              </div>
+              <div *ngIf="!(selectedApplicant.license.licensePhotoDataUrl || selectedApplicant.documents?.licensePhotoDataUrl)" class="doc-missing-placeholder">
+                <mat-icon class="placeholder-icon">photo_camera</mat-icon>
+                <p>No license image attached during submission.</p>
+                <button mat-stroked-button (click)="requestDocumentReupload(selectedApplicant)" class="btn-prompt-doc">
+                  <mat-icon>outgoing_mail</mat-icon> Request License Upload
+                </button>
+              </div>
+              <div class="doc-meta-info" *ngIf="selectedApplicant.license">
+                <span>{{ selectedApplicant.license.state }} &bull; #{{ selectedApplicant.license.licenseNumber }} ({{ selectedApplicant.license.licenseClass }})</span>
+                <span class="text-muted">Exp: {{ formatDate(selectedApplicant.license.expirationDate) }}</span>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Section 4: 7-Year Employment History -->
-        <div class="dossier-section">
-          <h4 class="section-title"><mat-icon>work</mat-icon> 7-Year Employment History</h4>
-          <div class="history-list">
-            <div *ngFor="let emp of selectedApplicant.employment; let i = index" class="history-card">
-              <span class="history-badge">Employer #{{ i + 1 }}</span>
-              <div class="history-details">
-                <strong>{{ emp.companyName }}</strong> &bull; Position: {{ emp.position }}
-                <div class="text-muted">Dates: {{ formatDate(emp.fromDate) }} to {{ formatDate(emp.toDate) }}</div>
-                <div *ngIf="emp.reasonForLeaving" class="text-muted">Reason for Leaving: {{ emp.reasonForLeaving }}</div>
+          <!-- Document 2: W-4 Form Document -->
+          <div class="doc-preview-card">
+            <div class="doc-preview-header">
+              <div class="doc-preview-title">
+                <mat-icon class="doc-type-icon">description</mat-icon>
+                <strong>Form W-4 Tax Withholding</strong>
+              </div>
+              <span *ngIf="selectedApplicant.documents?.w4FileName" class="doc-status-tag verified">
+                <mat-icon>check_circle</mat-icon> Attached
+              </span>
+              <span *ngIf="!selectedApplicant.documents?.w4FileName" class="doc-status-tag pending">
+                <mat-icon>pending</mat-icon> Optional / Pending
+              </span>
+            </div>
+
+            <div class="doc-preview-content">
+              <div *ngIf="selectedApplicant.documents?.w4FileName" class="w4-file-card">
+                <mat-icon class="pdf-file-icon">picture_as_pdf</mat-icon>
+                <div class="pdf-file-meta">
+                  <span class="file-name">{{ selectedApplicant.documents?.w4FileName }}</span>
+                  <span class="file-size">{{ formatFileSize(selectedApplicant.documents?.w4FileSize) }} &bull; PDF Document</span>
+                </div>
+                <a
+                  mat-stroked-button
+                  color="primary"
+                  [href]="selectedApplicant.documents?.w4FileData"
+                  [download]="selectedApplicant.documents?.w4FileName || 'w4-document.pdf'"
+                  target="_blank"
+                  class="btn-download-file"
+                >
+                  <mat-icon>download</mat-icon> Download
+                </a>
+              </div>
+              <div *ngIf="!selectedApplicant.documents?.w4FileName" class="doc-missing-placeholder">
+                <mat-icon class="placeholder-icon">description</mat-icon>
+                <p>W-4 tax withholding document pending onboarding.</p>
+                <button mat-stroked-button (click)="requestDocumentReupload(selectedApplicant)" class="btn-prompt-doc">
+                  <mat-icon>outgoing_mail</mat-icon> Request W-4 Upload
+                </button>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Section 5: W-4 Document -->
-        <div class="dossier-section" *ngIf="selectedApplicant.documents?.w4FileName">
-          <h4 class="section-title"><mat-icon>description</mat-icon> W-4 Tax Withholding Document</h4>
-          <div class="doc-attachment-card">
-            <mat-icon class="doc-icon">picture_as_pdf</mat-icon>
-            <div class="doc-info">
-              <strong>{{ selectedApplicant.documents?.w4FileName }}</strong>
-              <span class="text-muted">{{ formatFileSize(selectedApplicant.documents?.w4FileSize) }}</span>
+          <!-- Document 3: Electronic Digital Signature -->
+          <div class="doc-preview-card" *ngIf="selectedApplicant.certification?.signatureDataUrl">
+            <div class="doc-preview-header">
+              <div class="doc-preview-title">
+                <mat-icon class="doc-type-icon">draw</mat-icon>
+                <strong>Applicant Electronic Signature</strong>
+              </div>
+              <span class="doc-status-tag verified">
+                <mat-icon>check_circle</mat-icon> Executed
+              </span>
             </div>
-            <a mat-stroked-button color="primary" [href]="selectedApplicant.documents?.w4FileData" [download]="selectedApplicant.documents?.w4FileName || 'w4-document.pdf'" target="_blank">
-              <mat-icon>download</mat-icon> Download W-4 File
-            </a>
-          </div>
-        </div>
 
-        <!-- Section 6: Digital Signature -->
-        <div class="dossier-section" *ngIf="selectedApplicant.certification?.signatureDataUrl">
-          <h4 class="section-title"><mat-icon>draw</mat-icon> Applicant Electronic Signature</h4>
-          <div class="signature-box">
-            <div class="sig-image-container">
-              <img [src]="selectedApplicant.certification.signatureDataUrl" alt="Applicant Signature" class="sig-preview" />
+            <div class="doc-preview-content">
+              <div class="signature-canvas-card">
+                <img [src]="selectedApplicant.certification.signatureDataUrl" alt="Applicant Digital Signature" class="sig-preview-img" />
+              </div>
+              <div class="doc-meta-info">
+                <span>Legal Signer: <strong>{{ selectedApplicant.certification.printedName }}</strong></span>
+                <span class="text-muted">Signed: {{ formatDate(selectedApplicant.certification.signatureDate) }}</span>
+              </div>
             </div>
-            <div class="sig-meta">
-              <div><strong>Certified Name:</strong> {{ selectedApplicant.certification.printedName }}</div>
-              <div><strong>Signature Date:</strong> {{ formatDate(selectedApplicant.certification.signatureDate) }}</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 7: Recruiter Notes -->
-        <div class="dossier-section">
-          <h4 class="section-title"><mat-icon>notes</mat-icon> Recruiter Notes</h4>
-          <mat-form-field appearance="outline" class="notes-input">
-            <mat-label>Internal notes on this candidate</mat-label>
-            <textarea matInput [(ngModel)]="applicantNotes" rows="3" placeholder="Add interview notes, drug screen results, etc."></textarea>
-          </mat-form-field>
-          <div class="notes-actions">
-            <button mat-flat-button color="primary" (click)="saveApplicantNotes()">
-              Save Notes
-            </button>
           </div>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button mat-button (click)="closeDetails()">Close Dossier</button>
+      <!-- Section 2: Contact & Identification Details -->
+      <div class="drawer-section">
+        <div class="section-heading">
+          <mat-icon class="section-icon">contact_mail</mat-icon>
+          <h3>Contact & Identity Details</h3>
+        </div>
+        <div class="drawer-grid-details">
+          <div class="detail-item">
+            <span class="detail-label">Email Address</span>
+            <strong class="detail-val">{{ selectedApplicant.personal.email }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Phone Number</span>
+            <strong class="detail-val">{{ selectedApplicant.personal.phone }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Date of Birth</span>
+            <strong class="detail-val">{{ formatDate(selectedApplicant.personal.dob) }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">SSN</span>
+            <strong class="detail-val">{{ selectedApplicant.personal.ssn }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Target Role</span>
+            <strong class="detail-val">{{ selectedApplicant.personal.positionAppliedFor }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Available Start Date</span>
+            <strong class="detail-val">{{ formatDate(selectedApplicant.personal.availableStartDate) }}</strong>
+          </div>
+          <div class="detail-item col-span-2">
+            <span class="detail-label">US Work Authorization</span>
+            <strong class="detail-val" [style.color]="selectedApplicant.personal.legalRightToWork === 'yes' ? '#047857' : '#be123c'">
+              {{ selectedApplicant.personal.legalRightToWork === 'yes' ? 'Authorized (Form I-9 Eligible)' : 'Unauthorized' }}
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Driver License & Suspensions -->
+      <div class="drawer-section">
+        <div class="section-heading">
+          <mat-icon class="section-icon">drive_eta</mat-icon>
+          <h3>Driver License & MVR History</h3>
+        </div>
+        <div class="drawer-grid-details">
+          <div class="detail-item">
+            <span class="detail-label">Issuing State</span>
+            <strong class="detail-val">{{ selectedApplicant.license.state }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">License Number</span>
+            <strong class="detail-val">{{ selectedApplicant.license.licenseNumber }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Class</span>
+            <strong class="detail-val">{{ selectedApplicant.license.licenseClass }}</strong>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Expiration Date</span>
+            <strong class="detail-val">{{ formatDate(selectedApplicant.license.expirationDate) }}</strong>
+          </div>
+          <div class="detail-item col-span-2">
+            <span class="detail-label">Past 5-Year Suspensions</span>
+            <strong class="detail-val" [style.color]="selectedApplicant.license.hasSuspensions === 'yes' ? '#be123c' : '#047857'">
+              {{ selectedApplicant.license.hasSuspensions === 'yes' ? 'YES - Suspensions Disclosed' : 'NO - Clean Driving Record' }}
+            </strong>
+            <p *ngIf="selectedApplicant.license.suspensionDetails" class="suspension-callout">
+              <strong>Applicant Explanation:</strong> {{ selectedApplicant.license.suspensionDetails }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: 7-Year Address & Employment History -->
+      <div class="drawer-section">
+        <div class="section-heading">
+          <mat-icon class="section-icon">history</mat-icon>
+          <h3>7-Year Background Verification</h3>
+        </div>
+
+        <!-- Address List -->
+        <h4 class="subsection-label">Residential History</h4>
+        <div class="history-cards-stack">
+          <div *ngFor="let res of selectedApplicant.residences; let i = index" class="history-item-card">
+            <span class="history-num-badge">#{{ i + 1 }}</span>
+            <div class="history-info">
+              <strong>{{ res.street }}</strong>, {{ res.city }}, {{ res.state }} {{ res.zipCode }}
+              <div class="text-muted">Resided for {{ res.yearsAtAddress }} years</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Employment List -->
+        <h4 class="subsection-label" style="margin-top: 16px;">Employment History</h4>
+        <div class="history-cards-stack">
+          <div *ngFor="let emp of selectedApplicant.employment; let i = index" class="history-item-card">
+            <span class="history-num-badge">#{{ i + 1 }}</span>
+            <div class="history-info">
+              <strong>{{ emp.companyName }}</strong> &bull; {{ emp.position }}
+              <div class="text-muted">Dates: {{ formatDate(emp.fromDate) }} to {{ formatDate(emp.toDate) }}</div>
+              <div *ngIf="emp.reasonForLeaving" class="text-muted">Reason: {{ emp.reasonForLeaving }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Recruiter Notes & Actions -->
+      <div class="drawer-section">
+        <div class="section-heading">
+          <mat-icon class="section-icon">sticky_note_2</mat-icon>
+          <h3>Recruiter Hiring Notes</h3>
+        </div>
+        <mat-form-field appearance="outline" class="notes-input-box">
+          <mat-label>Internal Recruiter Notes</mat-label>
+          <textarea matInput [(ngModel)]="applicantNotes" rows="3" placeholder="Add interview feedback, background check notes, MVR results..."></textarea>
+        </mat-form-field>
+        <div class="notes-footer-actions">
+          <button mat-flat-button color="primary" (click)="saveApplicantNotes()" class="btn-save-notes">
+            <mat-icon>save</mat-icon> Save Notes
+          </button>
+          <button mat-stroked-button (click)="updateStatus(selectedApplicant, 'mvr_pending')">
+            <mat-icon>local_police</mat-icon> Order MVR Screen
+          </button>
+          <button mat-stroked-button color="warn" (click)="updateStatus(selectedApplicant, 'rejected')">
+            <mat-icon>cancel</mat-icon> Reject
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+
+    <!-- Drawer Footer -->
+    <div class="drawer-footer">
+      <button mat-stroked-button (click)="closeDetails()" class="btn-close-drawer">
+        Close Drawer
+      </button>
+    </div>
+  </aside>
 
 </div>

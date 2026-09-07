@@ -110,14 +110,57 @@ describe('AdminDashboardComponent', () => {
     expect(lockedResult.lockoutReasons.length).toBeGreaterThan(0);
   });
 
-  it('should open and close applicant detail dossier', () => {
+  it('should open and close applicant detail dossier slide-over drawer', () => {
     const app = component.applications[0];
     component.viewDetails(app);
 
     expect(component.selectedApplicant).toBe(app);
 
+    fixture.detectChanges();
+    const drawer = fixture.nativeElement.querySelector('.review-slideover-drawer');
+    const backdrop = fixture.nativeElement.querySelector('.drawer-backdrop');
+    expect(drawer).toBeTruthy();
+    expect(backdrop).toBeTruthy();
+
+    const approveBtn = fixture.nativeElement.querySelector('.action-btn-approve');
+    const reuploadBtn = fixture.nativeElement.querySelector('.action-btn-reupload');
+    expect(approveBtn).toBeTruthy();
+    expect(approveBtn.textContent).toContain('Approve Candidate');
+    expect(reuploadBtn).toBeTruthy();
+    expect(reuploadBtn.textContent).toContain('Request Document Re-upload');
+
     component.closeDetails();
+    fixture.detectChanges();
     expect(component.selectedApplicant).toBeNull();
+    expect(fixture.nativeElement.querySelector('.review-slideover-drawer')).toBeNull();
+  });
+
+  it('should approve candidate via approveCandidate method', () => {
+    const app = component.applications[0];
+    component.viewDetails(app);
+    fixture.detectChanges();
+    spyOn(component, 'approveCandidate').and.callThrough();
+
+    const approveBtn: HTMLButtonElement = fixture.nativeElement.querySelector('.action-btn-approve');
+    approveBtn.click();
+    fixture.detectChanges();
+
+    expect(component.approveCandidate).toHaveBeenCalledWith(app);
+    expect(app.status).toBe('approved');
+  });
+
+  it('should request document re-upload via requestDocumentReupload method', () => {
+    const app = component.applications[0];
+    component.viewDetails(app);
+    fixture.detectChanges();
+    spyOn(component, 'requestDocumentReupload').and.callThrough();
+
+    const reuploadBtn: HTMLButtonElement = fixture.nativeElement.querySelector('.action-btn-reupload');
+    reuploadBtn.click();
+    fixture.detectChanges();
+
+    expect(component.requestDocumentReupload).toHaveBeenCalledWith(app);
+    expect(app.status).toBe('under_review');
   });
 
   it('should update applicant status and refresh metrics', () => {
