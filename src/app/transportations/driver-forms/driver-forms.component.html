@@ -1,543 +1,634 @@
-
-
-<div style="height: 200px; background-color: #1976d2; display: flex; justify-content: center; align-items: center;">
-    <h2 class="form-title" style="color: white;">Driver Application</h2>
+<!-- Header Banner -->
+<div class="header-banner">
+  <div class="banner-content">
+    <div class="banner-badge">
+      <mat-icon>local_hospital</mat-icon>
+      <span>NEMT Transportation Network</span>
+    </div>
+    <h1 class="banner-title">Driver Employment Application</h1>
+    <p class="banner-subtitle">
+      Complete all steps to submit your application for the Non-Emergency Medical Transportation driver role.
+    </p>
+  </div>
 </div>
-  
+
 <div class="form-container">
-  <form class="driver-form-grid">
-      <!--  Personal Information -->
-      <div class="titles">
-        <h3>Personal Information</h3>
-      </div>
-    <!-- Personal Information -->
-    <div class="form-grid">
-      <mat-form-field>
-        <mat-label>First Name</mat-label>
-        <input matInput placeholder="Enter first name">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Middle Name</mat-label>
-        <input matInput placeholder="Enter middle name">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Last Name</mat-label>
-        <input matInput placeholder="Enter last name">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Phone</mat-label>
-        <input matInput placeholder="Enter phone number">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Enter email">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Date of Birth</mat-label>
-        <input matInput [matDatepicker]="dobPicker" placeholder="MM/DD/YYYY">
-        <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
-        <mat-datepicker #dobPicker></mat-datepicker>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>SSN</mat-label>
-        <input matInput placeholder="Enter SSN">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Date of Application</mat-label>
-        <input matInput [matDatepicker]="applicationDatePicker" placeholder="MM/DD/YYYY">
-        <mat-datepicker-toggle matSuffix [for]="applicationDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #applicationDatePicker></mat-datepicker>
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Position Applied For</mat-label>
-        <input matInput placeholder="Enter position">
-      </mat-form-field>
-  
-      <mat-form-field>
-        <mat-label>Available Start Date</mat-label>
-        <input matInput [matDatepicker]="startDatePicker" placeholder="MM/DD/YYYY">
-        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #startDatePicker></mat-datepicker>
-      </mat-form-field>
-  
-      
-      <div class="legal-status"><mat-label class="section-label">
-        Do you have legal right to work in the United States?</mat-label>
-        <br>
-        <mat-radio-group>
-          <mat-radio-button value="yes">Yes</mat-radio-button>
-          <mat-radio-button value="no">No</mat-radio-button>
-        </mat-radio-group>
+  <!-- Submission Confirmation View -->
+  <mat-card *ngIf="isSubmitted" class="confirmation-card">
+    <div class="confirmation-header">
+      <mat-icon class="success-check-icon">check_circle</mat-icon>
+      <h2>Application Submitted Successfully!</h2>
+      <p class="confirmation-text">
+        Thank you for applying. Your application has been recorded and our onboarding team will review your qualifications.
+      </p>
+      <div class="confirmation-badge">
+        <span class="badge-label">Reference Number:</span>
+        <strong class="badge-number">{{ confirmationNumber }}</strong>
       </div>
     </div>
-  
 
-    <!-- Previous Residences Title -->
-    <div class="titles" >
-      <h3>
-        Previous Residences (Last 7 Years)
-      </h3>
-    </div>
+    <mat-divider></mat-divider>
 
-    <!-- Residence #1 -->
-     <h4>Residence 1</h4>
-    <div class="form-grid">
-      <mat-form-field appearance="fill">
-        <mat-label>Street Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>City</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>State</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Zip Code</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label># of Years at Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <hr>
-    <!-- Residence #2 -->
-    <h4>Residence 2</h4>
-    <div class="form-grid">
-      <mat-form-field appearance="fill">
-        <mat-label>Street Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>City</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>State</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Zip Code</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label># of Years at Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <hr>
-    <!-- Residence #3 -->
-    <h4>Residence 3</h4>
-    <div class="form-grid">
-      <mat-form-field appearance="fill">
-        <mat-label>Street Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>City</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>State</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Zip Code</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label># of Years at Address</mat-label>
-        <input matInput />
-      </mat-form-field>
-    </div>
-
-     <!-- Residence #4 -->
-     <h4>Residence 4</h4>
-     <div class="form-grid">
-       <mat-form-field appearance="fill">
-         <mat-label>Street Address</mat-label>
-         <input matInput />
-       </mat-form-field>
- 
-       <mat-form-field appearance="fill">
-         <mat-label>City</mat-label>
-         <input matInput />
-       </mat-form-field>
- 
-       <mat-form-field appearance="fill">
-         <mat-label>State</mat-label>
-         <input matInput />
-       </mat-form-field>
- 
-       <mat-form-field appearance="fill">
-         <mat-label>Zip Code</mat-label>
-         <input matInput />
-       </mat-form-field>
- 
-       <mat-form-field appearance="fill">
-         <mat-label># of Years at Address</mat-label>
-         <input matInput />
-       </mat-form-field>
-     </div>
- 
-
-    <button mat-raised-button color="primary" class="add-address-button">Add more Residence </button>
-    <!-- License Info Title -->
-    <div class="titles">
-      <h3> Driver License Information </h3>
-    </div>
-
-    <!-- License Info -->
-    <div class="form-grid">
-      <mat-form-field appearance="fill">
-        <mat-label>State</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>License #</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Type / Class</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Expiration Date</mat-label>
-        <input matInput type="date" />
-      </mat-form-field>
-    </div>
-
-    <!-- Employment Information -->
-    <div class="titles">
-      <h3> Employment Information 7 years</h3>
-    </div>
-        <!-- Residence #1 -->
-        <h4>Employment 1 (Most Recent)</h4>
-
-        <div class="form-grid"> 
-          <mat-form-field appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput />
-        </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label> Address</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
-          <mat-form-field appearance="fill">
-            <mat-label>Phone</mat-label>
-            <input matInput />
-          </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>From (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>To (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>  
-            
-          <mat-form-field appearance="fill">
-          <mat-label>Position Held</mat-label>
-          <input matInput />
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label>Reason For Leaving</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
+    <div class="summary-section">
+      <h3>Application Summary</h3>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="item-label">Applicant Name:</span>
+          <span class="item-value">{{ submittedData?.personal?.firstName }} {{ submittedData?.personal?.middleName }} {{ submittedData?.personal?.lastName }}</span>
         </div>
-
-        <hr>
-        <!-- Residence #2 -->
-        <h4>Employment 2</h4>
-        <div class="form-grid"> 
-          <mat-form-field appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput />
-        </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label> Address</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
-          <mat-form-field appearance="fill">
-            <mat-label>Phone</mat-label>
-            <input matInput />
-          </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>From (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>To (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>  
-            
-          <mat-form-field appearance="fill">
-          <mat-label>Position Held</mat-label>
-          <input matInput />
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label>Reason For Leaving</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
+        <div class="summary-item">
+          <span class="item-label">Position Applied:</span>
+          <span class="item-value">{{ submittedData?.personal?.positionAppliedFor }}</span>
         </div>
-
-        <hr>
-        <!-- Residence #3 -->
-        <h4>Employment 3</h4>
-        <div class="form-grid"> 
-          <mat-form-field appearance="fill">
-          <mat-label>Name</mat-label>
-          <input matInput />
-        </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label> Address</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
-          <mat-form-field appearance="fill">
-            <mat-label>Phone</mat-label>
-            <input matInput />
-          </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>From (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>To (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>  
-            
-          <mat-form-field appearance="fill">
-          <mat-label>Position Held</mat-label>
-          <input matInput />
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label>Reason For Leaving</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
+        <div class="summary-item">
+          <span class="item-label">Contact Phone:</span>
+          <span class="item-value">{{ submittedData?.personal?.phone }}</span>
         </div>
-        <hr>
-         <!-- Residence #4 -->
-         <h4>Employment 4</h4>
-         <div class="form-grid"> 
-          <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput />
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label> Address</mat-label>
-            <input matInput />
-          </mat-form-field>
-    
-          <mat-form-field appearance="fill">
-            <mat-label>Phone</mat-label>
-            <input matInput />
-          </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>From (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-            <mat-label>To (Month/Year)</mat-label>
-            <input matInput placeholder="MM/YYYY" />
-            </mat-form-field>  
-            
-            <mat-form-field appearance="fill">
-            <mat-label>Position Held</mat-label>
-            <input matInput />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>Reason For Leaving</mat-label>
-              <input matInput />
-            </mat-form-field>
+        <div class="summary-item">
+          <span class="item-label">Email Address:</span>
+          <span class="item-value">{{ submittedData?.personal?.email }}</span>
         </div>
-      
-        <!-- Education -->
-        <h3>Education</h3>
+        <div class="summary-item">
+          <span class="item-label">Driver's License:</span>
+          <span class="item-value">{{ submittedData?.license?.state }} - {{ submittedData?.license?.licenseNumber }} ({{ submittedData?.license?.licenseClass }})</span>
+        </div>
+        <div class="summary-item">
+          <span class="item-label">W-4 Attached:</span>
+          <span class="item-value">{{ submittedData?.documents?.w4FileName || 'None attached' }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="submittedData?.certification?.signatureDataUrl" class="signature-preview">
+        <span class="item-label">Applicant Signature:</span>
+        <div class="signature-img-wrapper">
+          <img [src]="submittedData?.certification?.signatureDataUrl" alt="Applicant Signature" class="signature-img" />
+        </div>
+      </div>
+    </div>
+
+    <div class="confirmation-actions">
+      <button mat-stroked-button color="primary" type="button" (click)="downloadApplicationSummary()">
+        <mat-icon>download</mat-icon> Download Copy (JSON)
+      </button>
+      <button mat-stroked-button type="button" (click)="printApplication()">
+        <mat-icon>print</mat-icon> Print Application
+      </button>
+      <button mat-flat-button color="primary" type="button" (click)="startNewApplication()">
+        <mat-icon>add_circle_outline</mat-icon> Start New Application
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Application Stepper Form -->
+  <form *ngIf="!isSubmitted" [formGroup]="driverForm" (ngSubmit)="onSubmit()" class="application-form">
+    <mat-stepper #stepper [linear]="false" [orientation]="stepperOrientation" (selectionChange)="onStepChange($event)" class="stepper-box">
+
+      <!-- STEP 1: Personal & Residency -->
+      <mat-step [stepControl]="personalGroup" label="Personal & Residency">
+        <div class="step-content">
+          <div class="section-title-box">
+            <h2>Personal Information</h2>
+            <p>Please enter your contact details and identity information.</p>
+          </div>
+
+          <div formGroupName="personal" class="fields-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="firstName" placeholder="e.g. John" autocomplete="given-name" required />
+              <mat-error *ngIf="personalGroup.get('firstName')?.hasError('required')">
+                First name is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Middle Name</mat-label>
+              <input matInput formControlName="middleName" placeholder="e.g. A." autocomplete="additional-name" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="lastName" placeholder="e.g. Doe" autocomplete="family-name" required />
+              <mat-error *ngIf="personalGroup.get('lastName')?.hasError('required')">
+                Last name is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Phone Number</mat-label>
+              <input matInput formControlName="phone" type="tel" placeholder="(555) 000-0000" autocomplete="tel" required />
+              <mat-error *ngIf="personalGroup.get('phone')?.hasError('required')">
+                Phone number is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email Address</mat-label>
+              <input matInput formControlName="email" type="email" placeholder="john.doe@example.com" autocomplete="email" required />
+              <mat-error *ngIf="personalGroup.get('email')?.hasError('required')">
+                Email is required.
+              </mat-error>
+              <mat-error *ngIf="personalGroup.get('email')?.hasError('email')">
+                Please enter a valid email address.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Date of Birth</mat-label>
+              <input matInput [matDatepicker]="dobPicker" formControlName="dob" placeholder="MM/DD/YYYY" required />
+              <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dobPicker></mat-datepicker>
+              <mat-error *ngIf="personalGroup.get('dob')?.hasError('required')">
+                Date of birth is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Social Security Number (SSN)</mat-label>
+              <input matInput formControlName="ssn" placeholder="XXX-XX-XXXX" required />
+              <mat-error *ngIf="personalGroup.get('ssn')?.hasError('required')">
+                SSN is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Date of Application</mat-label>
+              <input matInput [matDatepicker]="appDatePicker" formControlName="dateOfApplication" required />
+              <mat-datepicker-toggle matIconSuffix [for]="appDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #appDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Position Applied For</mat-label>
+              <input matInput formControlName="positionAppliedFor" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Available Start Date</mat-label>
+              <input matInput [matDatepicker]="startDatePicker" formControlName="availableStartDate" placeholder="MM/DD/YYYY" required />
+              <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
+              <mat-error *ngIf="personalGroup.get('availableStartDate')?.hasError('required')">
+                Start date is required.
+              </mat-error>
+            </mat-form-field>
+
+            <div class="radio-group-container">
+              <label class="radio-label">Do you have legal right to work in the United States? *</label>
+              <mat-radio-group formControlName="legalRightToWork" class="custom-radio-group">
+                <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                <mat-radio-button value="no" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <!-- Previous Residences (Last 7 Years) -->
+          <div class="section-title-box subsection-title">
+            <h3>Previous Residences (Last 7 Years)</h3>
+            <p>Provide all addresses where you have resided in the past 7 years.</p>
+          </div>
+
+          <div formArrayName="residences" class="dynamic-list">
+            <mat-card
+              *ngFor="let res of residencesArray.controls; let i = index"
+              [formGroupName]="i"
+              class="item-card"
+            >
+              <div class="item-card-header">
+                <span class="item-title">
+                  <mat-icon>home</mat-icon>
+                  Residence #{{ i + 1 }} {{ i === 0 ? '(Current / Most Recent)' : '' }}
+                </span>
+                <button
+                  *ngIf="residencesArray.length > 1"
+                  mat-icon-button
+                  color="warn"
+                  type="button"
+                  (click)="removeResidence(i)"
+                  title="Remove this address"
+                >
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+
+              <div class="fields-grid">
+                <mat-form-field appearance="outline" class="col-span-2">
+                  <mat-label>Street Address</mat-label>
+                  <input matInput formControlName="street" placeholder="123 Main St, Apt 4" autocomplete="street-address" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="city" placeholder="City" autocomplete="address-level2" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>State</mat-label>
+                  <mat-select formControlName="state" required>
+                    <mat-option *ngFor="let state of usStates" [value]="state">{{ state }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Zip Code</mat-label>
+                  <input matInput formControlName="zipCode" placeholder="12345" autocomplete="postal-code" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Years at Address</mat-label>
+                  <input matInput formControlName="yearsAtAddress" type="number" placeholder="e.g. 2" required />
+                </mat-form-field>
+              </div>
+            </mat-card>
+
+            <div class="add-button-row">
+              <button mat-stroked-button color="primary" type="button" (click)="addResidence()">
+                <mat-icon>add</mat-icon> Add Another Residence
+              </button>
+            </div>
+          </div>
+
+          <div class="stepper-navigation">
+            <span class="nav-spacer"></span>
+            <button mat-flat-button color="primary" type="button" matStepperNext>
+              Next: License Information <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+
+      <!-- STEP 2: Driver's License -->
+      <mat-step [stepControl]="licenseGroup" label="Driver License">
+        <div class="step-content">
+          <div class="section-title-box">
+            <h2>Driver License Information</h2>
+            <p>A valid driver's license with an acceptable driving record is required for all NEMT driver roles.</p>
+          </div>
+
+          <div formGroupName="license" class="fields-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Issuing State</mat-label>
+              <mat-select formControlName="state" required>
+                <mat-option *ngFor="let state of usStates" [value]="state">{{ state }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="licenseGroup.get('state')?.hasError('required')">
+                State is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Driver License #</mat-label>
+              <input matInput formControlName="licenseNumber" placeholder="Enter License Number" required />
+              <mat-error *ngIf="licenseGroup.get('licenseNumber')?.hasError('required')">
+                License number is required.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Type / Class</mat-label>
+              <mat-select formControlName="licenseClass" required>
+                <mat-option value="Class C (Standard)">Class C (Standard Operator)</mat-option>
+                <mat-option value="Class A (CDL)">Class A (Commercial)</mat-option>
+                <mat-option value="Class B (CDL)">Class B (Commercial)</mat-option>
+                <mat-option value="Class D">Class D</mat-option>
+                <mat-option value="Other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Expiration Date</mat-label>
+              <input matInput [matDatepicker]="expDatePicker" formControlName="expirationDate" placeholder="MM/DD/YYYY" required />
+              <mat-datepicker-toggle matIconSuffix [for]="expDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #expDatePicker></mat-datepicker>
+              <mat-error *ngIf="licenseGroup.get('expirationDate')?.hasError('required')">
+                Expiration date is required.
+              </mat-error>
+            </mat-form-field>
+
+            <div class="radio-group-container col-span-3">
+              <label class="radio-label">Have you ever had your driver's license suspended or revoked in the past 5 years? *</label>
+              <mat-radio-group formControlName="hasSuspensions" class="custom-radio-group">
+                <mat-radio-button value="no" color="primary">No</mat-radio-button>
+                <mat-radio-button value="yes" color="warn">Yes</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <mat-form-field
+              *ngIf="licenseGroup.get('hasSuspensions')?.value === 'yes'"
+              appearance="outline"
+              class="col-span-3"
+            >
+              <mat-label>Please explain suspension circumstances and dates</mat-label>
+              <textarea matInput formControlName="suspensionDetails" rows="3"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="stepper-navigation">
+            <button mat-stroked-button type="button" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon> Back
+            </button>
+            <span class="nav-spacer"></span>
+            <button mat-flat-button color="primary" type="button" matStepperNext>
+              Next: Employment & Education <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+
+      <!-- STEP 3: Employment & Education -->
+      <mat-step [stepControl]="educationGroup" label="Work & Education">
+        <div class="step-content">
+          <div class="section-title-box">
+            <h2>Employment History (Past 7 Years)</h2>
+            <p>List your employment history starting with your present or most recent employer.</p>
+          </div>
+
+          <div formArrayName="employment" class="dynamic-list">
+            <mat-card
+              *ngFor="let emp of employmentArray.controls; let i = index"
+              [formGroupName]="i"
+              class="item-card"
+            >
+              <div class="item-card-header">
+                <span class="item-title">
+                  <mat-icon>work</mat-icon>
+                  Employer #{{ i + 1 }} {{ i === 0 ? '(Most Recent)' : '' }}
+                </span>
+                <button
+                  *ngIf="employmentArray.length > 1"
+                  mat-icon-button
+                  color="warn"
+                  type="button"
+                  (click)="removeEmployment(i)"
+                  title="Remove this employer"
+                >
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+
+              <div class="fields-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>Employer / Company Name</mat-label>
+                  <input matInput formControlName="companyName" placeholder="Company Name" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Position Held</mat-label>
+                  <input matInput formControlName="position" placeholder="Job Title" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput formControlName="phone" placeholder="(555) 000-0000" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Company Address</mat-label>
+                  <input matInput formControlName="address" placeholder="City, State" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>From Date</mat-label>
+                  <input matInput formControlName="fromDate" placeholder="MM/YYYY" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>To Date</mat-label>
+                  <input matInput formControlName="toDate" placeholder="MM/YYYY or Present" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-span-3">
+                  <mat-label>Reason for Leaving</mat-label>
+                  <input matInput formControlName="reasonForLeaving" placeholder="e.g. Career advancement, relocation" />
+                </mat-form-field>
+              </div>
+            </mat-card>
+
+            <div class="add-button-row">
+              <button mat-stroked-button color="primary" type="button" (click)="addEmployment()">
+                <mat-icon>add</mat-icon> Add Another Employer
+              </button>
+            </div>
+          </div>
+
+          <!-- Education Section -->
+          <div class="section-title-box subsection-title">
+            <h3>Educational Background</h3>
+            <p>Provide your education history.</p>
+          </div>
+
+          <div formGroupName="education" class="education-container">
             <!-- High School -->
-            <h4>High School</h4>
-            <div class="form-grid">
-              <mat-form-field appearance="fill">
-                <mat-label>Name & Location of School</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Course of Study</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Years Completed</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-radio-group> 
-                <mat-label>Graduate(Y/N)</mat-label>
-                <mat-radio-button value="yes">Yes</mat-radio-button>
-                <mat-radio-button value="no">No</mat-radio-button>
-              </mat-radio-group>
-            </div>
+            <mat-card class="item-card">
+              <div class="item-card-header">
+                <span class="item-title"><mat-icon>school</mat-icon> High School</span>
+              </div>
+              <div class="fields-grid">
+                <mat-form-field appearance="outline" class="col-span-2">
+                  <mat-label>School Name & Location</mat-label>
+                  <input matInput formControlName="highSchoolName" placeholder="High School Name, City, State" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Course of Study</mat-label>
+                  <input matInput formControlName="highSchoolCourse" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Years Completed</mat-label>
+                  <input matInput formControlName="highSchoolYears" />
+                </mat-form-field>
+                <div class="radio-group-container">
+                  <label class="radio-label">Graduated?</label>
+                  <mat-radio-group formControlName="highSchoolGraduated" class="custom-radio-group">
+                    <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                    <mat-radio-button value="no">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </mat-card>
 
-            <hr>
-            <h4>College</h4>
-            <div class="form-grid">
-              <mat-form-field appearance="fill">
-                <mat-label>Name & Location of School</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Course of Study</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Years Completed</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-             
-              <mat-radio-group> 
-                <mat-label>Graduate(Y/N)</mat-label>
-                <mat-radio-button value="yes">Yes</mat-radio-button>
-                <mat-radio-button value="no">No</mat-radio-button>
-              </mat-radio-group>
-            </div>
+            <!-- College -->
+            <mat-card class="item-card">
+              <div class="item-card-header">
+                <span class="item-title"><mat-icon>account_balance</mat-icon> College / University</span>
+              </div>
+              <div class="fields-grid">
+                <mat-form-field appearance="outline" class="col-span-2">
+                  <mat-label>College Name & Location</mat-label>
+                  <input matInput formControlName="collegeName" placeholder="College or University Name, City, State" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Major / Course of Study</mat-label>
+                  <input matInput formControlName="collegeCourse" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Years Completed</mat-label>
+                  <input matInput formControlName="collegeYears" />
+                </mat-form-field>
+                <div class="radio-group-container">
+                  <label class="radio-label">Graduated?</label>
+                  <mat-radio-group formControlName="collegeGraduated" class="custom-radio-group">
+                    <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                    <mat-radio-button value="no">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </mat-card>
 
-            <hr>
-            <h4>Other (ex.Trade schools)</h4>
-            <div class="form-grid">
-              <mat-form-field appearance="fill">
-                <mat-label>Name & Location of School</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Course of Study</mat-label>
-                <input matInput>
-              </mat-form-field>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Years Completed</mat-label>
-                <input matInput>
-              </mat-form-field>
-             
-              <mat-radio-group> 
-                <mat-label>Graduate(Y/N)</mat-label>
-                <mat-radio-button value="yes">Yes</mat-radio-button>
-                <mat-radio-button value="no">No</mat-radio-button>
-              </mat-radio-group>
-            </div>
-           
-            <!-- Signature Section -->
-          <!-- Signature Section -->
-        
-              <h3 style="margin-top: 0;">To be read and signed by Applicant</h3>
-            <div style="border: 1px solid rgb(163, 163, 163); padding: 16px; margin-top: 24px; border-radius: 7px;">
+            <!-- Trade / Other -->
+            <mat-card class="item-card">
+              <div class="item-card-header">
+                <span class="item-title"><mat-icon>badge</mat-icon> Trade / Vocational / Certifications</span>
+              </div>
+              <div class="fields-grid">
+                <mat-form-field appearance="outline" class="col-span-2">
+                  <mat-label>Institution Name & Location</mat-label>
+                  <input matInput formControlName="otherSchoolName" placeholder="Technical School or Training Center" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Certification / Course</mat-label>
+                  <input matInput formControlName="otherSchoolCourse" />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Years / Hours Completed</mat-label>
+                  <input matInput formControlName="otherSchoolYears" />
+                </mat-form-field>
+                <div class="radio-group-container">
+                  <label class="radio-label">Completed?</label>
+                  <mat-radio-group formControlName="otherSchoolGraduated" class="custom-radio-group">
+                    <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                    <mat-radio-button value="no">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+
+          <div class="stepper-navigation">
+            <button mat-stroked-button type="button" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon> Back
+            </button>
+            <span class="nav-spacer"></span>
+            <button mat-flat-button color="primary" type="button" matStepperNext>
+              Next: W-4 & Signature <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+
+      <!-- STEP 4: W-4 Upload & Digital Signature -->
+      <mat-step [stepControl]="certificationGroup" label="W-4 & Signature">
+        <div class="step-content">
+          <!-- W-4 Section -->
+          <div class="section-title-box">
+            <h2>W-4 Document & Final Certification</h2>
+            <p>Upload your W-4 tax document and electronically sign your application.</p>
+          </div>
+
+          <mat-card class="doc-upload-box">
+            <h3 class="box-heading">
+              <mat-icon>attachment</mat-icon> Step 1: Upload Form W-4 (Optional at this stage)
+            </h3>
+            <app-w4-upload
+              [standaloneMode]="false"
+              (fileUploaded)="onW4Uploaded($event)"
+              (fileRemoved)="onW4Removed()"
+            ></app-w4-upload>
+          </mat-card>
+
+          <!-- Applicant Certification -->
+          <mat-card class="certification-box" formGroupName="certification">
+            <h3 class="box-heading">
+              <mat-icon>draw</mat-icon> Step 2: Certification & Digital Signature
+            </h3>
+            <div class="legal-text">
               <p>
-                I certify that this application was completed by me, and that all entries on it and information in it are true and
-                complete to the best of my knowledge. I authorize you to make such investigations and inquiries of my personal,
-                employment, financial, or medical history and other related matters as may be necessary in arriving at an employment
-                decision.
+                <strong>Applicant Agreement:</strong> I certify that this application was completed by me, and that all entries on it and information in it are true, correct, and complete to the best of my knowledge.
               </p>
-
-                <div style="margin-top: 16px;">
-                <label for="signature-box">Applicant Signature</label>
-                <canvas id="signature-box" width="400" height="100" style="border: 1px solid #ccc; display: block;"></canvas>
-                <button mat-raised-button color="primary" type="button" style="margin-top: 8px;" onclick="clearSignature()">Clear</button>
-              </div>
-              <!-- <script>
-                const canvas = document.getElementById('signature-box');
-                const ctx = canvas.getContext('2d');
-                let drawing = false;
-
-                canvas.addEventListener('mousedown', () => drawing = true);
-                canvas.addEventListener('mouseup', () => drawing = false);
-                canvas.addEventListener('mousemove', draw);
-
-                function draw(event) {
-                  if (!drawing) return;
-                  ctx.lineWidth = 2;
-                  ctx.lineCap = 'round';
-                  ctx.strokeStyle = 'black';
-
-                  const rect = canvas.getBoundingClientRect();
-                  const x = event.clientX - rect.left;
-                  const y = event.clientY - rect.top;
-
-                  ctx.lineTo(x, y);
-                  ctx.stroke();
-                  ctx.beginPath();
-                  ctx.moveTo(x, y);
-                }
-
-                function clearSignature() {
-                  ctx.clearRect(0, 0, canvas.width, canvas.height);
-                }
-              </script> -->
-              <div class="form-grid" style="margin-top: 16px;">
-                <mat-form-field appearance="fill" style="display: block;">
-                  <mat-label>Printed Name</mat-label>
-                  <input matInput placeholder="Name">
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" style="display: block;">
-                  <mat-label>Date</mat-label>
-                  <input matInput type="date">
-                </mat-form-field>
-              </div>
+              <p>
+                I authorize this company and its designated agents to make such investigations and inquiries of my personal, employment, driving record, financial, or medical history and other related matters as may be necessary in arriving at an employment decision.
+              </p>
             </div>
-              
-    <div class="form-button" >
-      <button mat-raised-button color="primary" style="width: 500px; font-size: 18px;">Submit</button>
-    </div>
+
+            <div class="acknowledgments">
+              <mat-checkbox formControlName="certifyTrue" color="primary" required class="ack-checkbox">
+                I certify under penalty of perjury that all information provided is accurate and truthful. *
+              </mat-checkbox>
+              <mat-checkbox formControlName="authorizeInvestigation" color="primary" required class="ack-checkbox">
+                I authorize background, driving record (MVR), and reference inquiries. *
+              </mat-checkbox>
+            </div>
+
+            <div class="signature-drawing-area">
+              <div class="signature-top-bar">
+                <label class="sig-label">
+                  <mat-icon>edit</mat-icon> Draw Your Digital Signature Below: *
+                </label>
+                <div class="sig-actions">
+                  <span *ngIf="hasSignature" class="sig-status-badge">
+                    <mat-icon>check</mat-icon> Signed
+                  </span>
+                  <button mat-stroked-button color="warn" type="button" (click)="clearSignature()">
+                    <mat-icon>refresh</mat-icon> Clear Signature
+                  </button>
+                </div>
+              </div>
+
+              <div class="canvas-wrapper">
+                <canvas
+                  #signatureCanvas
+                  class="signature-canvas"
+                  (mousedown)="startDrawing($event)"
+                  (mousemove)="draw($event)"
+                  (mouseup)="stopDrawing()"
+                  (mouseleave)="stopDrawing()"
+                  (touchstart)="startDrawing($event)"
+                  (touchmove)="draw($event)"
+                  (touchend)="stopDrawing()"
+                ></canvas>
+              </div>
+              <p class="canvas-hint">Use your mouse, trackpad, or finger (on touch devices) to sign your name above.</p>
+              <mat-error *ngIf="certificationGroup.get('signatureDataUrl')?.touched && !hasSignature" class="sig-error">
+                Please sign in the signature pad above.
+              </mat-error>
+            </div>
+
+            <div class="fields-grid" style="margin-top: 24px;">
+              <mat-form-field appearance="outline">
+                <mat-label>Printed Full Name</mat-label>
+                <input matInput formControlName="printedName" placeholder="Full Legal Name" required />
+                <mat-error *ngIf="certificationGroup.get('printedName')?.hasError('required')">
+                  Printed name is required.
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Date Signed</mat-label>
+                <input matInput [matDatepicker]="sigDatePicker" formControlName="signatureDate" required />
+                <mat-datepicker-toggle matIconSuffix [for]="sigDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #sigDatePicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </mat-card>
+
+          <!-- Submit Buttons -->
+          <div class="submit-action-box">
+            <button mat-stroked-button type="button" matStepperPrevious>
+              <mat-icon>arrow_back</mat-icon> Back
+            </button>
+            <span class="nav-spacer"></span>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              class="final-submit-btn"
+              [disabled]="driverForm.invalid"
+            >
+              <mat-icon>send</mat-icon> Submit Complete Application
+            </button>
+          </div>
+        </div>
+      </mat-step>
+
+    </mat-stepper>
   </form>
 </div>
+

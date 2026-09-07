@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {  MatButtonModule } from '@angular/material/button';
-
-
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-home',
-  imports: [ MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  standalone: true,
+  imports: [
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

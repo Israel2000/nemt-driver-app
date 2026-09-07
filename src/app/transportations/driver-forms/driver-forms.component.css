@@ -1,43 +1,579 @@
-h2 {
-  font-family: "DM Sans", sans-serif;
-  font-size: 30px;
-  font-weight: none;
-}
-h3 {
-  background-color: #0058b1; 
-  color: white; 
-  text-align: center; 
-  border-radius: 7px 7px 0 0;
-  margin: 0; 
-  padding: 8px;
-  /* text capitiazed */
-  text-transform: capitalize;
-  font-family: "DM Sans", sans-serif;
+/* Header Banner */
+.header-banner {
+  background: linear-gradient(135deg, #0b57d0 0%, #003780 100%);
+  color: white;
+  padding: 48px 24px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* .title */
-.titles {
-  border-bottom: black 1px solid !important;
-  width: 100%; margin: 10px 0;
+.banner-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
+.banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(255, 255, 255, 0.18);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.banner-badge mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.banner-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.5px;
+}
+
+.banner-subtitle {
+  font-size: 16px;
+  opacity: 0.9;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Container */
 .form-container {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
+  max-width: 1000px;
+  margin: -24px auto 60px auto;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
 }
 
-.form-button {
+/* Stepper Box */
+.stepper-box {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.step-content {
+  padding: 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Section Titles */
+.section-title-box {
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.section-title-box h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.section-title-box p {
+  color: #64748b;
+  margin: 0;
+  font-size: 14px;
+}
+
+.subsection-title {
+  margin-top: 16px;
+}
+
+.subsection-title h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0b57d0;
+  margin: 0 0 4px 0;
+}
+
+/* Grid Layouts */
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.col-span-2 {
+  grid-column: span 2;
+}
+
+.col-span-3 {
   grid-column: span 3;
+}
+
+/* Radio & Checkboxes */
+.radio-group-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.radio-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.custom-radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+/* Dynamic Item Cards */
+.dynamic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item-card {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  background-color: #f8fafc;
+}
+
+.item-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.item-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 15px;
+}
+
+.item-title mat-icon {
+  color: #0b57d0;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.add-button-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+
+/* Stepper Navigation */
+.stepper-navigation {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.nav-spacer {
+  flex: 1 1 auto;
+}
+
+/* Education Cards Container */
+.education-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Document & Certification Boxes */
+.doc-upload-box,
+.certification-box {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+}
+
+.box-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0b57d0;
+  margin: 0 0 16px 0;
+}
+
+.legal-text {
+  background-color: #f8fafc;
+  border-left: 4px solid #0b57d0;
+  padding: 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 20px;
+}
+
+.legal-text p {
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 8px 0;
+}
+
+.legal-text p:last-child {
+  margin-bottom: 0;
+}
+
+.acknowledgments {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ack-checkbox {
+  font-size: 14px;
+  color: #1e293b;
+}
+
+/* Signature Drawing Canvas */
+.signature-drawing-area {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.signature-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sig-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.sig-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sig-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #15803d;
+  background-color: #dcfce7;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sig-status-badge mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.canvas-wrapper {
+  background: #ffffff;
+  border: 2px dashed #94a3b8;
+  border-radius: 8px;
+  overflow: hidden;
   display: flex;
   justify-content: center;
+  align-items: center;
+  touch-action: none;
+}
+
+.signature-canvas {
+  width: 100%;
+  height: 160px;
+  cursor: crosshair;
+  display: block;
+}
+
+.canvas-hint {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.sig-error {
+  color: #b91c1c;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Submit Action Box */
+.submit-action-box {
+  display: flex;
+  align-items: center;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.final-submit-btn {
+  padding: 12px 32px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+/* Confirmation View */
+.confirmation-card {
+  border-radius: 16px;
+  padding: 40px 32px;
+  text-align: center;
+  border: 1px solid #d3e3fd;
+  background: #ffffff;
+}
+
+.confirmation-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.success-check-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #16a34a;
+}
+
+.confirmation-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.confirmation-text {
+  color: #475569;
+  font-size: 15px;
+  max-width: 600px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.confirmation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 24px;
+  margin-top: 8px;
+}
+
+.badge-label {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.badge-number {
+  font-size: 16px;
+  color: #0b57d0;
+  letter-spacing: 0.5px;
+}
+
+.summary-section {
+  text-align: left;
+  margin: 32px 0;
+}
+
+.summary-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 16px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item-label {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.item-value {
+  font-size: 15px;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.signature-preview {
   margin-top: 20px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  gap: 16px; /* Space between items */
+.signature-img-wrapper {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px;
+  display: inline-block;
+  margin-top: 8px;
 }
 
-/* table */
+.signature-img {
+  max-height: 80px;
+  display: block;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 840px) {
+  .fields-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .col-span-3 {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-banner {
+    padding: 32px 16px;
+  }
+
+  .banner-title {
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .banner-subtitle {
+    font-size: 14px;
+  }
+
+  .form-container {
+    margin: -16px auto 40px auto;
+    padding: 0 8px;
+    width: 100%;
+  }
+
+  .stepper-box {
+    border-radius: 12px;
+  }
+
+  .step-content {
+    padding: 16px 4px;
+    gap: 16px;
+  }
+
+  .fields-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .col-span-2,
+  .col-span-3 {
+    grid-column: span 1;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .item-card {
+    padding: 14px 10px;
+  }
+
+  .doc-upload-box,
+  .certification-box {
+    padding: 16px 12px;
+  }
+
+  .signature-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .sig-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stepper-navigation,
+  .submit-action-box {
+    flex-direction: column-reverse;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .stepper-navigation button,
+  .submit-action-box button,
+  .final-submit-btn {
+    width: 100% !important;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .nav-spacer {
+    display: none;
+  }
+
+  .confirmation-card {
+    padding: 24px 12px;
+  }
+
+  .confirmation-header h2 {
+    font-size: 20px;
+  }
+
+  .confirmation-actions button {
+    width: 100%;
+  }
+}
+

@@ -1,11 +1,132 @@
-    <!-- Navigation Bar -->
-    <mat-toolbar color="primary" style="justify-content: center; background-color: #1976d2;">
-      <span style=" margin-right: 40px;">NEMT Application Portal</span>
-      <a mat-button class="whitecss" routerLink="/" routerLinkActive="active-link">Home</a>
-      <a mat-button class="whitecss" routerLink="/driver" routerLinkActive="active-link">Application</a>
+    <!-- Public Marketing Navigation Bar (Hidden when inside SaaS Admin Platform) -->
+    <mat-toolbar color="primary" class="app-toolbar" *ngIf="!isSaaSRoute">
+      <div class="toolbar-brand" routerLink="/" style="cursor: pointer;">
+        <mat-icon class="brand-icon">directions_car</mat-icon>
+        <span class="brand-title">NEMT Operations OS</span>
+      </div>
+
+      <span class="toolbar-spacer"></span>
+
+      <!-- Desktop Navigation -->
+      <nav class="toolbar-nav desktop-nav">
+        <a mat-button class="nav-link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>home</mat-icon> Home
+        </a>
+        <a mat-button class="nav-link" routerLink="/driver" routerLinkActive="active-link">
+          <mat-icon>assignment</mat-icon> Driver App
+        </a>
+        <a mat-button class="nav-link" routerLink="/w4-upload" routerLinkActive="active-link">
+          <mat-icon>upload_file</mat-icon> W-4 Upload
+        </a>
+
+        <!-- Authenticated Controls -->
+        <ng-container *ngIf="isAuthenticated">
+          <a *ngIf="isAdmin" mat-button class="nav-link admin-nav-link" routerLink="/admin" routerLinkActive="active-link">
+            <mat-icon>dashboard</mat-icon> Operator Admin
+          </a>
+          <a *ngIf="!isAdmin" mat-button class="nav-link user-nav-link" routerLink="/access-denied" routerLinkActive="active-link">
+            <mat-icon>person</mat-icon> User Status
+          </a>
+          <button mat-button [matMenuTriggerFor]="userMenu" class="nav-link user-menu-btn">
+            <mat-icon>account_circle</mat-icon>
+            <span>{{ currentWorkspace?.name || currentUser?.fullName }}</span>
+            <mat-icon class="dropdown-arrow">arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <div class="user-menu-header">
+              <strong>{{ currentWorkspace?.name }}</strong>
+              <small class="text-muted">{{ currentUser?.email }} &bull; {{ currentUser?.role | uppercase }}</small>
+            </div>
+            <mat-divider></mat-divider>
+            <a *ngIf="isAdmin" mat-menu-item routerLink="/admin">
+              <mat-icon>dashboard</mat-icon> Operator Dashboard
+            </a>
+            <a *ngIf="!isAdmin" mat-menu-item routerLink="/access-denied">
+              <mat-icon>gpp_maybe</mat-icon> Access Level Status
+            </a>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon color="warn">logout</mat-icon> Sign Out
+            </button>
+          </mat-menu>
+        </ng-container>
+
+        <!-- Unauthenticated Guest Controls -->
+        <ng-container *ngIf="!isAuthenticated">
+          <a mat-button class="nav-link" routerLink="/login">
+            <mat-icon>login</mat-icon> Sign In
+          </a>
+          <a mat-flat-button color="accent" routerLink="/login" class="trial-btn">
+            Start Free Trial
+          </a>
+        </ng-container>
+      </nav>
+
+      <!-- Mobile Navigation Hamburger Button -->
+      <div class="mobile-nav-actions">
+        <a *ngIf="!isAuthenticated" mat-flat-button color="accent" routerLink="/login" class="mobile-trial-pill">
+          Free Trial
+        </a>
+        <a *ngIf="isAuthenticated && isAdmin" mat-stroked-button routerLink="/admin" class="mobile-admin-pill">
+          <mat-icon>dashboard</mat-icon> Admin
+        </a>
+        <a *ngIf="isAuthenticated && !isAdmin" mat-stroked-button routerLink="/access-denied" class="mobile-user-pill">
+          <mat-icon>person</mat-icon> Status
+        </a>
+        <button mat-icon-button [matMenuTriggerFor]="mobileNavMenu" class="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <mat-menu #mobileNavMenu="matMenu" class="mobile-menu-dropdown">
+        <a mat-menu-item routerLink="/" routerLinkActive="active-mobile-link" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>home</mat-icon>
+          <span>Home</span>
+        </a>
+        <a mat-menu-item routerLink="/driver" routerLinkActive="active-mobile-link">
+          <mat-icon>assignment</mat-icon>
+          <span>Driver Application</span>
+        </a>
+        <a mat-menu-item routerLink="/w4-upload" routerLinkActive="active-mobile-link">
+          <mat-icon>upload_file</mat-icon>
+          <span>W-4 Document Upload</span>
+        </a>
+
+        <mat-divider></mat-divider>
+
+        <ng-container *ngIf="isAuthenticated">
+          <div class="mobile-user-info">
+            <div class="mobile-ws-name">{{ currentWorkspace?.name }}</div>
+            <div class="mobile-ws-email">{{ currentUser?.email }} ({{ currentUser?.role | uppercase }})</div>
+          </div>
+          <a *ngIf="isAdmin" mat-menu-item routerLink="/admin" routerLinkActive="active-mobile-link">
+            <mat-icon>dashboard</mat-icon>
+            <span>Operator Dashboard</span>
+          </a>
+          <a *ngIf="!isAdmin" mat-menu-item routerLink="/access-denied" routerLinkActive="active-mobile-link">
+            <mat-icon>gpp_maybe</mat-icon>
+            <span>Access Clearance Status</span>
+          </a>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon color="warn">logout</mat-icon>
+            <span style="color: #dc2626;">Sign Out</span>
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="!isAuthenticated">
+          <a mat-menu-item routerLink="/login">
+            <mat-icon>login</mat-icon>
+            <span>Sign In</span>
+          </a>
+          <a mat-menu-item routerLink="/login">
+            <mat-icon>rocket_launch</mat-icon>
+            <span style="font-weight: 600; color: #0b57d0;">Start 14-Day Free Trial</span>
+          </a>
+        </ng-container>
+      </mat-menu>
     </mat-toolbar>
   
- 
-  <!-- Angular Router Outlet -->
-<router-outlet>
-  
+    <!-- Main Viewport -->
+    <main [ngClass]="isSaaSRoute ? 'saas-main-viewport' : 'main-content public-main-content'">
+      <router-outlet></router-outlet>
+    </main>

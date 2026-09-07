@@ -1,0 +1,53 @@
+<div class="access-denied-container">
+  <mat-card class="denied-card">
+    <div class="card-icon-box">
+      <mat-icon class="shield-icon">gpp_maybe</mat-icon>
+    </div>
+
+    <h1 class="denied-title">Administrator Clearance Required</h1>
+    <p class="denied-subtitle">
+      Access to the NEMT Operations SaaS Portal is restricted to authorized Fleet Administrators, Owners, and Compliance Officers.
+    </p>
+
+    <div class="user-status-card">
+      <div class="status-row">
+        <span class="status-label">Current Account:</span>
+        <span class="status-value">{{ currentUser?.email || 'Guest User' }}</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Assigned Role:</span>
+        <span class="role-badge" [ngClass]="currentUser?.role === 'driver' ? 'role-driver' : 'role-staff'">
+          <mat-icon class="role-icon">person</mat-icon>
+          {{ currentUser?.role | uppercase }} (Non-Admin)
+        </span>
+      </div>
+      <div class="status-row" *ngIf="currentWorkspace">
+        <span class="status-label">Company Workspace:</span>
+        <span class="status-value">{{ currentWorkspace.name }}</span>
+      </div>
+    </div>
+
+    <div class="security-notice">
+      <mat-icon class="notice-icon">lock</mat-icon>
+      <p>
+        This portal contains sensitive driver Social Security Numbers, 7-year criminal & background disclosures, encrypted W-4 tax files, and Medicaid credential suspension controls.
+      </p>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="card-actions">
+      <button mat-flat-button color="primary" class="action-btn primary-btn" (click)="switchAccount()">
+        <mat-icon>swap_horiz</mat-icon> Sign In With Administrator Account
+      </button>
+
+      <a mat-stroked-button routerLink="/driver" class="action-btn">
+        <mat-icon>assignment</mat-icon> Open Driver Application
+      </a>
+
+      <a mat-button routerLink="/" class="action-btn text-btn">
+        <mat-icon>home</mat-icon> Return to Home
+      </a>
+    </div>
+  </mat-card>
+</div>

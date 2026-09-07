@@ -1,0 +1,324 @@
+<div class="vault-container">
+
+  <!-- Top Hero & Navigation Bar -->
+  <header class="vault-header">
+    <div class="header-left">
+      <a routerLink="/" class="back-link">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Portal Home</span>
+      </a>
+      <div class="header-title-block">
+        <h1 class="vault-title">Digital DQF Credential Vault</h1>
+        <p class="vault-subtitle">Driver Qualification File & Medicaid Audit Shield Document Manager</p>
+      </div>
+    </div>
+
+    <!-- Active Driver Switcher (for testing multiple driver states) -->
+    <div class="driver-picker-box">
+      <mat-form-field appearance="outline" class="picker-field">
+        <mat-label>View Driver DQF</mat-label>
+        <mat-select [(ngModel)]="selectedDriverId" (selectionChange)="onDriverChange()">
+          <mat-option *ngFor="let d of drivers" [value]="d.driverId">
+            {{ d.fullName }} ({{ d.driverId }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </header>
+
+  <main class="vault-body" *ngIf="currentRecord">
+
+    <!-- 1. DISPATCH READINESS & AUDIT SHIELD BANNER -->
+    <div class="dispatch-banner" [ngClass]="dispatchEligibility?.isEligible ? 'banner-cleared' : 'banner-locked'">
+      <div class="banner-icon-box">
+        <mat-icon>{{ dispatchEligibility?.isEligible ? 'verified_user' : 'gpp_bad' }}</mat-icon>
+      </div>
+      <div class="banner-content">
+        <div class="banner-status-line">
+          <span class="banner-badge">{{ dispatchEligibility?.isEligible ? 'DISPATCH CLEARED' : 'HARD DISPATCH LOCKOUT' }}</span>
+          <span class="banner-driver-id">Driver: {{ currentRecord.fullName }} &bull; {{ currentRecord.driverId }}</span>
+          <span class="banner-unit">Assigned: {{ currentRecord.assignedVehicleUnit || 'Reserve' }}</span>
+        </div>
+        <p class="banner-description" *ngIf="dispatchEligibility?.isEligible">
+          All Medicaid, broker (Modivcare/MTM), and DOT qualification forms are valid and audited. This driver is legally cleared for passenger transport.
+        </p>
+        <div class="lockout-reasons-list" *ngIf="!dispatchEligibility?.isEligible">
+          <div class="lockout-headline">⚠️ Immediate Action Required - Trip Claims Blocked:</div>
+          <ul>
+            <li *ngFor="let reason of dispatchEligibility?.lockoutReasons">{{ reason }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SECTION: MANDATORY LICENSES & MEDICAL -->
+    <section class="vault-section">
+      <div class="section-title-row">
+        <mat-icon class="section-icon">drive_eta</mat-icon>
+        <h2>State Driving & Medical Clearances</h2>
+      </div>
+
+      <div class="credential-cards-grid">
+
+        <!-- Driver's License Card -->
+        <mat-card class="cred-card" [class.card-alert]="getDaysRemaining(currentRecord.license.expirationDate) < 0" [class.card-warn]="getDaysRemaining(currentRecord.license.expirationDate) <= 30 && getDaysRemaining(currentRecord.license.expirationDate) >= 0">
+          <div class="cred-header">
+            <div class="cred-icon-pill blue">
+              <mat-icon>badge</mat-icon>
+            </div>
+            <div class="cred-header-text">
+              <h3>State Driver's License</h3>
+              <span class="cred-meta">{{ currentRecord.license.state }} - {{ currentRecord.license.licenseNumber }}</span>
+            </div>
+            <span class="expiry-pill" [ngClass]="getDaysRemaining(currentRecord.license.expirationDate) < 0 ? 'pill-expired' : (getDaysRemaining(currentRecord.license.expirationDate) <= 30 ? 'pill-warning' : 'pill-valid')">
+              {{ getDaysRemainingText(currentRecord.license.expirationDate) }}
+            </span>
+          </div>
+
+          <div class="cred-body">
+            <div class="meta-item">
+              <span class="meta-label">Class:</span>
+              <strong>{{ currentRecord.license.licenseClass }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Expiration Date:</span>
+              <strong>{{ formatDate(currentRecord.license.expirationDate) }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Annual MVR Check:</span>
+              <span class="status-indicator pass">
+                <mat-icon>check_circle</mat-icon> Clean (Pulled: {{ formatDate(currentRecord.license.mvrLastPulledDate) }})
+              </span>
+            </div>
+          </div>
+
+          <div class="cred-actions">
+            <button mat-stroked-button color="primary" class="renew-action-btn" (click)="openRenewModal('license')">
+              <mat-icon>upload_file</mat-icon> Renew License
+            </button>
+          </div>
+        </mat-card>
+
+        <!-- DOT Medical Card -->
+        <mat-card class="cred-card" [class.card-alert]="getDaysRemaining(currentRecord.medicalFitness.expirationDate) < 0" [class.card-warn]="getDaysRemaining(currentRecord.medicalFitness.expirationDate) <= 30 && getDaysRemaining(currentRecord.medicalFitness.expirationDate) >= 0">
+          <div class="cred-header">
+            <div class="cred-icon-pill emerald">
+              <mat-icon>medical_services</mat-icon>
+            </div>
+            <div class="cred-header-text">
+              <h3>DOT Medical Certificate</h3>
+              <span class="cred-meta">Form MCSA-5876 (NRCME)</span>
+            </div>
+            <span class="expiry-pill" [ngClass]="getDaysRemaining(currentRecord.medicalFitness.expirationDate) < 0 ? 'pill-expired' : (getDaysRemaining(currentRecord.medicalFitness.expirationDate) <= 30 ? 'pill-warning' : 'pill-valid')">
+              {{ getDaysRemainingText(currentRecord.medicalFitness.expirationDate) }}
+            </span>
+          </div>
+
+          <div class="cred-body">
+            <div class="meta-item">
+              <span class="meta-label">Certified Examiner:</span>
+              <strong>{{ currentRecord.medicalFitness.examinerName }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Expires:</span>
+              <strong>{{ formatDate(currentRecord.medicalFitness.expirationDate) }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Physical Clearance:</span>
+              <span class="status-indicator pass">
+                <mat-icon>check_circle</mat-icon> Cleared 75 lbs Assist & Lift
+              </span>
+            </div>
+          </div>
+
+          <div class="cred-actions">
+            <button mat-stroked-button color="primary" class="renew-action-btn" (click)="openRenewModal('medical')">
+              <mat-icon>upload_file</mat-icon> Upload Medical Card
+            </button>
+          </div>
+        </mat-card>
+
+        <!-- CPR & First Aid Card -->
+        <mat-card class="cred-card" [class.card-alert]="getDaysRemaining(currentRecord.certifications.cprFirstAid.expirationDate) < 0" [class.card-warn]="getDaysRemaining(currentRecord.certifications.cprFirstAid.expirationDate) <= 30 && getDaysRemaining(currentRecord.certifications.cprFirstAid.expirationDate) >= 0">
+          <div class="cred-header">
+            <div class="cred-icon-pill amber">
+              <mat-icon>favorite</mat-icon>
+            </div>
+            <div class="cred-header-text">
+              <h3>First Aid & CPR Card</h3>
+              <span class="cred-meta">{{ currentRecord.certifications.cprFirstAid.issuer }}</span>
+            </div>
+            <span class="expiry-pill" [ngClass]="getDaysRemaining(currentRecord.certifications.cprFirstAid.expirationDate) < 0 ? 'pill-expired' : (getDaysRemaining(currentRecord.certifications.cprFirstAid.expirationDate) <= 30 ? 'pill-warning' : 'pill-valid')">
+              {{ getDaysRemainingText(currentRecord.certifications.cprFirstAid.expirationDate) }}
+            </span>
+          </div>
+
+          <div class="cred-body">
+            <div class="meta-item">
+              <span class="meta-label">Card Number:</span>
+              <strong>{{ currentRecord.certifications.cprFirstAid.cardNumber || 'ARC-VERIFIED' }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Expiration Date:</span>
+              <strong>{{ formatDate(currentRecord.certifications.cprFirstAid.expirationDate) }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Coverage:</span>
+              <span>Adult & Pediatric BLS / AED</span>
+            </div>
+          </div>
+
+          <div class="cred-actions">
+            <button mat-flat-button color="primary" class="renew-action-btn" (click)="openRenewModal('cpr')">
+              <mat-icon>camera_alt</mat-icon> Photo-Scan / Renew CPR
+            </button>
+          </div>
+        </mat-card>
+
+        <!-- PASS 7.0 Certification -->
+        <mat-card class="cred-card">
+          <div class="cred-header">
+            <div class="cred-icon-pill purple">
+              <mat-icon>accessible</mat-icon>
+            </div>
+            <div class="cred-header-text">
+              <h3>PASS 7.0 Certification</h3>
+              <span class="cred-meta">Passenger Assistance & Sensitivity</span>
+            </div>
+            <span class="expiry-pill pill-valid">
+              {{ getDaysRemainingText(currentRecord.certifications.passOrCtaa.expirationDate) }}
+            </span>
+          </div>
+
+          <div class="cred-body">
+            <div class="meta-item">
+              <span class="meta-label">Cert Body:</span>
+              <strong>{{ currentRecord.certifications.passOrCtaa.issuer }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Expires:</span>
+              <strong>{{ formatDate(currentRecord.certifications.passOrCtaa.expirationDate) }}</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Wheelchair Lift Sign-Off:</span>
+              <span class="status-indicator pass">
+                <mat-icon>check_circle</mat-icon> Verified by Safety Lead
+              </span>
+            </div>
+          </div>
+
+          <div class="cred-actions">
+            <button mat-stroked-button color="primary" class="renew-action-btn" (click)="openRenewModal('pass')">
+              <mat-icon>upload_file</mat-icon> Renew PASS Cert
+            </button>
+          </div>
+        </mat-card>
+
+      </div>
+    </section>
+
+    <!-- 3. SECTION: MEDICAID EXCLUSION & SCREENINGS -->
+    <section class="vault-section">
+      <div class="section-title-row">
+        <mat-icon class="section-icon">security</mat-icon>
+        <h2>Medicaid Reimbursement & Background Clearances</h2>
+      </div>
+
+      <div class="screenings-grid">
+        <!-- OIG / SAM Monthly Clearance -->
+        <mat-card class="screening-card">
+          <div class="screen-row">
+            <div class="screen-info">
+              <h4>OIG / SAM Exclusion Monthly Clearance</h4>
+              <p>Federal HHS-OIG and SAM database check. Required monthly to guarantee Medicaid claim payments.</p>
+              <div class="screen-meta">Last checked: {{ formatDate(currentRecord.screenings.oigSamLastCheckedDate) }} &bull; Cert ID: {{ currentRecord.screenings.oigSamCheckId }}</div>
+            </div>
+            <span class="status-badge" [ngClass]="currentRecord.screenings.oigSamStatus === 'cleared' ? 'status-approved' : 'status-rejected'">
+              <mat-icon>{{ currentRecord.screenings.oigSamStatus === 'cleared' ? 'verified' : 'block' }}</mat-icon>
+              {{ currentRecord.screenings.oigSamStatus === 'cleared' ? 'CLEARED FOR MEDICAID' : 'ACTION REQUIRED' }}
+            </span>
+          </div>
+        </mat-card>
+
+        <!-- Drug & Alcohol Panel -->
+        <mat-card class="screening-card">
+          <div class="screen-row">
+            <div class="screen-info">
+              <h4>Drug & Alcohol Screening Clearance</h4>
+              <p>{{ currentRecord.screenings.drugScreenType }} pre-employment test passed + enrolled in federal random testing pool.</p>
+              <div class="screen-meta">Completed: {{ formatDate(currentRecord.screenings.drugScreenCompletedDate) }}</div>
+            </div>
+            <span class="status-badge status-approved">
+              <mat-icon>check_circle</mat-icon> NEGATIVE (PASSED)
+            </span>
+          </div>
+        </mat-card>
+
+        <!-- 7-Year Background & Sex Offender Check -->
+        <mat-card class="screening-card">
+          <div class="screen-row">
+            <div class="screen-info">
+              <h4>FCRA Criminal & Sex Offender Registry Search</h4>
+              <p>County, Colorado CBI, FBI nationwide search with 7-year address verification.</p>
+              <div class="screen-meta">Completed: {{ formatDate(currentRecord.screenings.backgroundCheckCompletedDate) }}</div>
+            </div>
+            <span class="status-badge status-approved">
+              <mat-icon>verified</mat-icon> CLEARED
+            </span>
+          </div>
+        </mat-card>
+      </div>
+    </section>
+
+    <!-- Bottom Quick Links -->
+    <div class="vault-footer-links">
+      <a routerLink="/driver/dvir" mat-stroked-button color="primary" class="footer-btn">
+        <mat-icon>assignment_turned_in</mat-icon> Go to Daily Pre-Trip DVIR Inspection
+      </a>
+      <a routerLink="/driver" mat-button class="footer-btn">
+        <mat-icon>person</mat-icon> Review Full Driver Onboarding Form
+      </a>
+    </div>
+
+  </main>
+
+  <!-- RENEWAL UPLOAD MODAL -->
+  <div *ngIf="showRenewModal" class="modal-backdrop" (click)="closeRenewModal()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ renewTitle }}</h3>
+        <button mat-icon-button (click)="closeRenewModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-instruction">
+          Upload a clear photograph or PDF scan of your renewed physical card or state certificate. Enter the exact expiration date printed on the document.
+        </p>
+
+        <div class="file-upload-dropzone">
+          <input type="file" id="renewFileInput" accept=".pdf,.png,.jpg,.jpeg" (change)="onFileSelected($event)" style="display: none;" />
+          <label for="renewFileInput" class="upload-label">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <span class="primary-text">{{ selectedFileName || 'Choose or snap photo of new document' }}</span>
+            <span class="hint-text">Accepts PDF, JPG, PNG up to 10MB</span>
+          </label>
+        </div>
+
+        <mat-form-field appearance="outline" class="modal-field">
+          <mat-label>New Expiration Date</mat-label>
+          <input matInput type="date" [(ngModel)]="newExpirationDate" />
+        </mat-form-field>
+      </div>
+
+      <div class="modal-footer">
+        <button mat-button (click)="closeRenewModal()">Cancel</button>
+        <button mat-flat-button color="primary" [disabled]="!newExpirationDate || isUploading" (click)="submitRenewal()">
+          {{ isUploading ? 'Verifying & Saving...' : 'Save & Update DQF File' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

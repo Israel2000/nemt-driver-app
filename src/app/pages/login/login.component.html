@@ -1,0 +1,221 @@
+<div class="login-page-container">
+  <div class="login-wrapper">
+
+    <!-- Left Brand / Security Showcase -->
+    <div class="brand-panel">
+      <div class="brand-header">
+        <mat-icon class="panel-icon">shield</mat-icon>
+        <h2>NEMT Operator Workspace</h2>
+      </div>
+
+      <p class="brand-tagline">
+        The complete operating system for non-emergency medical transportation fleets.
+      </p>
+
+      <ul class="feature-bullets">
+        <li>
+          <mat-icon>verified</mat-icon>
+          <span><strong>80% Faster Hiring:</strong> Standardized 7-year background and license application.</span>
+        </li>
+        <li>
+          <mat-icon>verified</mat-icon>
+          <span><strong>Medicaid Audit Shield:</strong> Automated alerts for expiring CPR, MVR, and DOT cards.</span>
+        </li>
+        <li>
+          <mat-icon>verified</mat-icon>
+          <span><strong>Role-Based Access:</strong> Full SaaS access for Administrators; restricted views for staff & drivers.</span>
+        </li>
+        <li>
+          <mat-icon>verified</mat-icon>
+          <span><strong>14-Day Free Trial:</strong> No credit card required to test.</span>
+        </li>
+      </ul>
+
+      <!-- Quick Demo Sign-in Options -->
+      <div class="demo-box">
+        <div class="demo-info">
+          <mat-icon>lightbulb</mat-icon>
+          <div>
+            <strong>Test Instant Demo Profiles:</strong>
+            <p>Experience how SaaS access changes based on Administrator vs. Non-Admin user permissions.</p>
+          </div>
+        </div>
+
+        <div class="demo-buttons-column">
+          <button mat-flat-button color="accent" type="button" (click)="quickAdminDemoLogin()" class="demo-btn admin-demo-btn">
+            <mat-icon>shield</mat-icon> Instant Demo: Fleet Admin (Full SaaS)
+          </button>
+          <button mat-stroked-button type="button" (click)="quickUserDemoLogin()" class="demo-btn user-demo-btn">
+            <mat-icon>person</mat-icon> Instant Demo: Driver (Non-Admin)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Authentication Card -->
+    <div class="form-panel">
+      <mat-card class="auth-card">
+        <mat-tab-group [(selectedIndex)]="selectedTabIndex" animationDuration="200ms" class="auth-tabs">
+
+          <!-- TAB 1: User / Operator Sign In -->
+          <mat-tab label="Sign In">
+            <div class="tab-content">
+              <h3 class="form-title">Welcome to NEMT OS</h3>
+              <p class="form-subtitle">Sign in with your email to access your workspace. Administrators unlock the full dispatch & compliance SaaS.</p>
+
+              <form (ngSubmit)="onLogin()" class="auth-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email Address</mat-label>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <input
+                    matInput
+                    type="email"
+                    [(ngModel)]="loginEmail"
+                    name="loginEmail"
+                    placeholder="e.g. admin@nemtos.com"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <mat-icon matPrefix>lock</mat-icon>
+                  <input
+                    matInput
+                    [type]="hidePassword ? 'password' : 'text'"
+                    [(ngModel)]="loginPassword"
+                    name="loginPassword"
+                    placeholder="Enter password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'"
+                  >
+                    <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                  </button>
+                </mat-form-field>
+
+                <button mat-flat-button color="primary" type="submit" class="submit-auth-btn">
+                  Sign In to Portal <mat-icon>arrow_forward</mat-icon>
+                </button>
+              </form>
+
+              <div class="form-footer-hint">
+                <span>Need a new account? <a (click)="selectedTabIndex = 1" style="color: #0b57d0; cursor: pointer; font-weight: 600;">Create one here</a>.</span>
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- TAB 2: Create User / Company Account -->
+          <mat-tab label="Create Account">
+            <div class="tab-content">
+              <h3 class="form-title">Create Your Account</h3>
+              <p class="form-subtitle">Register your details below. You will be directed to sign in with your credentials.</p>
+
+              <form (ngSubmit)="onRegister()" class="auth-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>Your Full Name</mat-label>
+                  <mat-icon matPrefix>person</mat-icon>
+                  <input
+                    matInput
+                    [(ngModel)]="regFullName"
+                    name="regFullName"
+                    placeholder="e.g. Alex Miller"
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>NEMT Company / Fleet Name</mat-label>
+                  <mat-icon matPrefix>domain</mat-icon>
+                  <input
+                    matInput
+                    [(ngModel)]="regCompanyName"
+                    name="regCompanyName"
+                    placeholder="e.g. Apex Care Transit LLC"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Work Email</mat-label>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <input
+                    matInput
+                    type="email"
+                    [(ngModel)]="regEmail"
+                    name="regEmail"
+                    placeholder="e.g. alex@apexcaretransit.com"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Create Password</mat-label>
+                  <mat-icon matPrefix>lock</mat-icon>
+                  <input
+                    matInput
+                    type="password"
+                    [(ngModel)]="regPassword"
+                    name="regPassword"
+                    placeholder="Create a secure password"
+                  />
+                </mat-form-field>
+
+                <!-- Role Selection -->
+                <div class="role-selector-box">
+                  <label class="role-selector-title">Assign Account Role:</label>
+                  <mat-radio-group [(ngModel)]="regRole" name="regRole" class="role-options">
+                    <mat-radio-button value="admin" color="primary">
+                      <div class="radio-content">
+                        <strong>Fleet Administrator</strong>
+                        <small>Full access to candidate ATS, SSN data, and Medicaid Audit Shield.</small>
+                      </div>
+                    </mat-radio-button>
+
+                    <mat-radio-button value="driver" color="primary">
+                      <div class="radio-content">
+                        <strong>Staff / Driver (Non-Admin)</strong>
+                        <small>Restricted account without administrative or screening access.</small>
+                      </div>
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Fleet Size</mat-label>
+                  <mat-select [(ngModel)]="regFleetSize" name="regFleetSize">
+                    <mat-option *ngFor="let size of fleetSizes" [value]="size">
+                      {{ size }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Preferred Plan</mat-label>
+                  <mat-select [(ngModel)]="regPlan" name="regPlan">
+                    <mat-option value="starter">Starter Plan ($99/mo) &bull; 1-5 vehicles</mat-option>
+                    <mat-option value="growth">Growth Plan ($249/mo) &bull; 6-20 vehicles (Recommended)</mat-option>
+                    <mat-option value="enterprise">Enterprise Plan ($499/mo) &bull; 20+ vehicles</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <button mat-flat-button color="primary" type="submit" class="submit-auth-btn">
+                  Create Account &bull; Proceed to Sign In <mat-icon>arrow_forward</mat-icon>
+                </button>
+              </form>
+
+              <p class="terms-note">
+                By creating an account, you will be redirected to the sign-in page to log in.
+              </p>
+            </div>
+          </mat-tab>
+
+        </mat-tab-group>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

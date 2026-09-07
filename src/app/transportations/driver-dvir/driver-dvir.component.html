@@ -1,0 +1,276 @@
+<div class="dvir-container">
+
+  <!-- Header -->
+  <header class="dvir-header">
+    <div class="header-left">
+      <a routerLink="/" class="back-link">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Portal Home</span>
+      </a>
+      <div class="header-title-block">
+        <h1 class="dvir-title">Daily Vehicle Inspection Report (DVIR)</h1>
+        <p class="dvir-subtitle">Mandatory Pre-Trip & Post-Trip Safety & ADA Equipment Attestation</p>
+      </div>
+    </div>
+
+    <div class="dvir-mode-pill">
+      <span class="pulse-dot"></span>
+      <span>Medicaid & DOT Regulated Form</span>
+    </div>
+  </header>
+
+  <!-- SUCCESS STATE -->
+  <div *ngIf="submissionSuccess" class="success-card">
+    <div class="success-icon-box">
+      <mat-icon>verified</mat-icon>
+    </div>
+    <h2>DVIR Attestation Submitted Successfully</h2>
+    <p>
+      Inspection record <strong>#{{ submittedDvirId }}</strong> has been officially logged in the NEMT FleetOS compliance vault.
+      Dispatchers in the central console can now verify this vehicle is cleared for Medicaid passenger transport.
+    </p>
+
+    <div class="success-actions">
+      <button mat-flat-button color="primary" (click)="resetForm()">
+        <mat-icon>add_task</mat-icon> Perform Another Inspection
+      </button>
+      <a routerLink="/driver/vault" mat-stroked-button color="primary">
+        <mat-icon>folder_shared</mat-icon> Go to Driver DQF Vault
+      </a>
+      <a routerLink="/admin" mat-button>
+        <mat-icon>dashboard</mat-icon> View Central Fleet Console
+      </a>
+    </div>
+  </div>
+
+  <!-- INSPECTION FORM BODY -->
+  <main class="dvir-form-body" *ngIf="!submissionSuccess">
+
+    <!-- Card 1: Shift & Vehicle Meta -->
+    <mat-card class="form-card">
+      <h2 class="card-section-title">
+        <mat-icon>directions_car</mat-icon> 1. Vehicle & Shift Selection
+      </h2>
+
+      <div class="grid-two-col">
+        <!-- Inspection Type -->
+        <div class="field-box">
+          <label class="field-label">Inspection Stage:</label>
+          <mat-radio-group [(ngModel)]="inspectionType" class="radio-group-row">
+            <mat-radio-button value="pre_trip" color="primary">
+              <strong>Pre-Trip</strong> (Before Departing Base)
+            </mat-radio-button>
+            <mat-radio-button value="post_trip" color="primary">
+              <strong>Post-Trip</strong> (End of Shift Return)
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <!-- Vehicle Unit -->
+        <mat-form-field appearance="outline" class="input-field">
+          <mat-label>Assigned Vehicle Unit</mat-label>
+          <mat-select [(ngModel)]="selectedUnitNumber" (selectionChange)="onVehicleChange()">
+            <mat-option *ngFor="let v of vehicles" [value]="v.unitNumber">
+              {{ v.unitNumber }} &bull; {{ v.makeModel }} ({{ v.vehicleType }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Driver Name -->
+        <mat-form-field appearance="outline" class="input-field">
+          <mat-label>Inspecting Driver Full Name</mat-label>
+          <input matInput [(ngModel)]="driverName" placeholder="e.g. Marcus Vance" />
+        </mat-form-field>
+
+        <!-- Current Odometer -->
+        <mat-form-field appearance="outline" class="input-field">
+          <mat-label>Current Odometer Reading (Miles)</mat-label>
+          <input matInput type="number" [(ngModel)]="odometer" placeholder="e.g. 42350" />
+          <mat-icon matSuffix>speed</mat-icon>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Card 2: Critical NEMT & ADA Assist Equipment -->
+    <mat-card class="form-card highlight-nemt">
+      <div class="nemt-header-badge">
+        <mat-icon>accessible</mat-icon>
+        <span>CRITICAL NEMT & MEDICAID AUDIT CHECKS</span>
+      </div>
+      <p class="section-help-text">
+        Brokers and state inspectors audit wheelchair securement and lift functionality. Every item below must be physically cycled and tested.
+      </p>
+
+      <div class="checklist-grid">
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Wheelchair Lift / Ramp Deployment Cycle</strong>
+            <span>Full deploy, ground contact, safety barrier interlock, and stow cycle test.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="wheelchairLiftDeploymentCycle" (change)="onChecklistToggle()" color="primary">
+            {{ wheelchairLiftDeploymentCycle ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Emergency Manual Backup Pump & Release Valve</strong>
+            <span>Manual handle present; pressure release operates smoothly in power failure.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="wheelchairLiftManualBackupPump" (change)="onChecklistToggle()" color="primary">
+            {{ wheelchairLiftManualBackupPump ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>4-Point Q'Straint Tie-Down Straps & Lap/Shoulder Belts</strong>
+            <span>4 floor locks, no frayed webbing, retractor ratchets lock firmly, occupant lap belt intact.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="qStraintTieDownsAndLapBelts" (change)="onChecklistToggle()" color="primary">
+            {{ qStraintTieDownsAndLapBelts ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Fire Extinguisher & Biohazard BBP Spill Kit</strong>
+            <span>Type B:C fire extinguisher gauge in green; clean-up kit fully stocked with gloves & absorbent.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="fireExtinguisherCharged" (change)="onChecklistToggle()" color="primary">
+            {{ fireExtinguisherCharged ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>HVAC / Passenger Cabin Climate Control</strong>
+            <span>Front & rear air conditioning and heating operating (vital for dialysis & cardiac riders).</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="hvacClimateControlOperating" (change)="onChecklistToggle()" color="primary">
+            {{ hvacClimateControlOperating ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Card 3: Standard Vehicle Safety Systems -->
+    <mat-card class="form-card">
+      <h2 class="card-section-title">
+        <mat-icon>minor_crash</mat-icon> 2. Vehicle Road Safety Systems
+      </h2>
+
+      <div class="checklist-grid">
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Service Brakes & Parking Brake</strong>
+            <span>Brake pedal firmness, no pulling, parking brake holds firmly.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="brakesServiceAndParking" (change)="onChecklistToggle()" color="primary">
+            {{ brakesServiceAndParking ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Tires, Wheels & Lug Nuts</strong>
+            <span>Tread depth &gt; 4/32", proper tire inflation, no sidewall bulges.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="tiresTreadAndPressure" (change)="onChecklistToggle()" color="primary">
+            {{ tiresTreadAndPressure ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Headlights, Brake Lights, Turn & Hazard Signals</strong>
+            <span>High/low beams, daytime running lights, reverse lights, and hazard flashers.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="lightsHeadBrakeTurnHazard" (change)="onChecklistToggle()" color="primary">
+            {{ lightsHeadBrakeTurnHazard ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="checklist-item">
+          <div class="item-text">
+            <strong>Horn, Mirrors, Windshield & Wipers</strong>
+            <span>Audible horn, clean wipers, fluid reservoir filled, unobstructed glass.</span>
+          </div>
+          <mat-slide-toggle [(ngModel)]="hornAndWipers" (change)="onChecklistToggle()" color="primary">
+            {{ hornAndWipers ? 'PASS' : 'DEFECT' }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Card 4: Defect Declaration & Safety Determination -->
+    <mat-card class="form-card" [class.defect-active-card]="defectsIdentified">
+      <h2 class="card-section-title">
+        <mat-icon>{{ defectsIdentified ? 'report_problem' : 'check_circle' }}</mat-icon> 3. Defect Declaration
+      </h2>
+
+      <div class="defect-control-box">
+        <mat-slide-toggle [(ngModel)]="defectsIdentified" color="warn">
+          <strong [style.color]="defectsIdentified ? '#dc2626' : '#166534'">
+            {{ defectsIdentified ? 'SAFETY DEFECTS REPORTED (Dispatch Will Be Locked)' : 'No Safety Defects Identified (Vehicle Satisfactory)' }}
+          </strong>
+        </mat-slide-toggle>
+      </div>
+
+      <div *ngIf="defectsIdentified" class="defect-input-container">
+        <mat-form-field appearance="outline" class="defect-field">
+          <mat-label>Describe Safety Defects in Detail</mat-label>
+          <textarea matInput [(ngModel)]="defectNotes" rows="3" placeholder="Specify failed component, abnormal noise, warning light, or mechanical hazard..."></textarea>
+        </mat-form-field>
+        <div class="safety-toggle-row">
+          <label>Is vehicle safe to operate?</label>
+          <mat-radio-group [(ngModel)]="vehicleSafeToOperate">
+            <mat-radio-button [value]="false" color="warn">NO - Ground Vehicle Immediately</mat-radio-button>
+            <mat-radio-button [value]="true">YES - Minor Non-Safety Defect (Can Complete Shift)</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Card 5: Driver Legal Signature Attestation -->
+    <mat-card class="form-card">
+      <h2 class="card-section-title">
+        <mat-icon>draw</mat-icon> 4. Driver Certification & Electronic Signature
+      </h2>
+      <p class="signature-notice">
+        I hereby certify that I have conducted the above inspection of vehicle <strong>{{ selectedUnitNumber }}</strong>
+        in accordance with DOT, Colorado Department of Health, and Medicaid transport safety standards.
+      </p>
+
+      <div class="signature-canvas-wrapper">
+        <canvas
+          #signatureCanvas
+          class="dvir-canvas"
+          (mousedown)="startDrawing($event)"
+          (mousemove)="draw($event)"
+          (mouseup)="stopDrawing()"
+          (mouseleave)="stopDrawing()"
+          (touchstart)="startDrawing($event)"
+          (touchmove)="draw($event)"
+          (touchend)="stopDrawing()"
+        ></canvas>
+        <div class="signature-hint" *ngIf="!hasSignature">Sign with finger or stylus above</div>
+      </div>
+
+      <div class="signature-actions">
+        <button mat-button color="warn" (click)="clearSignature()">
+          <mat-icon>clear</mat-icon> Clear Signature
+        </button>
+      </div>
+    </mat-card>
+
+    <!-- Final Submit Action Bar -->
+    <div class="submit-action-bar">
+      <button mat-flat-button color="primary" class="dvir-submit-btn" [disabled]="!hasSignature" (click)="submitInspection()">
+        <mat-icon>cloud_done</mat-icon> Submit Official DVIR Inspection
+      </button>
+    </div>
+
+  </main>
+
+</div>

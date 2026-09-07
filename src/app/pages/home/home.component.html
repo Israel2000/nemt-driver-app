@@ -1,24 +1,83 @@
-   <!-- Welcome Card -->
-   <div style="display: flex; justify-content: center; margin-top: 50px;">
-    <mat-card class="home-card" style="max-width: 600px; width: 100%;">
-      <mat-card-header>
-        <mat-card-title>Welcome to the Driver Application Portal</mat-card-title>
-        <mat-card-subtitle>Your journey starts here.</mat-card-subtitle>
-      </mat-card-header>
+<div class="home-container">
+  <!-- Hero Welcome Card -->
+  <mat-card class="hero-card">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <mat-icon>verified</mat-icon>
+        <span>Official NEMT Driver Portal</span>
+      </div>
+      <h1 class="hero-title">Become a Non-Emergency Medical Transportation Driver</h1>
+      <p class="hero-subtitle">
+        Help patients get safely and reliably to their vital healthcare appointments.
+        Join our team of certified, compassionate drivers today.
+      </p>
+      <div class="hero-actions">
+        <a mat-flat-button color="primary" routerLink="/driver" class="action-btn primary-btn">
+          <mat-icon>edit_note</mat-icon>
+          Start Driver Application
+        </a>
+        <a mat-stroked-button routerLink="/w4-upload" class="action-btn secondary-btn">
+          <mat-icon>upload_file</mat-icon>
+          Upload W-4 Form
+        </a>
+      </div>
+    </div>
+  </mat-card>
 
-      <mat-card-content>
-        <p>
-          Use this portal to apply for a driver position. Click on "Application" in the navigation bar to get started.
-          Please ensure all your details are accurate and up to date.
-        </p>
-      </mat-card-content>
+  <!-- Application Process Steps -->
+  <section class="process-section">
+    <h2 class="section-heading">Application Steps</h2>
+    <div class="steps-grid">
+      <mat-card class="step-card">
+        <div class="step-number">1</div>
+        <mat-card-header>
+          <mat-card-title>Personal & Residency</mat-card-title>
+          <mat-card-subtitle>Provide contact info and 7-year address history.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Tell us about yourself and your residences over the last seven years.</p>
+        </mat-card-content>
+      </mat-card>
 
-      <mat-card-actions>
-        <button mat-raised-button color="primary" routerLink="/driver">Driver Application</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+      <mat-card class="step-card">
+        <div class="step-number">2</div>
+        <mat-card-header>
+          <mat-card-title>Driver License</mat-card-title>
+          <mat-card-subtitle>Valid driver's license details.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Submit your driver license number, type/class, state, and expiration.</p>
+        </mat-card-content>
+      </mat-card>
 
-  <!-- Footer -->
-  <h4 style="text-align: center; margin-top: 60px;">Nemt &#64; Portal 2025</h4>
+      <mat-card class="step-card">
+        <div class="step-number">3</div>
+        <mat-card-header>
+          <mat-card-title>Work & Education</mat-card-title>
+          <mat-card-subtitle>Employment & schooling history.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Detail your past 7 years of employment and educational background.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="step-card">
+        <div class="step-number">4</div>
+        <mat-card-header>
+          <mat-card-title>W-4 & Digital Signature</mat-card-title>
+          <mat-card-subtitle>Sign and upload documents.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Attach tax documents, review certification, and sign electronically.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Portal Footer -->
+  <footer class="home-footer">
+    <p>&copy; 2026 NEMT Transportation Portal. All rights reserved.</p>
+  </footer>
+</div>
+
 
