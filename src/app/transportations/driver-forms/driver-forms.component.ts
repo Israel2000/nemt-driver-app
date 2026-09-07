@@ -69,6 +69,14 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
   confirmationNumber = '';
   submittedData: any = null;
   stepperOrientation: StepperOrientation = 'horizontal';
+  currentStepIndex = 0;
+
+  readonly formSteps = [
+    { title: 'Personal & Residency', subtitle: 'Identity & Address History' },
+    { title: 'Driver License', subtitle: 'Credentials & MVR History' },
+    { title: 'Work & Education', subtitle: 'Work History & Education' },
+    { title: 'W-4 & Signature', subtitle: 'Tax Withholding & Sign-off' }
+  ];
 
   // Signature drawing state
   private isDrawing = false;
@@ -264,6 +272,7 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
   }
 
   onStepChange(event: any) {
+    this.currentStepIndex = event.selectedIndex;
     // When navigating to Step 4 (W-4 & Signature)
     if (event.selectedIndex === 3) {
       setTimeout(() => {
@@ -277,6 +286,41 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
           }
         }
       }, 80);
+    }
+  }
+
+  goToStep(index: number, stepper: any) {
+    if (stepper) {
+      stepper.selectedIndex = index;
+      this.currentStepIndex = index;
+      if (index === 3) {
+        setTimeout(() => {
+          this.setupCanvas();
+          if (this.hasSignature) {
+            const savedData = this.certificationGroup.get('signatureDataUrl')?.value;
+            if (savedData && this.ctx) {
+              const img = new Image();
+              img.onload = () => this.ctx?.drawImage(img, 0, 0);
+              img.src = savedData;
+            }
+          }
+        }, 80);
+      }
+    }
+  }
+
+  isStepCompleted(index: number): boolean {
+    switch (index) {
+      case 0:
+        return this.personalGroup ? this.personalGroup.valid && this.residencesArray.valid : false;
+      case 1:
+        return this.licenseGroup ? this.licenseGroup.valid : false;
+      case 2:
+        return this.employmentArray && this.educationGroup ? this.employmentArray.valid && this.educationGroup.valid : false;
+      case 3:
+        return this.certificationGroup ? this.certificationGroup.valid : false;
+      default:
+        return false;
     }
   }
 
@@ -445,6 +489,7 @@ export class DriverFormsComponent implements OnInit, AfterViewInit {
     this.confirmationNumber = '';
     this.submittedData = null;
     this.hasSignature = false;
+    this.currentStepIndex = 0;
     this.initForm();
     setTimeout(() => {
       this.setupCanvas();

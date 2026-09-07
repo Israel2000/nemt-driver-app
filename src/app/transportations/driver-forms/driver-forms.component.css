@@ -1,354 +1,852 @@
-/* Header Banner */
+/* ==========================================================================
+   Header Banner
+   ========================================================================== */
 .header-banner {
-  background: linear-gradient(135deg, #0b57d0 0%, #003780 100%);
-  color: white;
-  padding: 48px 24px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
+  color: #ffffff;
+  padding: 44px 20px 60px 20px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.25) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .banner-content {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .banner-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background-color: rgba(255, 255, 255, 0.18);
-  padding: 6px 14px;
-  border-radius: 20px;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 9999px;
   font-size: 13px;
   font-weight: 500;
-  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+  margin-bottom: 14px;
 }
 
 .banner-badge mat-icon {
   font-size: 18px;
   width: 18px;
   height: 18px;
+  color: #60a5fa;
 }
 
 .banner-title {
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 800;
+  line-height: 1.25;
   margin: 0 0 10px 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
 }
 
 .banner-subtitle {
-  font-size: 16px;
-  opacity: 0.9;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #e2e8f0;
   margin: 0;
-  line-height: 1.5;
+  max-width: 640px;
+  margin: 0 auto;
+  font-weight: 400;
 }
 
-/* Container */
+/* ==========================================================================
+   Container & Card Layout (max-w-4xl mx-auto, rounded-2xl, bg-white, shadow-md)
+   ========================================================================== */
 .form-container {
-  max-width: 1000px;
-  margin: -24px auto 60px auto;
+  max-width: 896px; /* max-w-4xl */
+  margin: -36px auto 64px auto;
   padding: 0 16px;
   position: relative;
   z-index: 10;
 }
 
-/* Stepper Box */
-.stepper-box {
+.stepper-card-container {
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 16px; /* rounded-2xl */
   border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
   overflow: hidden;
 }
 
-.step-content {
-  padding: 24px 8px;
+/* ==========================================================================
+   Stepper Header: Desktop & Mobile Visual Stepper
+   ========================================================================== */
+.stepper-header-bar {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 24px 28px;
+}
+
+.desktop-stepper-track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.step-node-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.step-node-btn:hover {
+  background-color: rgba(241, 245, 249, 0.9);
+}
+
+/* Step Circles: Active, Completed, Inactive */
+.step-circle {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active Step: Solid blue circle with crisp white number */
+.circle-active {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border: 2px solid #2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+/* Completed Step: Emerald green circle with checkmark icon */
+.circle-completed {
+  background-color: #10b981 !important;
+  color: #ffffff !important;
+  border: 2px solid #10b981 !important;
+}
+
+.circle-check-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Inactive Step: Light gray border, muted slate text */
+.circle-inactive {
+  background-color: #ffffff !important;
+  color: #64748b !important;
+  border: 2px solid #cbd5e1 !important;
+}
+
+/* Step Text & Labels */
+.step-text-meta {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1px;
 }
 
-/* Section Titles */
-.section-title-box {
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 12px;
-  margin-bottom: 8px;
-}
-
-.section-title-box h2 {
-  font-size: 22px;
+.step-num-badge {
+  font-size: 10px;
   font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 4px 0;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
 }
 
-.section-title-box p {
+.badge-active {
+  color: #2563eb;
+}
+
+.badge-completed {
+  color: #059669;
+}
+
+.badge-inactive {
+  color: #94a3b8;
+}
+
+.step-name {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.name-active {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.name-completed {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.name-inactive {
+  font-weight: 500;
+  color: #64748b;
+}
+
+.step-sub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Connecting Divider Line / Track */
+.step-connector-line {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  margin: 18px 12px 0 12px;
+  min-width: 24px;
+}
+
+.track-bg {
+  width: 100%;
+  height: 2px;
+  background-color: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.track-fill {
+  width: 0%;
+  height: 100%;
+  background-color: #10b981;
+  transition: width 0.35s ease;
+}
+
+.track-fill.fill-active {
+  width: 100%;
+}
+
+/* Mobile Stepper Indicator */
+.mobile-stepper-header {
+  display: none;
+}
+
+/* ==========================================================================
+   Hide Angular Material Default Stepper Headers
+   ========================================================================== */
+::ng-deep .stepper-box .mat-horizontal-stepper-header-container,
+::ng-deep .stepper-box .mat-vertical-stepper-header-container,
+::ng-deep .stepper-box .mat-stepper-header {
+  display: none !important;
+}
+
+::ng-deep .stepper-box.mat-stepper-horizontal,
+::ng-deep .stepper-box.mat-stepper-vertical {
+  background: transparent !important;
+}
+
+::ng-deep .stepper-box .mat-horizontal-content-container {
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* ==========================================================================
+   Step Body & Section Headers
+   ========================================================================== */
+.stepper-content-body {
+  padding: 32px 36px;
+}
+
+.step-content-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.form-section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.header-icon-pill {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-icon-pill mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.form-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 3px 0;
+  letter-spacing: -0.3px;
+}
+
+.form-section-desc {
+  font-size: 13.5px;
   color: #64748b;
   margin: 0;
-  font-size: 14px;
+  line-height: 1.45;
 }
 
-.subsection-title {
-  margin-top: 16px;
-}
-
-.subsection-title h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #0b57d0;
-  margin: 0 0 4px 0;
-}
-
-/* Grid Layouts */
+/* ==========================================================================
+   Form Inputs & Grid System (16px / gap-4 spacing)
+   ========================================================================== */
 .fields-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  width: 100%;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.col-span-1 {
+  grid-column: span 1 / span 1;
 }
 
 .col-span-2 {
-  grid-column: span 2;
+  grid-column: span 2 / span 2;
 }
 
 .col-span-3 {
-  grid-column: span 3;
+  grid-column: span 3 / span 3;
 }
 
-/* Radio & Checkboxes */
-.radio-group-container {
+/* Required Asterisk */
+.req-star {
+  color: #f43f5e;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* Angular Material Form Field Overrides */
+::ng-deep .stepper-box .mat-mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .stepper-box .mat-mdc-text-field-wrapper {
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s ease;
+}
+
+/* Medium Slate Form Labels */
+::ng-deep .stepper-box .mat-mdc-floating-label {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+}
+
+::ng-deep .stepper-box .mat-focused .mat-mdc-floating-label {
+  color: #2563eb !important;
+  font-weight: 600 !important;
+}
+
+/* Crisp Slate-300 Outline Border & Blue Focus Ring */
+::ng-deep .stepper-box .mdc-notched-outline__leading,
+::ng-deep .stepper-box .mdc-notched-outline__notch,
+::ng-deep .stepper-box .mdc-notched-outline__trailing {
+  border-color: #cbd5e1 !important;
+  transition: border-color 0.2s ease;
+}
+
+::ng-deep .stepper-box .mat-focused .mdc-notched-outline__leading,
+::ng-deep .stepper-box .mat-focused .mdc-notched-outline__notch,
+::ng-deep .stepper-box .mat-focused .mdc-notched-outline__trailing {
+  border-color: #2563eb !important;
+  border-width: 2px !important;
+}
+
+::ng-deep .stepper-box .mat-mdc-form-field-error {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #e11d48 !important;
+}
+
+/* Radio Card Row */
+.radio-card-row {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-  padding: 8px 0;
+  gap: 10px;
 }
 
-.radio-label {
+.radio-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-label-custom {
   font-size: 14px;
   font-weight: 600;
-  color: #334155;
+  color: #1e293b;
+}
+
+.label-subtext {
+  font-size: 12px;
+  color: #64748b;
 }
 
 .custom-radio-group {
   display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   Sub-sections & Dynamic Item Cards (Residences, Employers, Education)
+   ========================================================================== */
+.sub-section-box {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
-/* Dynamic Item Cards */
-.dynamic-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.sub-section-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
 }
 
-.item-card {
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  padding: 20px;
-  background-color: #f8fafc;
-}
-
-.item-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.item-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
+.sub-section-title {
+  font-size: 16px;
+  font-weight: 700;
   color: #1e293b;
-  font-size: 15px;
+  margin: 0 0 3px 0;
 }
 
-.item-title mat-icon {
-  color: #0b57d0;
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
-.add-button-row {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 8px;
-}
-
-/* Stepper Navigation */
-.stepper-navigation {
-  display: flex;
-  align-items: center;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
-}
-
-.nav-spacer {
-  flex: 1 1 auto;
-}
-
-/* Education Cards Container */
-.education-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* Document & Certification Boxes */
-.doc-upload-box,
-.certification-box {
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  padding: 24px;
-}
-
-.box-heading {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 17px;
-  font-weight: 600;
-  color: #0b57d0;
-  margin: 0 0 16px 0;
-}
-
-.legal-text {
-  background-color: #f8fafc;
-  border-left: 4px solid #0b57d0;
-  padding: 16px;
-  border-radius: 0 8px 8px 0;
-  margin-bottom: 20px;
-}
-
-.legal-text p {
-  color: #475569;
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0 0 8px 0;
-}
-
-.legal-text p:last-child {
-  margin-bottom: 0;
-}
-
-.acknowledgments {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.ack-checkbox {
-  font-size: 14px;
-  color: #1e293b;
-}
-
-/* Signature Drawing Canvas */
-.signature-drawing-area {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.signature-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sig-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.sig-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.sig-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #15803d;
-  background-color: #dcfce7;
-  padding: 4px 10px;
-  border-radius: 12px;
+.sub-section-desc {
   font-size: 13px;
-  font-weight: 600;
+  color: #64748b;
+  margin: 0;
 }
 
-.sig-status-badge mat-icon {
+.dynamic-entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.entry-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.entry-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.entry-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.entry-title-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #2563eb;
+}
+
+.btn-remove-entry {
+  font-size: 12.5px !important;
+  color: #dc2626 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 0 8px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.btn-remove-entry mat-icon {
   font-size: 16px;
   width: 16px;
   height: 16px;
 }
 
-.canvas-wrapper {
+.add-entry-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.btn-add-entry {
+  border: 1px dashed #2563eb !important;
+  color: #2563eb !important;
+  background-color: #eff6ff !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  padding: 6px 16px !important;
+}
+
+.btn-add-entry:hover {
+  background-color: #dbeafe !important;
+}
+
+.education-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Step 4: W-4 Upload & Certification Panels
+   ========================================================================== */
+.w4-upload-panel,
+.certification-panel {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.panel-icon {
+  color: #2563eb;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.panel-badge {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.badge-required {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.panel-desc {
+  font-size: 13.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+.legal-notice-callout {
+  background-color: #f8fafc;
+  border-left: 4px solid #2563eb;
+  border-radius: 0 8px 8px 0;
+  padding: 16px 18px;
+}
+
+.legal-notice-callout p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #334155;
+  margin: 0 0 10px 0;
+}
+
+.legal-notice-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.acknowledgment-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.custom-ack-checkbox {
+  font-size: 13.5px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+/* Digital Signature Canvas */
+.signature-capture-zone {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signature-zone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sig-prompt-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.sig-prompt-label mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #2563eb;
+}
+
+.sig-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sig-valid-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #dcfce7;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid #bbf7d0;
+}
+
+.sig-valid-pill mat-icon {
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.btn-clear-sig {
+  font-size: 12px !important;
+  padding: 0 12px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+  border-radius: 6px !important;
+}
+
+.btn-clear-sig mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.canvas-container-box {
   background: #ffffff;
   border: 2px dashed #94a3b8;
   border-radius: 8px;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   touch-action: none;
 }
 
-.signature-canvas {
+.signature-canvas-element {
   width: 100%;
   height: 160px;
   cursor: crosshair;
   display: block;
 }
 
-.canvas-hint {
+.canvas-help-text {
   font-size: 12px;
   color: #64748b;
   margin: 0;
 }
 
-.sig-error {
-  color: #b91c1c;
-  font-size: 13px;
-  margin-top: 4px;
+.canvas-sig-error {
+  font-size: 12px;
+  font-weight: 500;
+  color: #e11d48;
+  margin: 0;
 }
 
-/* Submit Action Box */
-.submit-action-box {
+/* ==========================================================================
+   Bottom Action Bar (Standardized Secondary Back & Primary Solid Blue Next)
+   ========================================================================== */
+.stepper-action-bar {
   display: flex;
   align-items: center;
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid #e2e8f0;
+  justify-content: space-between;
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid #f1f5f9;
+  gap: 16px;
 }
 
-.final-submit-btn {
-  padding: 12px 32px !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
+.action-bar-left {
+  display: flex;
+  align-items: center;
+}
+
+.step-guide-hint {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.action-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+/* Secondary Back Button */
+.btn-action-secondary {
+  background-color: #ffffff !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
   border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 8px 20px !important;
+  transition: all 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
 }
 
-/* Confirmation View */
+.btn-action-secondary:hover {
+  background-color: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.btn-action-secondary .icon-left {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Primary Solid Blue Next/Submit Button */
+.btn-action-primary {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 9px 24px !important;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25) !important;
+  transition: all 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.btn-action-primary:hover:not([disabled]) {
+  background-color: #1d4ed8 !important;
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3) !important;
+}
+
+.btn-action-primary .icon-right {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-action-primary .icon-left {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.btn-submit-complete {
+  padding: 10px 30px !important;
+  font-size: 15px !important;
+}
+
+/* ==========================================================================
+   Confirmation Card View
+   ========================================================================== */
 .confirmation-card {
   border-radius: 16px;
-  padding: 40px 32px;
+  padding: 44px 36px;
   text-align: center;
-  border: 1px solid #d3e3fd;
+  border: 1px solid #bfdbfe;
   background: #ffffff;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 .confirmation-header {
@@ -363,14 +861,15 @@
   font-size: 64px;
   width: 64px;
   height: 64px;
-  color: #16a34a;
+  color: #10b981;
 }
 
 .confirmation-header h2 {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 800;
   color: #0f172a;
   margin: 0;
+  letter-spacing: -0.4px;
 }
 
 .confirmation-text {
@@ -378,7 +877,7 @@
   font-size: 15px;
   max-width: 600px;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .confirmation-badge {
@@ -387,20 +886,22 @@
   gap: 8px;
   background-color: #f1f5f9;
   border: 1px solid #cbd5e1;
-  padding: 8px 16px;
-  border-radius: 24px;
+  padding: 8px 18px;
+  border-radius: 9999px;
   margin-top: 8px;
 }
 
 .badge-label {
   font-size: 13px;
   color: #64748b;
+  font-weight: 500;
 }
 
 .badge-number {
   font-size: 16px;
-  color: #0b57d0;
+  color: #2563eb;
   letter-spacing: 0.5px;
+  font-weight: 700;
 }
 
 .summary-section {
@@ -409,9 +910,9 @@
 }
 
 .summary-section h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1e293b;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
   margin-bottom: 16px;
 }
 
@@ -421,7 +922,7 @@
   gap: 16px;
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 20px;
 }
 
@@ -432,7 +933,7 @@
 }
 
 .item-label {
-  font-size: 12px;
+  font-size: 11.5px;
   color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -440,9 +941,9 @@
 }
 
 .item-value {
-  font-size: 15px;
+  font-size: 14.5px;
   color: #0f172a;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .signature-preview {
@@ -450,74 +951,142 @@
 }
 
 .signature-img-wrapper {
-  background: white;
+  background: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  padding: 8px;
+  padding: 10px;
   display: inline-block;
   margin-top: 8px;
 }
 
 .signature-img {
-  max-height: 80px;
+  max-height: 75px;
   display: block;
 }
 
 .confirmation-actions {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
   margin-top: 32px;
 }
 
-/* Responsive Breakpoints */
+.action-btn {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+}
+
+.action-primary {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
 @media (max-width: 840px) {
-  .fields-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
   .col-span-3 {
-    grid-column: span 2;
+    grid-column: span 2 / span 2;
+  }
+
+  .stepper-content-body {
+    padding: 24px 20px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .desktop-stepper-track {
+    display: none;
+  }
+
+  .mobile-stepper-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mobile-stepper-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-step-pill {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2563eb;
+    background-color: #eff6ff;
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+
+  .mobile-step-label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .mobile-track-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #e2e8f0;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .mobile-track-progress {
+    height: 100%;
+    background-color: #2563eb;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+  }
+
+  .stepper-header-bar {
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 640px) {
   .header-banner {
-    padding: 32px 16px;
+    padding: 32px 16px 48px 16px;
   }
 
   .banner-title {
-    font-size: 22px;
-    line-height: 1.25;
+    font-size: 24px;
   }
 
   .banner-subtitle {
-    font-size: 14px;
+    font-size: 13.5px;
   }
 
   .form-container {
-    margin: -16px auto 40px auto;
-    padding: 0 8px;
-    width: 100%;
+    margin: -24px auto 40px auto;
+    padding: 0 10px;
   }
 
-  .stepper-box {
+  .stepper-card-container {
     border-radius: 12px;
   }
 
-  .step-content {
-    padding: 16px 4px;
-    gap: 16px;
+  .stepper-content-body {
+    padding: 18px 14px;
   }
 
-  .fields-grid {
+  .grid-cols-2,
+  .grid-cols-3 {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
+  .col-span-1,
   .col-span-2,
   .col-span-3 {
-    grid-column: span 1;
+    grid-column: span 1 / span 1;
   }
 
   .summary-grid {
@@ -525,47 +1094,37 @@
     padding: 14px;
   }
 
-  .item-card {
-    padding: 14px 10px;
-  }
-
-  .doc-upload-box,
-  .certification-box {
+  .entry-card,
+  .sub-section-box,
+  .w4-upload-panel,
+  .certification-panel {
     padding: 16px 12px;
   }
 
-  .signature-top-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .sig-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .stepper-navigation,
-  .submit-action-box {
+  .stepper-action-bar {
     flex-direction: column-reverse;
-    gap: 10px;
-    margin-top: 16px;
+    gap: 12px;
+    align-items: stretch;
   }
 
-  .stepper-navigation button,
-  .submit-action-box button,
-  .final-submit-btn {
-    width: 100% !important;
-    text-align: center;
+  .action-bar-left,
+  .action-bar-right {
+    width: 100%;
     justify-content: center;
   }
 
-  .nav-spacer {
-    display: none;
+  .action-bar-right .btn-action-primary,
+  .action-bar-left .btn-action-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .step-guide-hint {
+    text-align: center;
   }
 
   .confirmation-card {
-    padding: 24px 12px;
+    padding: 24px 16px;
   }
 
   .confirmation-header h2 {
@@ -576,4 +1135,3 @@
     width: 100%;
   }
 }
-

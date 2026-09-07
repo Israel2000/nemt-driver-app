@@ -16,6 +16,7 @@ export const routes: Routes = [
   { path: 'driver/vault', component: DriverVaultComponent },
   { path: 'driver/dvir', component: DriverDvirComponent },
   { path: 'w4-upload', component: W4UploadComponent },
+  { path: 'w-4-upload', redirectTo: 'w4-upload', pathMatch: 'full' },
   { path: 'admin', component: AdminDashboardComponent, canActivate: [authGuard] },
   { path: 'access-denied', component: AccessDeniedComponent },
   { path: '**', redirectTo: '' }

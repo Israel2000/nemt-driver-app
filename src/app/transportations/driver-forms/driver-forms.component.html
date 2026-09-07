@@ -2,12 +2,12 @@
 <div class="header-banner">
   <div class="banner-content">
     <div class="banner-badge">
-      <mat-icon>local_hospital</mat-icon>
-      <span>NEMT Transportation Network</span>
+      <mat-icon>verified_user</mat-icon>
+      <span>NEMT Compliance &bull; Direct Carrier Intake</span>
     </div>
     <h1 class="banner-title">Driver Employment Application</h1>
     <p class="banner-subtitle">
-      Complete all steps to submit your application for the Non-Emergency Medical Transportation driver role.
+      Complete all 4 steps to submit your Driver Qualification File (DQF) for Non-Emergency Medical Transportation.
     </p>
   </div>
 </div>
@@ -19,10 +19,10 @@
       <mat-icon class="success-check-icon">check_circle</mat-icon>
       <h2>Application Submitted Successfully!</h2>
       <p class="confirmation-text">
-        Thank you for applying. Your application has been recorded and our onboarding team will review your qualifications.
+        Thank you for applying. Your application has been securely recorded and dispatched to our compliance and credentialing team.
       </p>
       <div class="confirmation-badge">
-        <span class="badge-label">Reference Number:</span>
+        <span class="badge-label">Confirmation Reference:</span>
         <strong class="badge-number">{{ confirmationNumber }}</strong>
       </div>
     </div>
@@ -33,33 +33,33 @@
       <h3>Application Summary</h3>
       <div class="summary-grid">
         <div class="summary-item">
-          <span class="item-label">Applicant Name:</span>
+          <span class="item-label">Applicant Name</span>
           <span class="item-value">{{ submittedData?.personal?.firstName }} {{ submittedData?.personal?.middleName }} {{ submittedData?.personal?.lastName }}</span>
         </div>
         <div class="summary-item">
-          <span class="item-label">Position Applied:</span>
+          <span class="item-label">Position Applied</span>
           <span class="item-value">{{ submittedData?.personal?.positionAppliedFor }}</span>
         </div>
         <div class="summary-item">
-          <span class="item-label">Contact Phone:</span>
+          <span class="item-label">Contact Phone</span>
           <span class="item-value">{{ submittedData?.personal?.phone }}</span>
         </div>
         <div class="summary-item">
-          <span class="item-label">Email Address:</span>
+          <span class="item-label">Email Address</span>
           <span class="item-value">{{ submittedData?.personal?.email }}</span>
         </div>
         <div class="summary-item">
-          <span class="item-label">Driver's License:</span>
-          <span class="item-value">{{ submittedData?.license?.state }} - {{ submittedData?.license?.licenseNumber }} ({{ submittedData?.license?.licenseClass }})</span>
+          <span class="item-label">Driver License</span>
+          <span class="item-value">{{ submittedData?.license?.state }} &bull; {{ submittedData?.license?.licenseNumber }} ({{ submittedData?.license?.licenseClass }})</span>
         </div>
         <div class="summary-item">
-          <span class="item-label">W-4 Attached:</span>
-          <span class="item-value">{{ submittedData?.documents?.w4FileName || 'None attached' }}</span>
+          <span class="item-label">W-4 Document</span>
+          <span class="item-value">{{ submittedData?.documents?.w4FileName || 'Not attached (Pending)' }}</span>
         </div>
       </div>
 
       <div *ngIf="submittedData?.certification?.signatureDataUrl" class="signature-preview">
-        <span class="item-label">Applicant Signature:</span>
+        <span class="item-label">Applicant Digital Signature</span>
         <div class="signature-img-wrapper">
           <img [src]="submittedData?.certification?.signatureDataUrl" alt="Applicant Signature" class="signature-img" />
         </div>
@@ -67,568 +67,752 @@
     </div>
 
     <div class="confirmation-actions">
-      <button mat-stroked-button color="primary" type="button" (click)="downloadApplicationSummary()">
+      <button mat-stroked-button color="primary" type="button" (click)="downloadApplicationSummary()" class="action-btn">
         <mat-icon>download</mat-icon> Download Copy (JSON)
       </button>
-      <button mat-stroked-button type="button" (click)="printApplication()">
+      <button mat-stroked-button type="button" (click)="printApplication()" class="action-btn">
         <mat-icon>print</mat-icon> Print Application
       </button>
-      <button mat-flat-button color="primary" type="button" (click)="startNewApplication()">
+      <button mat-flat-button color="primary" type="button" (click)="startNewApplication()" class="action-btn action-primary">
         <mat-icon>add_circle_outline</mat-icon> Start New Application
       </button>
     </div>
   </mat-card>
 
-  <!-- Application Stepper Form -->
-  <form *ngIf="!isSubmitted" [formGroup]="driverForm" (ngSubmit)="onSubmit()" class="application-form">
-    <mat-stepper #stepper [linear]="false" [orientation]="stepperOrientation" (selectionChange)="onStepChange($event)" class="stepper-box">
+  <!-- Application Stepper Card Container -->
+  <div *ngIf="!isSubmitted" class="stepper-card-container">
 
-      <!-- STEP 1: Personal & Residency -->
-      <mat-step [stepControl]="personalGroup" label="Personal & Residency">
-        <div class="step-content">
-          <div class="section-title-box">
-            <h2>Personal Information</h2>
-            <p>Please enter your contact details and identity information.</p>
-          </div>
+    <!-- Stepper Header -->
+    <div class="stepper-header-bar">
+      <!-- Desktop Stepper Progress Bar -->
+      <div class="desktop-stepper-track">
+        <ng-container *ngFor="let step of formSteps; let i = index; let last = last">
+          <!-- Step Node Button -->
+          <button
+            type="button"
+            class="step-node-btn"
+            (click)="goToStep(i, stepper)"
+            [attr.aria-label]="'Go to step ' + (i + 1) + ': ' + step.title"
+          >
+            <!-- Step Circle Indicator -->
+            <div
+              class="step-circle"
+              [ngClass]="{
+                'circle-active': stepper.selectedIndex === i,
+                'circle-completed': (isStepCompleted(i) || i < stepper.selectedIndex) && stepper.selectedIndex !== i,
+                'circle-inactive': stepper.selectedIndex !== i && !(isStepCompleted(i) || i < stepper.selectedIndex)
+              }"
+            >
+              <ng-container *ngIf="(isStepCompleted(i) || i < stepper.selectedIndex) && stepper.selectedIndex !== i">
+                <mat-icon class="circle-check-icon">check</mat-icon>
+              </ng-container>
+              <ng-container *ngIf="stepper.selectedIndex === i || (!(isStepCompleted(i) || i < stepper.selectedIndex) && stepper.selectedIndex !== i)">
+                <span>{{ i + 1 }}</span>
+              </ng-container>
+            </div>
 
-          <div formGroupName="personal" class="fields-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" placeholder="e.g. John" autocomplete="given-name" required />
-              <mat-error *ngIf="personalGroup.get('firstName')?.hasError('required')">
-                First name is required.
-              </mat-error>
-            </mat-form-field>
+            <!-- Step Title & Meta -->
+            <div class="step-text-meta">
+              <span class="step-num-badge" [ngClass]="{
+                'badge-active': stepper.selectedIndex === i,
+                'badge-completed': (isStepCompleted(i) || i < stepper.selectedIndex) && stepper.selectedIndex !== i,
+                'badge-inactive': stepper.selectedIndex !== i && !(isStepCompleted(i) || i < stepper.selectedIndex)
+              }">STEP {{ i + 1 }}</span>
+              <span class="step-name" [ngClass]="{
+                'name-active': stepper.selectedIndex === i,
+                'name-completed': (isStepCompleted(i) || i < stepper.selectedIndex) && stepper.selectedIndex !== i,
+                'name-inactive': stepper.selectedIndex !== i && !(isStepCompleted(i) || i < stepper.selectedIndex)
+              }">{{ step.title }}</span>
+              <span class="step-sub">{{ step.subtitle }}</span>
+            </div>
+          </button>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Middle Name</mat-label>
-              <input matInput formControlName="middleName" placeholder="e.g. A." autocomplete="additional-name" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" placeholder="e.g. Doe" autocomplete="family-name" required />
-              <mat-error *ngIf="personalGroup.get('lastName')?.hasError('required')">
-                Last name is required.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Phone Number</mat-label>
-              <input matInput formControlName="phone" type="tel" placeholder="(555) 000-0000" autocomplete="tel" required />
-              <mat-error *ngIf="personalGroup.get('phone')?.hasError('required')">
-                Phone number is required.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Email Address</mat-label>
-              <input matInput formControlName="email" type="email" placeholder="john.doe@example.com" autocomplete="email" required />
-              <mat-error *ngIf="personalGroup.get('email')?.hasError('required')">
-                Email is required.
-              </mat-error>
-              <mat-error *ngIf="personalGroup.get('email')?.hasError('email')">
-                Please enter a valid email address.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Date of Birth</mat-label>
-              <input matInput [matDatepicker]="dobPicker" formControlName="dob" placeholder="MM/DD/YYYY" required />
-              <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
-              <mat-datepicker #dobPicker></mat-datepicker>
-              <mat-error *ngIf="personalGroup.get('dob')?.hasError('required')">
-                Date of birth is required.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Social Security Number (SSN)</mat-label>
-              <input matInput formControlName="ssn" placeholder="XXX-XX-XXXX" required />
-              <mat-error *ngIf="personalGroup.get('ssn')?.hasError('required')">
-                SSN is required.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Date of Application</mat-label>
-              <input matInput [matDatepicker]="appDatePicker" formControlName="dateOfApplication" required />
-              <mat-datepicker-toggle matIconSuffix [for]="appDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #appDatePicker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Position Applied For</mat-label>
-              <input matInput formControlName="positionAppliedFor" required />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Available Start Date</mat-label>
-              <input matInput [matDatepicker]="startDatePicker" formControlName="availableStartDate" placeholder="MM/DD/YYYY" required />
-              <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-              <mat-error *ngIf="personalGroup.get('availableStartDate')?.hasError('required')">
-                Start date is required.
-              </mat-error>
-            </mat-form-field>
-
-            <div class="radio-group-container">
-              <label class="radio-label">Do you have legal right to work in the United States? *</label>
-              <mat-radio-group formControlName="legalRightToWork" class="custom-radio-group">
-                <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
-                <mat-radio-button value="no" color="warn">No</mat-radio-button>
-              </mat-radio-group>
+          <!-- Connecting Divider Line / Track -->
+          <div *ngIf="!last" class="step-connector-line">
+            <div class="track-bg">
+              <div
+                class="track-fill"
+                [class.fill-active]="i < stepper.selectedIndex || isStepCompleted(i)"
+              ></div>
             </div>
           </div>
+        </ng-container>
+      </div>
 
-          <!-- Previous Residences (Last 7 Years) -->
-          <div class="section-title-box subsection-title">
-            <h3>Previous Residences (Last 7 Years)</h3>
-            <p>Provide all addresses where you have resided in the past 7 years.</p>
-          </div>
+      <!-- Mobile Stepper Indicator -->
+      <div class="mobile-stepper-header">
+        <div class="mobile-stepper-meta">
+          <span class="mobile-step-pill">Step {{ stepper.selectedIndex + 1 }} of {{ formSteps.length }}</span>
+          <span class="mobile-step-label">{{ formSteps[stepper.selectedIndex].title }}</span>
+        </div>
+        <div class="mobile-track-bar">
+          <div
+            class="mobile-track-progress"
+            [style.width.%]="((stepper.selectedIndex + 1) / formSteps.length) * 100"
+          ></div>
+        </div>
+      </div>
+    </div>
 
-          <div formArrayName="residences" class="dynamic-list">
-            <mat-card
-              *ngFor="let res of residencesArray.controls; let i = index"
-              [formGroupName]="i"
-              class="item-card"
-            >
-              <div class="item-card-header">
-                <span class="item-title">
-                  <mat-icon>home</mat-icon>
-                  Residence #{{ i + 1 }} {{ i === 0 ? '(Current / Most Recent)' : '' }}
-                </span>
-                <button
-                  *ngIf="residencesArray.length > 1"
-                  mat-icon-button
-                  color="warn"
-                  type="button"
-                  (click)="removeResidence(i)"
-                  title="Remove this address"
-                >
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
+    <!-- Step Form Body -->
+    <div class="stepper-body">
+      <form [formGroup]="driverForm" (ngSubmit)="onSubmit()" class="application-form">
+        <mat-stepper #stepper [linear]="false" [orientation]="stepperOrientation" (selectionChange)="onStepChange($event)" class="stepper-box">
+
+          <!-- STEP 1: Personal & Residency -->
+          <mat-step [stepControl]="personalGroup" label="Personal & Residency">
+            <div class="step-content-pane">
+              <!-- Section Header -->
+              <div class="form-section-header">
+                <div class="header-icon-pill">
+                  <mat-icon>person</mat-icon>
+                </div>
+                <div>
+                  <h2 class="form-section-title">Personal Information</h2>
+                  <p class="form-section-desc">Please enter your legal identity, contact information, and residence history.</p>
+                </div>
               </div>
 
-              <div class="fields-grid">
-                <mat-form-field appearance="outline" class="col-span-2">
-                  <mat-label>Street Address</mat-label>
-                  <input matInput formControlName="street" placeholder="123 Main St, Apt 4" autocomplete="street-address" required />
+              <!-- Personal Fields Grid -->
+              <div formGroupName="personal" class="fields-grid grid-cols-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Name <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="firstName" placeholder="e.g. John" autocomplete="given-name" required />
+                  <mat-error *ngIf="personalGroup.get('firstName')?.hasError('required')">
+                    First name is required.
+                  </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                  <mat-label>City</mat-label>
-                  <input matInput formControlName="city" placeholder="City" autocomplete="address-level2" required />
+                  <mat-label>Middle Name</mat-label>
+                  <input matInput formControlName="middleName" placeholder="e.g. A." autocomplete="additional-name" />
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                  <mat-label>State</mat-label>
+                  <mat-label>Last Name <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="lastName" placeholder="e.g. Doe" autocomplete="family-name" required />
+                  <mat-error *ngIf="personalGroup.get('lastName')?.hasError('required')">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Phone Number <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="phone" type="tel" placeholder="(555) 000-0000" autocomplete="tel" required />
+                  <mat-error *ngIf="personalGroup.get('phone')?.hasError('required')">
+                    Phone number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Email Address <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="email" type="email" placeholder="john.doe@example.com" autocomplete="email" required />
+                  <mat-error *ngIf="personalGroup.get('email')?.hasError('required')">
+                    Email is required.
+                  </mat-error>
+                  <mat-error *ngIf="personalGroup.get('email')?.hasError('email')">
+                    Please enter a valid email address.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Date of Birth <span class="req-star">*</span></mat-label>
+                  <input matInput [matDatepicker]="dobPicker" formControlName="dob" placeholder="MM/DD/YYYY" required />
+                  <mat-datepicker-toggle matIconSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #dobPicker></mat-datepicker>
+                  <mat-error *ngIf="personalGroup.get('dob')?.hasError('required')">
+                    Date of birth is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Social Security Number (SSN) <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="ssn" placeholder="XXX-XX-XXXX" required />
+                  <mat-error *ngIf="personalGroup.get('ssn')?.hasError('required')">
+                    SSN is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Position Applied For <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="positionAppliedFor" required />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Available Start Date <span class="req-star">*</span></mat-label>
+                  <input matInput [matDatepicker]="startDatePicker" formControlName="availableStartDate" placeholder="MM/DD/YYYY" required />
+                  <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #startDatePicker></mat-datepicker>
+                  <mat-error *ngIf="personalGroup.get('availableStartDate')?.hasError('required')">
+                    Start date is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="hidden-field" style="display: none;">
+                  <mat-label>Date of Application</mat-label>
+                  <input matInput [matDatepicker]="appDatePicker" formControlName="dateOfApplication" />
+                  <mat-datepicker-toggle matIconSuffix [for]="appDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #appDatePicker></mat-datepicker>
+                </mat-form-field>
+
+                <div class="radio-card-row col-span-3">
+                  <div class="radio-card-header">
+                    <label class="form-label-custom">
+                      Do you have legal right to work in the United States? <span class="req-star">*</span>
+                    </label>
+                    <span class="label-subtext">Must provide Form I-9 verification upon onboarding</span>
+                  </div>
+                  <mat-radio-group formControlName="legalRightToWork" class="custom-radio-group">
+                    <mat-radio-button value="yes" color="primary">Yes, authorized to work</mat-radio-button>
+                    <mat-radio-button value="no" color="warn">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+
+              <!-- Previous Residences (Last 7 Years) -->
+              <div class="sub-section-box">
+                <div class="sub-section-header">
+                  <div>
+                    <h3 class="sub-section-title">Previous Residences (Past 7 Years)</h3>
+                    <p class="sub-section-desc">Provide all residential addresses where you have lived during the past 7 years for background verification.</p>
+                  </div>
+                </div>
+
+                <div formArrayName="residences" class="dynamic-entries-list">
+                  <div
+                    *ngFor="let res of residencesArray.controls; let i = index"
+                    [formGroupName]="i"
+                    class="entry-card"
+                  >
+                    <div class="entry-card-header">
+                      <div class="entry-card-title">
+                        <mat-icon class="entry-title-icon">home</mat-icon>
+                        <span>Residence #{{ i + 1 }} {{ i === 0 ? '(Current / Most Recent)' : '' }}</span>
+                      </div>
+                      <button
+                        *ngIf="residencesArray.length > 1"
+                        mat-button
+                        color="warn"
+                        type="button"
+                        (click)="removeResidence(i)"
+                        class="btn-remove-entry"
+                        title="Remove this address"
+                      >
+                        <mat-icon>delete_outline</mat-icon>
+                        <span>Remove</span>
+                      </button>
+                    </div>
+
+                    <div class="fields-grid grid-cols-3">
+                      <mat-form-field appearance="outline" class="col-span-2">
+                        <mat-label>Street Address <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="street" placeholder="123 Main St, Apt 4" autocomplete="street-address" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>City <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="city" placeholder="City" autocomplete="address-level2" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>State <span class="req-star">*</span></mat-label>
+                        <mat-select formControlName="state" required>
+                          <mat-option *ngFor="let state of usStates" [value]="state">{{ state }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Zip Code <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="zipCode" placeholder="12345" autocomplete="postal-code" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Years at Address <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="yearsAtAddress" type="number" placeholder="e.g. 3" required />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="add-entry-row">
+                    <button mat-stroked-button color="primary" type="button" (click)="addResidence()" class="btn-add-entry">
+                      <mat-icon>add</mat-icon>
+                      <span>Add Another Residence</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Action Bar -->
+              <div class="stepper-action-bar">
+                <div class="action-bar-left">
+                  <span class="step-guide-hint">Step 1 of 4: Personal & Residency</span>
+                </div>
+                <div class="action-bar-right">
+                  <button mat-flat-button color="primary" type="button" matStepperNext class="btn-action-primary">
+                    <span>Continue: Driver License</span>
+                    <mat-icon class="icon-right">arrow_forward</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-step>
+
+          <!-- STEP 2: Driver's License -->
+          <mat-step [stepControl]="licenseGroup" label="Driver License">
+            <div class="step-content-pane">
+              <!-- Section Header -->
+              <div class="form-section-header">
+                <div class="header-icon-pill">
+                  <mat-icon>badge</mat-icon>
+                </div>
+                <div>
+                  <h2 class="form-section-title">Driver License Information</h2>
+                  <p class="form-section-desc">A valid operator license and clean Motor Vehicle Record (MVR) are required for NEMT compliance.</p>
+                </div>
+              </div>
+
+              <!-- License Grid -->
+              <div formGroupName="license" class="fields-grid grid-cols-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Issuing State <span class="req-star">*</span></mat-label>
                   <mat-select formControlName="state" required>
                     <mat-option *ngFor="let state of usStates" [value]="state">{{ state }}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="licenseGroup.get('state')?.hasError('required')">
+                    Issuing state is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Driver License Number <span class="req-star">*</span></mat-label>
+                  <input matInput formControlName="licenseNumber" placeholder="Enter License #" required />
+                  <mat-error *ngIf="licenseGroup.get('licenseNumber')?.hasError('required')">
+                    License number is required.
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>License Class / Type <span class="req-star">*</span></mat-label>
+                  <mat-select formControlName="licenseClass" required>
+                    <mat-option value="Class C (Standard)">Class C (Standard Operator)</mat-option>
+                    <mat-option value="Class A (CDL)">Class A (Commercial)</mat-option>
+                    <mat-option value="Class B (CDL)">Class B (Commercial)</mat-option>
+                    <mat-option value="Class D">Class D</mat-option>
+                    <mat-option value="Other">Other</mat-option>
                   </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                  <mat-label>Zip Code</mat-label>
-                  <input matInput formControlName="zipCode" placeholder="12345" autocomplete="postal-code" required />
+                  <mat-label>Expiration Date <span class="req-star">*</span></mat-label>
+                  <input matInput [matDatepicker]="expDatePicker" formControlName="expirationDate" placeholder="MM/DD/YYYY" required />
+                  <mat-datepicker-toggle matIconSuffix [for]="expDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #expDatePicker></mat-datepicker>
+                  <mat-error *ngIf="licenseGroup.get('expirationDate')?.hasError('required')">
+                    Expiration date is required.
+                  </mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                  <mat-label>Years at Address</mat-label>
-                  <input matInput formControlName="yearsAtAddress" type="number" placeholder="e.g. 2" required />
-                </mat-form-field>
-              </div>
-            </mat-card>
+                <div class="radio-card-row col-span-2">
+                  <div class="radio-card-header">
+                    <label class="form-label-custom">
+                      Have you ever had your driver's license suspended or revoked in the past 5 years? <span class="req-star">*</span>
+                    </label>
+                    <span class="label-subtext">Subject to official MVR validation</span>
+                  </div>
+                  <mat-radio-group formControlName="hasSuspensions" class="custom-radio-group">
+                    <mat-radio-button value="no" color="primary">No, clean driving record</mat-radio-button>
+                    <mat-radio-button value="yes" color="warn">Yes, past suspension or revocation</mat-radio-button>
+                  </mat-radio-group>
+                </div>
 
-            <div class="add-button-row">
-              <button mat-stroked-button color="primary" type="button" (click)="addResidence()">
-                <mat-icon>add</mat-icon> Add Another Residence
-              </button>
-            </div>
-          </div>
-
-          <div class="stepper-navigation">
-            <span class="nav-spacer"></span>
-            <button mat-flat-button color="primary" type="button" matStepperNext>
-              Next: License Information <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-step>
-
-      <!-- STEP 2: Driver's License -->
-      <mat-step [stepControl]="licenseGroup" label="Driver License">
-        <div class="step-content">
-          <div class="section-title-box">
-            <h2>Driver License Information</h2>
-            <p>A valid driver's license with an acceptable driving record is required for all NEMT driver roles.</p>
-          </div>
-
-          <div formGroupName="license" class="fields-grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Issuing State</mat-label>
-              <mat-select formControlName="state" required>
-                <mat-option *ngFor="let state of usStates" [value]="state">{{ state }}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="licenseGroup.get('state')?.hasError('required')">
-                State is required.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Driver License #</mat-label>
-              <input matInput formControlName="licenseNumber" placeholder="Enter License Number" required />
-              <mat-error *ngIf="licenseGroup.get('licenseNumber')?.hasError('required')">
-                License number is required.
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Type / Class</mat-label>
-              <mat-select formControlName="licenseClass" required>
-                <mat-option value="Class C (Standard)">Class C (Standard Operator)</mat-option>
-                <mat-option value="Class A (CDL)">Class A (Commercial)</mat-option>
-                <mat-option value="Class B (CDL)">Class B (Commercial)</mat-option>
-                <mat-option value="Class D">Class D</mat-option>
-                <mat-option value="Other">Other</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Expiration Date</mat-label>
-              <input matInput [matDatepicker]="expDatePicker" formControlName="expirationDate" placeholder="MM/DD/YYYY" required />
-              <mat-datepicker-toggle matIconSuffix [for]="expDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #expDatePicker></mat-datepicker>
-              <mat-error *ngIf="licenseGroup.get('expirationDate')?.hasError('required')">
-                Expiration date is required.
-              </mat-error>
-            </mat-form-field>
-
-            <div class="radio-group-container col-span-3">
-              <label class="radio-label">Have you ever had your driver's license suspended or revoked in the past 5 years? *</label>
-              <mat-radio-group formControlName="hasSuspensions" class="custom-radio-group">
-                <mat-radio-button value="no" color="primary">No</mat-radio-button>
-                <mat-radio-button value="yes" color="warn">Yes</mat-radio-button>
-              </mat-radio-group>
-            </div>
-
-            <mat-form-field
-              *ngIf="licenseGroup.get('hasSuspensions')?.value === 'yes'"
-              appearance="outline"
-              class="col-span-3"
-            >
-              <mat-label>Please explain suspension circumstances and dates</mat-label>
-              <textarea matInput formControlName="suspensionDetails" rows="3"></textarea>
-            </mat-form-field>
-          </div>
-
-          <div class="stepper-navigation">
-            <button mat-stroked-button type="button" matStepperPrevious>
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <span class="nav-spacer"></span>
-            <button mat-flat-button color="primary" type="button" matStepperNext>
-              Next: Employment & Education <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-step>
-
-      <!-- STEP 3: Employment & Education -->
-      <mat-step [stepControl]="educationGroup" label="Work & Education">
-        <div class="step-content">
-          <div class="section-title-box">
-            <h2>Employment History (Past 7 Years)</h2>
-            <p>List your employment history starting with your present or most recent employer.</p>
-          </div>
-
-          <div formArrayName="employment" class="dynamic-list">
-            <mat-card
-              *ngFor="let emp of employmentArray.controls; let i = index"
-              [formGroupName]="i"
-              class="item-card"
-            >
-              <div class="item-card-header">
-                <span class="item-title">
-                  <mat-icon>work</mat-icon>
-                  Employer #{{ i + 1 }} {{ i === 0 ? '(Most Recent)' : '' }}
-                </span>
-                <button
-                  *ngIf="employmentArray.length > 1"
-                  mat-icon-button
-                  color="warn"
-                  type="button"
-                  (click)="removeEmployment(i)"
-                  title="Remove this employer"
+                <mat-form-field
+                  *ngIf="licenseGroup.get('hasSuspensions')?.value === 'yes'"
+                  appearance="outline"
+                  class="col-span-2"
                 >
-                  <mat-icon>delete_outline</mat-icon>
-                </button>
-              </div>
-
-              <div class="fields-grid">
-                <mat-form-field appearance="outline">
-                  <mat-label>Employer / Company Name</mat-label>
-                  <input matInput formControlName="companyName" placeholder="Company Name" required />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Position Held</mat-label>
-                  <input matInput formControlName="position" placeholder="Job Title" required />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Phone Number</mat-label>
-                  <input matInput formControlName="phone" placeholder="(555) 000-0000" />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Company Address</mat-label>
-                  <input matInput formControlName="address" placeholder="City, State" />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>From Date</mat-label>
-                  <input matInput formControlName="fromDate" placeholder="MM/YYYY" required />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>To Date</mat-label>
-                  <input matInput formControlName="toDate" placeholder="MM/YYYY or Present" required />
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="col-span-3">
-                  <mat-label>Reason for Leaving</mat-label>
-                  <input matInput formControlName="reasonForLeaving" placeholder="e.g. Career advancement, relocation" />
+                  <mat-label>Suspension Circumstances & Dates <span class="req-star">*</span></mat-label>
+                  <textarea matInput formControlName="suspensionDetails" rows="3" placeholder="Provide detailed explanation including incident dates and reinstatement details..."></textarea>
                 </mat-form-field>
               </div>
-            </mat-card>
 
-            <div class="add-button-row">
-              <button mat-stroked-button color="primary" type="button" (click)="addEmployment()">
-                <mat-icon>add</mat-icon> Add Another Employer
-              </button>
-            </div>
-          </div>
-
-          <!-- Education Section -->
-          <div class="section-title-box subsection-title">
-            <h3>Educational Background</h3>
-            <p>Provide your education history.</p>
-          </div>
-
-          <div formGroupName="education" class="education-container">
-            <!-- High School -->
-            <mat-card class="item-card">
-              <div class="item-card-header">
-                <span class="item-title"><mat-icon>school</mat-icon> High School</span>
-              </div>
-              <div class="fields-grid">
-                <mat-form-field appearance="outline" class="col-span-2">
-                  <mat-label>School Name & Location</mat-label>
-                  <input matInput formControlName="highSchoolName" placeholder="High School Name, City, State" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Course of Study</mat-label>
-                  <input matInput formControlName="highSchoolCourse" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Years Completed</mat-label>
-                  <input matInput formControlName="highSchoolYears" />
-                </mat-form-field>
-                <div class="radio-group-container">
-                  <label class="radio-label">Graduated?</label>
-                  <mat-radio-group formControlName="highSchoolGraduated" class="custom-radio-group">
-                    <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
-                    <mat-radio-button value="no">No</mat-radio-button>
-                  </mat-radio-group>
+              <!-- Bottom Action Bar -->
+              <div class="stepper-action-bar">
+                <div class="action-bar-left">
+                  <button mat-stroked-button type="button" matStepperPrevious class="btn-action-secondary">
+                    <mat-icon class="icon-left">arrow_back</mat-icon>
+                    <span>Back: Personal Info</span>
+                  </button>
                 </div>
-              </div>
-            </mat-card>
-
-            <!-- College -->
-            <mat-card class="item-card">
-              <div class="item-card-header">
-                <span class="item-title"><mat-icon>account_balance</mat-icon> College / University</span>
-              </div>
-              <div class="fields-grid">
-                <mat-form-field appearance="outline" class="col-span-2">
-                  <mat-label>College Name & Location</mat-label>
-                  <input matInput formControlName="collegeName" placeholder="College or University Name, City, State" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Major / Course of Study</mat-label>
-                  <input matInput formControlName="collegeCourse" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Years Completed</mat-label>
-                  <input matInput formControlName="collegeYears" />
-                </mat-form-field>
-                <div class="radio-group-container">
-                  <label class="radio-label">Graduated?</label>
-                  <mat-radio-group formControlName="collegeGraduated" class="custom-radio-group">
-                    <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
-                    <mat-radio-button value="no">No</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-              </div>
-            </mat-card>
-
-            <!-- Trade / Other -->
-            <mat-card class="item-card">
-              <div class="item-card-header">
-                <span class="item-title"><mat-icon>badge</mat-icon> Trade / Vocational / Certifications</span>
-              </div>
-              <div class="fields-grid">
-                <mat-form-field appearance="outline" class="col-span-2">
-                  <mat-label>Institution Name & Location</mat-label>
-                  <input matInput formControlName="otherSchoolName" placeholder="Technical School or Training Center" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Certification / Course</mat-label>
-                  <input matInput formControlName="otherSchoolCourse" />
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                  <mat-label>Years / Hours Completed</mat-label>
-                  <input matInput formControlName="otherSchoolYears" />
-                </mat-form-field>
-                <div class="radio-group-container">
-                  <label class="radio-label">Completed?</label>
-                  <mat-radio-group formControlName="otherSchoolGraduated" class="custom-radio-group">
-                    <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
-                    <mat-radio-button value="no">No</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-              </div>
-            </mat-card>
-          </div>
-
-          <div class="stepper-navigation">
-            <button mat-stroked-button type="button" matStepperPrevious>
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <span class="nav-spacer"></span>
-            <button mat-flat-button color="primary" type="button" matStepperNext>
-              Next: W-4 & Signature <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-step>
-
-      <!-- STEP 4: W-4 Upload & Digital Signature -->
-      <mat-step [stepControl]="certificationGroup" label="W-4 & Signature">
-        <div class="step-content">
-          <!-- W-4 Section -->
-          <div class="section-title-box">
-            <h2>W-4 Document & Final Certification</h2>
-            <p>Upload your W-4 tax document and electronically sign your application.</p>
-          </div>
-
-          <mat-card class="doc-upload-box">
-            <h3 class="box-heading">
-              <mat-icon>attachment</mat-icon> Step 1: Upload Form W-4 (Optional at this stage)
-            </h3>
-            <app-w4-upload
-              [standaloneMode]="false"
-              (fileUploaded)="onW4Uploaded($event)"
-              (fileRemoved)="onW4Removed()"
-            ></app-w4-upload>
-          </mat-card>
-
-          <!-- Applicant Certification -->
-          <mat-card class="certification-box" formGroupName="certification">
-            <h3 class="box-heading">
-              <mat-icon>draw</mat-icon> Step 2: Certification & Digital Signature
-            </h3>
-            <div class="legal-text">
-              <p>
-                <strong>Applicant Agreement:</strong> I certify that this application was completed by me, and that all entries on it and information in it are true, correct, and complete to the best of my knowledge.
-              </p>
-              <p>
-                I authorize this company and its designated agents to make such investigations and inquiries of my personal, employment, driving record, financial, or medical history and other related matters as may be necessary in arriving at an employment decision.
-              </p>
-            </div>
-
-            <div class="acknowledgments">
-              <mat-checkbox formControlName="certifyTrue" color="primary" required class="ack-checkbox">
-                I certify under penalty of perjury that all information provided is accurate and truthful. *
-              </mat-checkbox>
-              <mat-checkbox formControlName="authorizeInvestigation" color="primary" required class="ack-checkbox">
-                I authorize background, driving record (MVR), and reference inquiries. *
-              </mat-checkbox>
-            </div>
-
-            <div class="signature-drawing-area">
-              <div class="signature-top-bar">
-                <label class="sig-label">
-                  <mat-icon>edit</mat-icon> Draw Your Digital Signature Below: *
-                </label>
-                <div class="sig-actions">
-                  <span *ngIf="hasSignature" class="sig-status-badge">
-                    <mat-icon>check</mat-icon> Signed
-                  </span>
-                  <button mat-stroked-button color="warn" type="button" (click)="clearSignature()">
-                    <mat-icon>refresh</mat-icon> Clear Signature
+                <div class="action-bar-right">
+                  <button mat-flat-button color="primary" type="button" matStepperNext class="btn-action-primary">
+                    <span>Continue: Work & Education</span>
+                    <mat-icon class="icon-right">arrow_forward</mat-icon>
                   </button>
                 </div>
               </div>
+            </div>
+          </mat-step>
 
-              <div class="canvas-wrapper">
-                <canvas
-                  #signatureCanvas
-                  class="signature-canvas"
-                  (mousedown)="startDrawing($event)"
-                  (mousemove)="draw($event)"
-                  (mouseup)="stopDrawing()"
-                  (mouseleave)="stopDrawing()"
-                  (touchstart)="startDrawing($event)"
-                  (touchmove)="draw($event)"
-                  (touchend)="stopDrawing()"
-                ></canvas>
+          <!-- STEP 3: Employment & Education -->
+          <mat-step [stepControl]="educationGroup" label="Work & Education">
+            <div class="step-content-pane">
+              <!-- Section Header -->
+              <div class="form-section-header">
+                <div class="header-icon-pill">
+                  <mat-icon>work</mat-icon>
+                </div>
+                <div>
+                  <h2 class="form-section-title">Employment & Education History</h2>
+                  <p class="form-section-desc">Record your recent employment history and educational background for credentialing.</p>
+                </div>
               </div>
-              <p class="canvas-hint">Use your mouse, trackpad, or finger (on touch devices) to sign your name above.</p>
-              <mat-error *ngIf="certificationGroup.get('signatureDataUrl')?.touched && !hasSignature" class="sig-error">
-                Please sign in the signature pad above.
-              </mat-error>
+
+              <!-- Employment History -->
+              <div class="sub-section-box">
+                <div class="sub-section-header">
+                  <div>
+                    <h3 class="sub-section-title">Employment History (Past 7 Years)</h3>
+                    <p class="sub-section-desc">List your employment starting with your present or most recent employer.</p>
+                  </div>
+                </div>
+
+                <div formArrayName="employment" class="dynamic-entries-list">
+                  <div
+                    *ngFor="let emp of employmentArray.controls; let i = index"
+                    [formGroupName]="i"
+                    class="entry-card"
+                  >
+                    <div class="entry-card-header">
+                      <div class="entry-card-title">
+                        <mat-icon class="entry-title-icon">business</mat-icon>
+                        <span>Employer #{{ i + 1 }} {{ i === 0 ? '(Most Recent / Present)' : '' }}</span>
+                      </div>
+                      <button
+                        *ngIf="employmentArray.length > 1"
+                        mat-button
+                        color="warn"
+                        type="button"
+                        (click)="removeEmployment(i)"
+                        class="btn-remove-entry"
+                        title="Remove this employer"
+                      >
+                        <mat-icon>delete_outline</mat-icon>
+                        <span>Remove</span>
+                      </button>
+                    </div>
+
+                    <div class="fields-grid grid-cols-3">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Employer / Company Name <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="companyName" placeholder="Company Name" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Position Held <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="position" placeholder="e.g. Driver, Courier" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phone" placeholder="(555) 000-0000" />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Company Address</mat-label>
+                        <input matInput formControlName="address" placeholder="City, State" />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>From Date <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="fromDate" placeholder="MM/YYYY" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>To Date <span class="req-star">*</span></mat-label>
+                        <input matInput formControlName="toDate" placeholder="MM/YYYY or Present" required />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="col-span-3">
+                        <mat-label>Reason for Leaving</mat-label>
+                        <input matInput formControlName="reasonForLeaving" placeholder="e.g. Career advancement, relocated, contract completed" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="add-entry-row">
+                    <button mat-stroked-button color="primary" type="button" (click)="addEmployment()" class="btn-add-entry">
+                      <mat-icon>add</mat-icon>
+                      <span>Add Another Employer</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Education Section -->
+              <div class="sub-section-box">
+                <div class="sub-section-header">
+                  <div>
+                    <h3 class="sub-section-title">Educational Background</h3>
+                    <p class="sub-section-desc">Provide educational institutions attended and credentials attained.</p>
+                  </div>
+                </div>
+
+                <div formGroupName="education" class="education-cards-grid">
+                  <!-- High School Card -->
+                  <div class="entry-card">
+                    <div class="entry-card-header">
+                      <div class="entry-card-title">
+                        <mat-icon class="entry-title-icon">school</mat-icon>
+                        <span>High School Education</span>
+                      </div>
+                    </div>
+                    <div class="fields-grid grid-cols-2">
+                      <mat-form-field appearance="outline" class="col-span-2">
+                        <mat-label>School Name & Location</mat-label>
+                        <input matInput formControlName="highSchoolName" placeholder="High School Name, City, State" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Course of Study</mat-label>
+                        <input matInput formControlName="highSchoolCourse" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Years Completed</mat-label>
+                        <input matInput formControlName="highSchoolYears" />
+                      </mat-form-field>
+                      <div class="radio-card-row col-span-2">
+                        <label class="form-label-custom">Graduated / Received Diploma?</label>
+                        <mat-radio-group formControlName="highSchoolGraduated" class="custom-radio-group">
+                          <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                          <mat-radio-button value="no">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- College Card -->
+                  <div class="entry-card">
+                    <div class="entry-card-header">
+                      <div class="entry-card-title">
+                        <mat-icon class="entry-title-icon">account_balance</mat-icon>
+                        <span>College or University (Optional)</span>
+                      </div>
+                    </div>
+                    <div class="fields-grid grid-cols-2">
+                      <mat-form-field appearance="outline" class="col-span-2">
+                        <mat-label>College Name & Location</mat-label>
+                        <input matInput formControlName="collegeName" placeholder="College Name, City, State" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Major / Course of Study</mat-label>
+                        <input matInput formControlName="collegeCourse" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Years Completed</mat-label>
+                        <input matInput formControlName="collegeYears" />
+                      </mat-form-field>
+                      <div class="radio-card-row col-span-2">
+                        <label class="form-label-custom">Degree Received?</label>
+                        <mat-radio-group formControlName="collegeGraduated" class="custom-radio-group">
+                          <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                          <mat-radio-button value="no">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Trade / Certifications -->
+                  <div class="entry-card">
+                    <div class="entry-card-header">
+                      <div class="entry-card-title">
+                        <mat-icon class="entry-title-icon">workspace_premium</mat-icon>
+                        <span>Trade, Vocational, or Certifications (Optional)</span>
+                      </div>
+                    </div>
+                    <div class="fields-grid grid-cols-2">
+                      <mat-form-field appearance="outline" class="col-span-2">
+                        <mat-label>Institution Name & Location</mat-label>
+                        <input matInput formControlName="otherSchoolName" placeholder="Technical School or Training Center" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Certification / Course</mat-label>
+                        <input matInput formControlName="otherSchoolCourse" placeholder="e.g. CPR/First Aid, Defensive Driving" />
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <mat-label>Hours / Years Completed</mat-label>
+                        <input matInput formControlName="otherSchoolYears" />
+                      </mat-form-field>
+                      <div class="radio-card-row col-span-2">
+                        <label class="form-label-custom">Certificate Awarded?</label>
+                        <mat-radio-group formControlName="otherSchoolGraduated" class="custom-radio-group">
+                          <mat-radio-button value="yes" color="primary">Yes</mat-radio-button>
+                          <mat-radio-button value="no">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Action Bar -->
+              <div class="stepper-action-bar">
+                <div class="action-bar-left">
+                  <button mat-stroked-button type="button" matStepperPrevious class="btn-action-secondary">
+                    <mat-icon class="icon-left">arrow_back</mat-icon>
+                    <span>Back: Driver License</span>
+                  </button>
+                </div>
+                <div class="action-bar-right">
+                  <button mat-flat-button color="primary" type="button" matStepperNext class="btn-action-primary">
+                    <span>Continue: W-4 & Signature</span>
+                    <mat-icon class="icon-right">arrow_forward</mat-icon>
+                  </button>
+                </div>
+              </div>
             </div>
+          </mat-step>
 
-            <div class="fields-grid" style="margin-top: 24px;">
-              <mat-form-field appearance="outline">
-                <mat-label>Printed Full Name</mat-label>
-                <input matInput formControlName="printedName" placeholder="Full Legal Name" required />
-                <mat-error *ngIf="certificationGroup.get('printedName')?.hasError('required')">
-                  Printed name is required.
-                </mat-error>
-              </mat-form-field>
+          <!-- STEP 4: W-4 Upload & Digital Signature -->
+          <mat-step [stepControl]="certificationGroup" label="W-4 & Signature">
+            <div class="step-content-pane">
+              <!-- Section Header -->
+              <div class="form-section-header">
+                <div class="header-icon-pill">
+                  <mat-icon>draw</mat-icon>
+                </div>
+                <div>
+                  <h2 class="form-section-title">W-4 Document & Final Certification</h2>
+                  <p class="form-section-desc">Attach withholding forms and review legal disclosures before signing.</p>
+                </div>
+              </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Date Signed</mat-label>
-                <input matInput [matDatepicker]="sigDatePicker" formControlName="signatureDate" required />
-                <mat-datepicker-toggle matIconSuffix [for]="sigDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #sigDatePicker></mat-datepicker>
-              </mat-form-field>
+              <!-- Form W-4 Upload Box -->
+              <div class="w4-upload-panel">
+                <div class="panel-header">
+                  <div class="panel-title">
+                    <mat-icon class="panel-icon">attach_file</mat-icon>
+                    <span>Form W-4 Withholding (Optional at this stage)</span>
+                  </div>
+                  <span class="panel-badge">Tax Compliance</span>
+                </div>
+                <p class="panel-desc">You may upload your signed IRS Form W-4 now, or provide it during carrier onboarding.</p>
+                <app-w4-upload
+                  [standaloneMode]="false"
+                  (fileUploaded)="onW4Uploaded($event)"
+                  (fileRemoved)="onW4Removed()"
+                ></app-w4-upload>
+              </div>
+
+              <!-- Digital Signature & Certification Box -->
+              <div class="certification-panel" formGroupName="certification">
+                <div class="panel-header">
+                  <div class="panel-title">
+                    <mat-icon class="panel-icon">history_edu</mat-icon>
+                    <span>Legal Disclosures & Applicant Certification</span>
+                  </div>
+                  <span class="panel-badge badge-required">Mandatory Sign-off</span>
+                </div>
+
+                <div class="legal-notice-callout">
+                  <p>
+                    <strong>Applicant Truthfulness Certification:</strong> I certify that all statements made on this application are true, correct, and complete to the best of my knowledge. I understand that false, misleading, or omitted information may result in disqualification or immediate termination.
+                  </p>
+                  <p>
+                    <strong>Fair Credit Reporting Act & MVR Authorization:</strong> I authorize the carrier and its screening partners to conduct comprehensive background checks including county, state, and federal criminal history, sex offender registries, OIG/SAM exclusion databases, and commercial/personal Motor Vehicle Records (MVR).
+                  </p>
+                </div>
+
+                <div class="acknowledgment-checkboxes">
+                  <mat-checkbox formControlName="certifyTrue" color="primary" required class="custom-ack-checkbox">
+                    <span>I certify under penalty of perjury that all information provided in this application is accurate and truthful.</span> <span class="req-star">*</span>
+                  </mat-checkbox>
+                  <mat-checkbox formControlName="authorizeInvestigation" color="primary" required class="custom-ack-checkbox">
+                    <span>I authorize full background screening, MVR verification, and employment reference inquiries.</span> <span class="req-star">*</span>
+                  </mat-checkbox>
+                </div>
+
+                <!-- Signature Pad -->
+                <div class="signature-capture-zone">
+                  <div class="signature-zone-header">
+                    <label class="sig-prompt-label">
+                      <mat-icon>gesture</mat-icon>
+                      <span>Draw Your Digital Signature Below:</span>
+                      <span class="req-star">*</span>
+                    </label>
+                    <div class="sig-controls">
+                      <span *ngIf="hasSignature" class="sig-valid-pill">
+                        <mat-icon>check_circle</mat-icon> Signature Recorded
+                      </span>
+                      <button mat-stroked-button color="warn" type="button" (click)="clearSignature()" class="btn-clear-sig">
+                        <mat-icon>refresh</mat-icon> Clear & Redraw
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="canvas-container-box">
+                    <canvas
+                      #signatureCanvas
+                      class="signature-canvas-element"
+                      (mousedown)="startDrawing($event)"
+                      (mousemove)="draw($event)"
+                      (mouseup)="stopDrawing()"
+                      (mouseleave)="stopDrawing()"
+                      (touchstart)="startDrawing($event)"
+                      (touchmove)="draw($event)"
+                      (touchend)="stopDrawing()"
+                    ></canvas>
+                  </div>
+                  <p class="canvas-help-text">Use your mouse, stylus, or fingertip to sign within the designated box above.</p>
+                  <mat-error *ngIf="certificationGroup.get('signatureDataUrl')?.touched && !hasSignature" class="canvas-sig-error">
+                    Signature is mandatory to complete application submission.
+                  </mat-error>
+                </div>
+
+                <!-- Printed Name & Date -->
+                <div class="fields-grid grid-cols-2" style="margin-top: 24px;">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Printed Full Legal Name <span class="req-star">*</span></mat-label>
+                    <input matInput formControlName="printedName" placeholder="Full Legal Name" required />
+                    <mat-error *ngIf="certificationGroup.get('printedName')?.hasError('required')">
+                      Printed name is required.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Date of Signature <span class="req-star">*</span></mat-label>
+                    <input matInput [matDatepicker]="sigDatePicker" formControlName="signatureDate" required />
+                    <mat-datepicker-toggle matIconSuffix [for]="sigDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #sigDatePicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Bottom Action Bar -->
+              <div class="stepper-action-bar">
+                <div class="action-bar-left">
+                  <button mat-stroked-button type="button" matStepperPrevious class="btn-action-secondary">
+                    <mat-icon class="icon-left">arrow_back</mat-icon>
+                    <span>Back: Work & Education</span>
+                  </button>
+                </div>
+                <div class="action-bar-right">
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    type="submit"
+                    class="btn-action-primary btn-submit-complete"
+                    [disabled]="driverForm.invalid"
+                  >
+                    <mat-icon class="icon-left">send</mat-icon>
+                    <span>Submit Complete Application</span>
+                  </button>
+                </div>
+              </div>
             </div>
-          </mat-card>
+          </mat-step>
 
-          <!-- Submit Buttons -->
-          <div class="submit-action-box">
-            <button mat-stroked-button type="button" matStepperPrevious>
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <span class="nav-spacer"></span>
-            <button
-              mat-flat-button
-              color="primary"
-              type="submit"
-              class="final-submit-btn"
-              [disabled]="driverForm.invalid"
-            >
-              <mat-icon>send</mat-icon> Submit Complete Application
-            </button>
-          </div>
-        </div>
-      </mat-step>
+        </mat-stepper>
+      </form>
+    </div>
 
-    </mat-stepper>
-  </form>
+  </div>
 </div>
-

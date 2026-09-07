@@ -61,4 +61,42 @@ describe('DriverFormsComponent', () => {
   it('should have a defined stepper orientation', () => {
     expect(['horizontal', 'vertical']).toContain(component.stepperOrientation);
   });
+
+  it('should have 4 distinct application steps matching design specifications', () => {
+    expect(component.formSteps.length).toBe(4);
+    expect(component.formSteps[0].title).toBe('Personal & Residency');
+    expect(component.formSteps[1].title).toBe('Driver License');
+    expect(component.formSteps[2].title).toBe('Work & Education');
+    expect(component.formSteps[3].title).toBe('W-4 & Signature');
+  });
+
+  it('should allow navigating steps via goToStep', () => {
+    const mockStepper = { selectedIndex: 0 };
+    component.goToStep(2, mockStepper);
+    expect(component.currentStepIndex).toBe(2);
+    expect(mockStepper.selectedIndex).toBe(2);
+  });
+
+  it('should evaluate isStepCompleted correctly for step groups', () => {
+    // Initially incomplete
+    expect(component.isStepCompleted(0)).toBeFalse();
+    expect(component.isStepCompleted(1)).toBeFalse();
+
+    // Populate license group with valid data
+    component.licenseGroup.patchValue({
+      state: 'CA',
+      licenseNumber: 'DL12345678',
+      licenseClass: 'Class C (Standard)',
+      expirationDate: new Date(2028, 5, 15),
+      hasSuspensions: 'no',
+      suspensionDetails: ''
+    });
+    expect(component.isStepCompleted(1)).toBeTrue();
+  });
+
+  it('should render 4 step buttons in the desktop stepper header', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const stepButtons = compiled.querySelectorAll('.step-node-btn');
+    expect(stepButtons.length).toBe(4);
+  });
 });
