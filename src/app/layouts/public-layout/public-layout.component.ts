@@ -2,11 +2,18 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { PublicNavbarComponent } from './components/public-navbar/public-navbar.component';
+import { PublicFooterComponent } from './components/public-footer/public-footer.component';
 
 @Component({
   selector: 'app-public-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterOutlet, PublicNavbarComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    RouterOutlet,
+    PublicNavbarComponent,
+    PublicFooterComponent
+  ],
   template: `
     <div class="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
       <!-- Public Marketing Navbar (Strictly business-facing) -->
@@ -17,10 +24,8 @@ import { PublicNavbarComponent } from './components/public-navbar/public-navbar.
         <router-outlet></router-outlet>
       </main>
 
-      <!-- Clean Public Footer -->
-      <footer class="bg-white border-t border-slate-200 py-8 text-center text-xs text-slate-500">
-        <p>&copy; 2026 NEMT FleetOS. Digital Driver Onboarding & Medicaid Audit Shield. All rights reserved.</p>
-      </footer>
+      <!-- Enterprise SaaS Footer -->
+      <app-public-footer></app-public-footer>
     </div>
   `
 })

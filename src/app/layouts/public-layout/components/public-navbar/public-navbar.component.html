@@ -7,7 +7,7 @@
       </div>
       <div class="brand-text">
         <span class="brand-title">NEMT FleetOS</span>
-        <span class="brand-sub">Operations & Audit Shield</span>
+        <span class="brand-sub">Operations &amp; Audit Shield</span>
       </div>
     </a>
 
@@ -15,16 +15,77 @@
 
     <!-- Center Navigation Links (Desktop) -->
     <nav class="center-nav desktop-nav">
-      <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'features'">
-        Product &amp; Features
-      </a>
+      <!-- Product & Features with Mega Dropdown -->
+      <button mat-button class="nav-item-link dropdown-trigger-btn" [matMenuTriggerFor]="productMenu">
+        <span>Product &amp; Features</span>
+        <mat-icon class="dropdown-chevron">expand_more</mat-icon>
+      </button>
+
+      <!-- Direct Anchor: Medicaid Audit Shield -->
       <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'compliance'">
         Medicaid Audit Shield
       </a>
+
+      <!-- Direct Anchor: Pricing -->
       <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'pricing'">
         Pricing
       </a>
     </nav>
+
+    <!-- Desktop Product & Features Mega Dropdown Menu -->
+    <mat-menu #productMenu="matMenu" class="mega-dropdown-menu" xPosition="after">
+      <div class="dropdown-menu-header">
+        <span class="dropdown-header-tag">Platform Modules</span>
+        <h4 class="dropdown-header-title">Audit Defense &amp; Driver Operations</h4>
+      </div>
+      <div class="dropdown-items-grid">
+        <a mat-menu-item [routerLink]="['/']" [fragment]="'features'" class="dropdown-feature-item">
+          <div class="menu-icon-box blue">
+            <mat-icon>how_to_reg</mat-icon>
+          </div>
+          <div class="menu-item-text">
+            <span class="item-title">Driver Onboarding Portal</span>
+            <span class="item-desc">Mobile 4-step applicant intake, camera license scan &amp; tamper-proof signatures</span>
+          </div>
+        </a>
+
+        <a mat-menu-item [routerLink]="['/']" [fragment]="'audit-shield'" class="dropdown-feature-item">
+          <div class="menu-icon-box emerald">
+            <mat-icon>verified_user</mat-icon>
+          </div>
+          <div class="menu-item-text">
+            <span class="item-title">Medicaid Audit Shield</span>
+            <span class="item-desc">Live CPR/DOT radar, 1-click broker binder export &amp; automated dispatch shield</span>
+          </div>
+        </a>
+
+        <a mat-menu-item [routerLink]="['/']" [fragment]="'features'" class="dropdown-feature-item">
+          <div class="menu-icon-box amber">
+            <mat-icon>schedule</mat-icon>
+          </div>
+          <div class="menu-item-text">
+            <span class="item-title">Automated Expiration Radar</span>
+            <span class="item-desc">30/15/7-day proactive SMS &amp; email alerts to eliminate claim denials</span>
+          </div>
+        </a>
+
+        <a mat-menu-item routerLink="/driver" class="dropdown-feature-item">
+          <div class="menu-icon-box indigo">
+            <mat-icon>assignment_ind</mat-icon>
+          </div>
+          <div class="menu-item-text">
+            <span class="item-title">Driver Job Intake Form</span>
+            <span class="item-desc">Dedicated distraction-free portal for candidate driver intake &amp; W-4 upload</span>
+          </div>
+        </a>
+      </div>
+      <div class="dropdown-menu-footer">
+        <div class="dropdown-footer-content">
+          <span>Ready to eliminate audit penalties?</span>
+          <a routerLink="/login" class="dropdown-trial-link">Start 14-Day Free Trial &rarr;</a>
+        </div>
+      </div>
+    </mat-menu>
 
     <span class="navbar-spacer"></span>
 
@@ -85,21 +146,58 @@
     </div>
   </mat-toolbar>
 
-  <!-- Mobile Dropdown Menu -->
+  <!-- Mobile Dropdown Menu (Enlarged & Enhanced) -->
   <div *ngIf="mobileMenuOpen" class="mobile-dropdown-menu">
-    <div class="mobile-links-stack">
-      <a [routerLink]="['/']" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-nav-link">
-        <mat-icon>star</mat-icon>
-        <span>Product &amp; Features</span>
-      </a>
-      <a [routerLink]="['/']" [fragment]="'compliance'" (click)="closeMobileMenu()" class="mobile-nav-link">
-        <mat-icon>security</mat-icon>
-        <span>Medicaid Audit Shield</span>
-      </a>
-      <a [routerLink]="['/']" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-nav-link">
-        <mat-icon>payments</mat-icon>
-        <span>Pricing</span>
-      </a>
+    <div class="mobile-menu-container">
+      <div class="mobile-section-label">Solutions &amp; Features</div>
+      <div class="mobile-cards-stack">
+        <a [routerLink]="['/']" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-feature-card">
+          <div class="mobile-icon-box blue">
+            <mat-icon>how_to_reg</mat-icon>
+          </div>
+          <div class="mobile-card-details">
+            <span class="mobile-card-title">Digital Driver Onboarding</span>
+            <span class="mobile-card-subtitle">5-minute mobile intake, camera doc capture, and DQF vault</span>
+          </div>
+          <mat-icon class="card-arrow">chevron_right</mat-icon>
+        </a>
+
+        <a [routerLink]="['/']" [fragment]="'audit-shield'" (click)="closeMobileMenu()" class="mobile-feature-card">
+          <div class="mobile-icon-box emerald">
+            <mat-icon>verified_user</mat-icon>
+          </div>
+          <div class="mobile-card-details">
+            <span class="mobile-card-title">Medicaid Audit Shield</span>
+            <span class="mobile-card-subtitle">Continuous CPR/DOT radar &amp; instant broker audit PDF binders</span>
+          </div>
+          <mat-icon class="card-arrow">chevron_right</mat-icon>
+        </a>
+
+        <a [routerLink]="['/']" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-feature-card">
+          <div class="mobile-icon-box purple">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <div class="mobile-card-details">
+            <span class="mobile-card-title">Fleet Pricing &amp; Plans</span>
+            <span class="mobile-card-subtitle">Transparent per-driver pricing with 14-day zero-risk trial</span>
+          </div>
+          <mat-icon class="card-arrow">chevron_right</mat-icon>
+        </a>
+      </div>
+
+      <div class="mobile-portals-section">
+        <div class="mobile-section-label">Quick Portals</div>
+        <div class="mobile-portals-grid">
+          <a routerLink="/driver" (click)="closeMobileMenu()" class="mobile-portal-btn">
+            <mat-icon>assignment_ind</mat-icon>
+            <span>Driver Intake</span>
+          </a>
+          <a routerLink="/w4-upload" (click)="closeMobileMenu()" class="mobile-portal-btn">
+            <mat-icon>file_upload</mat-icon>
+            <span>W-4 Document Portal</span>
+          </a>
+        </div>
+      </div>
 
       <mat-divider></mat-divider>
 
@@ -107,10 +205,10 @@
         <ng-container *ngIf="!isAuthenticated">
           <a mat-stroked-button routerLink="/login" (click)="closeMobileMenu()" class="mobile-signin-btn">
             <mat-icon>login</mat-icon>
-            <span>Sign In</span>
+            <span>Sign In to FleetOS</span>
           </a>
           <a mat-flat-button color="primary" routerLink="/login" (click)="closeMobileMenu()" class="mobile-primary-btn">
-            <span>Start Free Trial</span>
+            <span>Start 14-Day Free Trial</span>
             <mat-icon>arrow_forward</mat-icon>
           </a>
         </ng-container>
@@ -118,7 +216,7 @@
         <ng-container *ngIf="isAuthenticated">
           <a *ngIf="isAdmin" mat-flat-button color="primary" routerLink="/admin" (click)="closeMobileMenu()" class="mobile-primary-btn">
             <mat-icon>dashboard</mat-icon>
-            <span>Enter Admin Console</span>
+            <span>Enter Operator Console</span>
           </a>
           <button mat-stroked-button color="warn" (click)="logout()" class="mobile-signin-btn">
             <mat-icon>logout</mat-icon>

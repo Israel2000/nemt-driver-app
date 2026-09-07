@@ -1,68 +1,65 @@
-<footer class="public-footer">
-  <div class="footer-container">
-    <div class="footer-top-grid">
-      <!-- Brand & Mission -->
-      <div class="footer-brand-column">
-        <div class="footer-brand">
-          <div class="footer-brand-icon">
-            <mat-icon>local_hospital</mat-icon>
+<footer class="bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+      
+      <!-- Brand & Compliance Column -->
+      <div class="col-span-2">
+        <div class="flex items-center gap-2.5 text-white font-bold text-xl mb-4">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
           </div>
-          <span class="footer-brand-title">NEMT FleetOS</span>
+          <span>NEMT <span class="text-blue-500">FleetOS</span></span>
         </div>
-        <p class="footer-desc">
-          The enterprise operating system and automated audit shield for Non-Emergency Medical Transportation providers, drivers, and Medicaid fleet operators.
+        <p class="text-sm text-slate-400 mb-6 max-w-sm leading-relaxed">
+          The all-in-one compliance operating system for non-emergency medical transportation providers. Eliminate paperwork, manage driver files, and pass Medicaid audits with confidence.
         </p>
-        <div class="footer-badges">
-          <span class="shield-badge"><mat-icon>security</mat-icon> Medicaid Audit Shield</span>
-          <span class="shield-badge"><mat-icon>lock</mat-icon> HIPAA & DQF Ready</span>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          HIPAA &amp; Medicaid Audit Ready
         </div>
       </div>
 
-      <!-- Navigation Column 1: Platform -->
-      <div class="footer-col">
-        <h4>Platform</h4>
-        <ul>
-          <li><a [routerLink]="['/']" [fragment]="'features'">Feature Tour</a></li>
-          <li><a [routerLink]="['/']" [fragment]="'compliance'">Medicaid Audit Defense</a></li>
-          <li><a [routerLink]="['/']" [fragment]="'pricing'">Subscription Plans</a></li>
-          <li><a routerLink="/login">Start 14-Day Free Trial</a></li>
+      <!-- Solutions -->
+      <div>
+        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Platform</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a routerLink="/" fragment="features" class="hover:text-white transition">Driver Onboarding</a></li>
+          <li><a routerLink="/" fragment="audit-shield" class="hover:text-white transition">Medicaid Audit Shield</a></li>
+          <li><a routerLink="/" fragment="features" class="hover:text-white transition">Credential Radar</a></li>
+          <li><a routerLink="/" fragment="pricing" class="hover:text-white transition">Pricing Plans</a></li>
         </ul>
       </div>
 
-      <!-- Navigation Column 2: Driver Onboarding -->
-      <div class="footer-col">
-        <h4>Driver Onboarding</h4>
-        <ul>
-          <li><a routerLink="/driver">Driver Application Portal</a></li>
-          <li><a routerLink="/w4-upload">W-4 Document Upload</a></li>
-          <li><a routerLink="/driver/vault">Driver DQF Vault</a></li>
-          <li><a routerLink="/driver/dvir">Daily Pre-Trip DVIR</a></li>
+      <!-- Portals -->
+      <div>
+        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Quick Portals</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a routerLink="/admin" class="hover:text-white transition font-medium text-blue-400">Sign In to FleetOS</a></li>
+          <li><a routerLink="/login" class="hover:text-white transition">Create Operator Account</a></li>
+          <li><a routerLink="/driver" class="hover:text-white transition">Driver Job Intake</a></li>
+          <li><a routerLink="/w4-upload" class="hover:text-white transition">Submit W-4 Document</a></li>
         </ul>
       </div>
 
-      <!-- Navigation Column 3: Operator SaaS -->
-      <div class="footer-col">
-        <h4>Operator SaaS</h4>
-        <ul>
-          <li><a routerLink="/login">Operator Sign In</a></li>
-          <li><a routerLink="/admin">Executive Dashboard</a></li>
-          <li><a routerLink="/admin/candidates">Candidate ATS Pipeline</a></li>
-          <li><a routerLink="/admin/audit-shield">OIG/SAM Exclusion Scan</a></li>
+      <!-- Legal & Trust -->
+      <div>
+        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Compliance</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-white transition">HIPAA Safeguards</a></li>
+          <li><a href="#" class="hover:text-white transition">Security Statement</a></li>
         </ul>
       </div>
+
     </div>
 
-    <div class="footer-bottom-bar">
-      <p class="copyright-text">
-        &copy; {{ currentYear }} NEMT FleetOS. All rights reserved. Purpose-built for NEMT fleets, Medicaid brokers, and Department of Health compliance.
-      </p>
-      <div class="legal-links">
-        <span>Privacy Policy</span>
-        <span>&bull;</span>
-        <span>Terms of Service</span>
-        <span>&bull;</span>
-        <span>FCRA & DQF Compliance</span>
-      </div>
+    <!-- Bottom Copyright -->
+    <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
+      <p>&copy; 2026 NEMT FleetOS Technologies Inc. All rights reserved.</p>
+      <p class="mt-2 sm:mt-0">Designed for NEMT Fleets, Medicaid Providers &amp; Healthcare Logistics.</p>
     </div>
   </div>
 </footer>
