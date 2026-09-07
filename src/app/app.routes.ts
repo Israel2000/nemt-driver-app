@@ -5,7 +5,7 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 // Public Surface Components
-import { HomeComponent } from './pages/marketing-home/marketing-home.component';
+import { HomeComponent } from './pages/home/home.component';
 import { DriverApplicationComponent } from './transportations/driver-forms/driver-forms.component';
 import { W4UploadComponent } from './transportations/w4-upload/w4-upload.component';
 import { DriverVaultComponent } from './transportations/driver-vault/driver-vault.component';

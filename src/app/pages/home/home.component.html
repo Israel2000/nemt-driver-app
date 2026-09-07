@@ -1,83 +1,495 @@
-<div class="home-container">
-  <!-- Hero Welcome Card -->
-  <mat-card class="hero-card">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <mat-icon>verified</mat-icon>
-        <span>Official NEMT Driver Portal</span>
+<div class="marketing-page">
+
+  <!-- =========================================================================
+       1. HERO SECTION
+       ========================================================================= -->
+  <section class="hero-section">
+    <div class="hero-backdrop-glow"></div>
+    <div class="hero-container">
+      
+      <!-- Modern Badge -->
+      <div class="hero-badge-pill">
+        <span class="badge-dot-pulse"></span>
+        <mat-icon class="badge-icon">verified_user</mat-icon>
+        <span class="badge-text">Medicaid Audit Defense &amp; Digital Onboarding</span>
       </div>
-      <h1 class="hero-title">Become a Non-Emergency Medical Transportation Driver</h1>
-      <p class="hero-subtitle">
-        Help patients get safely and reliably to their vital healthcare appointments.
-        Join our team of certified, compassionate drivers today.
+
+      <!-- Headline -->
+      <h1 class="hero-headline">
+        Never Fail an NEMT Audit Again.<br />
+        <span class="hero-headline-highlight">Ditch the Paper Binders.</span>
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="hero-subheadline">
+        Streamline driver intake, automate credential expirations, and stay 100% audit-ready for Medicaid and national brokers in minutes.
       </p>
-      <div class="hero-actions">
-        <a mat-flat-button color="primary" routerLink="/driver" class="action-btn primary-btn">
-          <mat-icon>edit_note</mat-icon>
-          Start Driver Application
+
+      <!-- Action Buttons -->
+      <div class="hero-cta-actions">
+        <a mat-flat-button color="primary" routerLink="/admin" class="cta-primary-btn">
+          <mat-icon>rocket_launch</mat-icon>
+          <span>Start Free Trial</span>
         </a>
-        <a mat-stroked-button routerLink="/w4-upload" class="action-btn secondary-btn">
-          <mat-icon>upload_file</mat-icon>
-          Upload W-4 Form
+        <a mat-stroked-button routerLink="/driver" class="cta-secondary-btn">
+          <mat-icon>badge</mat-icon>
+          <span>Driver Portal Preview</span>
         </a>
       </div>
-    </div>
-  </mat-card>
 
-  <!-- Application Process Steps -->
-  <section class="process-section">
-    <h2 class="section-heading">Application Steps</h2>
-    <div class="steps-grid">
-      <mat-card class="step-card">
-        <div class="step-number">1</div>
-        <mat-card-header>
-          <mat-card-title>Personal & Residency</mat-card-title>
-          <mat-card-subtitle>Provide contact info and 7-year address history.</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Tell us about yourself and your residences over the last seven years.</p>
-        </mat-card-content>
-      </mat-card>
+      <!-- Micro Trust Badges -->
+      <div class="hero-trust-bar">
+        <span class="trust-item"><mat-icon>check_circle</mat-icon> 14-Day Free Trial</span>
+        <span class="trust-dot">&bull;</span>
+        <span class="trust-item"><mat-icon>check_circle</mat-icon> No Credit Card Required</span>
+        <span class="trust-dot">&bull;</span>
+        <span class="trust-item"><mat-icon>check_circle</mat-icon> Modivcare &amp; MTM Compliant</span>
+      </div>
 
-      <mat-card class="step-card">
-        <div class="step-number">2</div>
-        <mat-card-header>
-          <mat-card-title>Driver License</mat-card-title>
-          <mat-card-subtitle>Valid driver's license details.</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Submit your driver license number, type/class, state, and expiration.</p>
-        </mat-card-content>
-      </mat-card>
+      <!-- Hero Mockup Preview: "Medicaid Audit Shield Status" Dashboard -->
+      <div class="hero-mockup-wrapper">
+        <div class="mockup-frame-card">
+          
+          <!-- Mockup Window Header -->
+          <div class="mockup-window-header">
+            <div class="window-controls">
+              <span class="ctrl-dot dot-red"></span>
+              <span class="ctrl-dot dot-yellow"></span>
+              <span class="ctrl-dot dot-green"></span>
+            </div>
+            <div class="mockup-url-bar">
+              <mat-icon class="url-lock-icon">lock</mat-icon>
+              <span>fleetos.app/admin/audit-shield &bull; Metro Care Transit LLC</span>
+            </div>
+            <div class="shield-live-status">
+              <span class="pulse-live"></span>
+              <span>Audit Shield: Active</span>
+            </div>
+          </div>
 
-      <mat-card class="step-card">
-        <div class="step-number">3</div>
-        <mat-card-header>
-          <mat-card-title>Work & Education</mat-card-title>
-          <mat-card-subtitle>Employment & schooling history.</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Detail your past 7 years of employment and educational background.</p>
-        </mat-card-content>
-      </mat-card>
+          <!-- Mockup Content Canvas -->
+          <div class="mockup-canvas">
+            
+            <!-- Mockup Header Row -->
+            <div class="mockup-top-bar">
+              <div class="mockup-title-block">
+                <span class="mockup-sub">Continuous Compliance Engine</span>
+                <h3 class="mockup-title">Medicaid Audit Shield Status</h3>
+              </div>
+              <div class="mockup-stat-pill">
+                <mat-icon class="shield-pass-icon">shield</mat-icon>
+                <span>Zero Claim Denials Recorded</span>
+              </div>
+            </div>
 
-      <mat-card class="step-card">
-        <div class="step-number">4</div>
-        <mat-card-header>
-          <mat-card-title>W-4 & Digital Signature</mat-card-title>
-          <mat-card-subtitle>Sign and upload documents.</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Attach tax documents, review certification, and sign electronically.</p>
-        </mat-card-content>
-      </mat-card>
+            <!-- Mockup Quick KPI Strip -->
+            <div class="mockup-kpi-grid">
+              <div class="mockup-kpi-item">
+                <span class="kpi-label">Active Fleet Drivers</span>
+                <span class="kpi-value">28 Drivers</span>
+                <span class="kpi-status ok"><mat-icon>check_circle</mat-icon> 100% Compliant</span>
+              </div>
+              <div class="mockup-kpi-item">
+                <span class="kpi-label">DQF Files Complete</span>
+                <span class="kpi-value">28 / 28 Files</span>
+                <span class="kpi-status ok"><mat-icon>check_circle</mat-icon> 0 Missing Items</span>
+              </div>
+              <div class="mockup-kpi-item">
+                <span class="kpi-label">Upcoming Expirations</span>
+                <span class="kpi-value warning">1 Impending</span>
+                <span class="kpi-status warn"><mat-icon>schedule</mat-icon> CPR Exp: 22 Days (Alerted)</span>
+              </div>
+              <div class="mockup-kpi-item">
+                <span class="kpi-label">Broker Audit Readiness</span>
+                <span class="kpi-value">100% Pass</span>
+                <span class="kpi-status ok"><mat-icon>verified</mat-icon> 1-Click Export Ready</span>
+              </div>
+            </div>
+
+            <!-- Mockup Mini Table Preview -->
+            <div class="mockup-table-box">
+              <div class="mockup-table-header">
+                <span>Driver Qualification Profile</span>
+                <span>MVR &amp; Driver License</span>
+                <span>CPR / First Aid</span>
+                <span>Dispatch Shield</span>
+              </div>
+              
+              <div class="mockup-table-row">
+                <div class="col-driver">
+                  <strong>Marcus Vance</strong>
+                  <small>Van #4 (Wheelchair Ramp)</small>
+                </div>
+                <div class="col-license">
+                  <span>CO-9842104 &bull; Class C</span>
+                  <small class="text-ok">Valid (Exp 11/2026)</small>
+                </div>
+                <div class="col-cpr">
+                  <span class="cpr-badge-warn">Exp: 22 Days (Alert Sent)</span>
+                </div>
+                <div class="col-status">
+                  <span class="mock-status-pill approved">
+                    <mat-icon>verified</mat-icon> DISPATCH READY
+                  </span>
+                </div>
+              </div>
+
+              <div class="mockup-table-row">
+                <div class="col-driver">
+                  <strong>Elena Rostova</strong>
+                  <small>Van #2 (Bariatric Lift)</small>
+                </div>
+                <div class="col-license">
+                  <span>CO-7714902 &bull; Class B CDL</span>
+                  <small class="text-ok">Valid (Exp 08/2027)</small>
+                </div>
+                <div class="col-cpr">
+                  <span class="cpr-badge-ok">Valid (Exp 01/2027)</span>
+                </div>
+                <div class="col-status">
+                  <span class="mock-status-pill approved">
+                    <mat-icon>verified</mat-icon> DISPATCH READY
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mockup Bottom Notification Banner -->
+            <div class="mockup-banner">
+              <mat-icon class="banner-icon">gpp_good</mat-icon>
+              <span>Automated Medicaid Exclusion &amp; Pre-Trip Inspection Lockout Active across all vehicles.</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Portal Footer -->
-  <footer class="home-footer">
-    <p>&copy; 2026 NEMT Transportation Portal. All rights reserved.</p>
-  </footer>
+
+  <!-- =========================================================================
+       2. VALUE STRIP / SOCIAL PROOF
+       ========================================================================= -->
+  <section class="value-strip-section">
+    <div class="value-strip-container">
+      <div class="value-grid">
+        
+        <div class="value-stat-card">
+          <div class="value-stat-number">100%</div>
+          <div class="value-stat-title">Audit-Ready Rosters</div>
+          <p class="value-stat-desc">Complete digital qualification dossiers ready for immediate state &amp; broker inspection.</p>
+        </div>
+
+        <div class="value-stat-divider"></div>
+
+        <div class="value-stat-card">
+          <div class="value-stat-number">&lt; 5 Min</div>
+          <div class="value-stat-title">Under 5-Min Driver Intake</div>
+          <p class="value-stat-desc">Mobile camera photo snap and electronic signatures get qualified drivers submitted in minutes.</p>
+        </div>
+
+        <div class="value-stat-divider"></div>
+
+        <div class="value-stat-card">
+          <div class="value-stat-number">0</div>
+          <div class="value-stat-title">0 Claim Denials From Expired Credentials</div>
+          <p class="value-stat-desc">Automated 30-day proactive alert sentinels prevent disqualified trips from ever getting dispatched.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       3. 3-CARD FEATURE BREAKDOWN
+       ========================================================================= -->
+  <section class="features-section" id="features">
+    <div class="features-container">
+      
+      <div class="section-intro-header">
+        <span class="intro-pill-badge">Core Platform Capabilities</span>
+        <h2 class="section-title">Built Specifically for NEMT Regulations &amp; Broker Audits</h2>
+        <p class="section-subtitle">
+          Generic HR tools don't understand Modivcare guidelines or Medicaid fraud defense. FleetOS is purpose-built to eliminate paperwork chaos and protect your cash flow.
+        </p>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- Card 1: Digital Qualification Files (DQF) -->
+        <div class="feature-card">
+          <div class="feature-icon-circle blue">
+            <mat-icon>folder_shared</mat-icon>
+          </div>
+          <h3 class="feature-card-title">Digital Qualification Files (DQF)</h3>
+          <p class="feature-card-description">
+            Replace physical paper files with secure digital profiles, W-4 signatures, and background check releases.
+          </p>
+          <ul class="feature-checklist">
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>Standard W-4 / W-9 IRS tax document vault with instant download</span>
+            </li>
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>FCRA-compliant 7-year background check &amp; MVR authorization releases</span>
+            </li>
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>Digital legal signature capture with tamper-proof timestamps</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 2: Medicaid Audit Shield -->
+        <div class="feature-card highlight-border" id="compliance">
+          <div class="card-top-tag">Continuous Protection</div>
+          <div class="feature-icon-circle emerald">
+            <mat-icon>verified_user</mat-icon>
+          </div>
+          <h3 class="feature-card-title">Medicaid Audit Shield</h3>
+          <p class="feature-card-description">
+            Real-time tracking of CPR cards, driver licenses, and vehicle inspections with zero manual spreadsheets.
+          </p>
+          <ul class="feature-checklist">
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>Automated 30/15/7-day SMS &amp; email expiration warnings for CPR &amp; DOT physicals</span>
+            </li>
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>1-Click Audit Export: Instantly generate compliant PDF binders for brokers</span>
+            </li>
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>Automated dispatch lockout shield blocks non-compliant operators</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Mobile Driver Portal -->
+        <div class="feature-card">
+          <div class="feature-icon-circle purple">
+            <mat-icon>smartphone</mat-icon>
+          </div>
+          <h3 class="feature-card-title">Mobile Driver Portal</h3>
+          <p class="feature-card-description">
+            Clean, responsive intake where drivers snap license photos and sign onboarding documents on the go.
+          </p>
+          <ul class="feature-checklist">
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>Direct smartphone camera capture with instant thumbnail preview and retake</span>
+            </li>
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>Intuitive 4-step guided intake: Personal, License, Employment, and W-4</span>
+            </li>
+            <li>
+              <mat-icon class="check-bullet">check_circle</mat-icon>
+              <span>No app store downloads required; runs natively on any mobile browser</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       4. TRANSPARENT SAAS PRICING TABLE
+       ========================================================================= -->
+  <section class="pricing-section" id="pricing">
+    <div class="pricing-container">
+      
+      <div class="section-intro-header">
+        <span class="intro-pill-badge">Transparent Plans</span>
+        <h2 class="section-title">Simple, Transparent SaaS Pricing</h2>
+        <p class="section-subtitle">
+          Protect your transportation business from devastating audit clawbacks. Every plan includes our 14-day free trial.
+        </p>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- Tier 1: Starter -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <span class="plan-level">Starter</span>
+            <div class="price-row">
+              <span class="currency">$</span>
+              <span class="price-value">49</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="plan-tagline">Ideal for independent operators and small startup fleets.</p>
+          </div>
+
+          <div class="plan-features-list">
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span><strong>Up to 5 Active Drivers</strong></span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Digital Onboarding Portal</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Basic Document Storage</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Mobile License Photo Capture</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Email Support</span>
+            </div>
+          </div>
+
+          <div class="pricing-card-action">
+            <a mat-stroked-button color="primary" routerLink="/admin" class="plan-cta-btn">
+              Start 14-Day Free Trial
+            </a>
+          </div>
+        </div>
+
+        <!-- Tier 2: Growth (Most Popular) -->
+        <div class="pricing-card popular-card">
+          <div class="popular-ribbon">Most Popular</div>
+          <div class="pricing-card-header">
+            <span class="plan-level">Growth</span>
+            <div class="price-row">
+              <span class="currency">$</span>
+              <span class="price-value">149</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="plan-tagline">The complete compliance engine for growing NEMT companies.</p>
+          </div>
+
+          <div class="plan-features-list">
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check feat-highlight">check</mat-icon>
+              <span><strong>Up to 25 Active Drivers</strong></span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check feat-highlight">check</mat-icon>
+              <span><strong>Full Medicaid Audit Shield</strong></span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check feat-highlight">check</mat-icon>
+              <span>Automated Expiry SMS/Email Alerts</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check feat-highlight">check</mat-icon>
+              <span><strong>1-Click Audit Export</strong> (Modivcare/MTM)</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check feat-highlight">check</mat-icon>
+              <span>Vehicle DVIR Pre-Trip Inspections</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check feat-highlight">check</mat-icon>
+              <span>Priority Phone &amp; Chat Support</span>
+            </div>
+          </div>
+
+          <div class="pricing-card-action">
+            <a mat-flat-button color="primary" routerLink="/admin" class="plan-cta-btn plan-cta-primary">
+              Start 14-Day Free Trial
+            </a>
+          </div>
+        </div>
+
+        <!-- Tier 3: Enterprise -->
+        <div class="pricing-card">
+          <div class="pricing-card-header">
+            <span class="plan-level">Enterprise</span>
+            <div class="price-row">
+              <span class="currency">$</span>
+              <span class="price-value">299</span>
+              <span class="period">/mo</span>
+            </div>
+            <p class="plan-tagline">Custom broker defense and multi-branch control for large fleets.</p>
+          </div>
+
+          <div class="plan-features-list">
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span><strong>Unlimited Fleet</strong></span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Custom Broker Compliance Standards</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Multi-Branch Admin Access</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Dedicated Compliance Specialist</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>Custom Dispatch System Integrations</span>
+            </div>
+            <div class="plan-feature-item">
+              <mat-icon class="feat-check">check</mat-icon>
+              <span>99.9% Uptime Guarantee</span>
+            </div>
+          </div>
+
+          <div class="pricing-card-action">
+            <a mat-stroked-button color="primary" routerLink="/admin" class="plan-cta-btn">
+              Start 14-Day Free Trial
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       5. FINAL BOTTOM CTA BANNER
+       ========================================================================= -->
+  <section class="final-cta-section">
+    <div class="final-cta-container">
+      <div class="cta-banner-box">
+        <div class="cta-banner-glow"></div>
+        
+        <div class="cta-banner-content">
+          <h2 class="cta-banner-title">
+            Ready to protect your fleet from surprise Medicaid audits?
+          </h2>
+          <p class="cta-banner-subtext">
+            Join hundreds of transportation providers who automated their compliance files with FleetOS. Get set up in under 5 minutes.
+          </p>
+
+          <div class="cta-banner-btn-row">
+            <a mat-flat-button routerLink="/admin" class="cta-banner-solid-btn">
+              <mat-icon>rocket_launch</mat-icon>
+              <span>Get Started Now</span>
+            </a>
+            <a mat-stroked-button routerLink="/driver" class="cta-banner-ghost-btn">
+              <mat-icon>badge</mat-icon>
+              <span>Preview Driver Application</span>
+            </a>
+          </div>
+
+          <span class="cta-banner-micro">14-day free trial &bull; Cancel anytime &bull; No setup fees</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </div>
-
-
