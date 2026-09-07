@@ -23,10 +23,37 @@
 .brand-panel {
   background: linear-gradient(145deg, #0b57d0 0%, #003780 100%);
   color: white;
-  padding: 48px 40px;
+  padding: 40px 36px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+}
+
+.brand-panel.space-y-6 > * + * {
+  margin-top: 1.25rem;
+}
+
+/* Field Group & Input Styling */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.input-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.field-icon {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+  color: #94a3b8;
 }
 
 .brand-header {
