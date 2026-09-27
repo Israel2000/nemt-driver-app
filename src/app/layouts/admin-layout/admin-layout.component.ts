@@ -111,7 +111,9 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   }
 
   private updateSectionTitle(url: string): void {
-    if (url.includes('/admin/candidates')) {
+    if (url.includes('/admin/dispatch')) {
+      this.currentSectionTitle = 'Live Dispatch & Fleet Tracking';
+    } else if (url.includes('/admin/candidates')) {
       this.currentSectionTitle = 'Candidate ATS & Pipeline';
     } else if (url.includes('/admin/audit-shield')) {
       this.currentSectionTitle = 'Medicaid Audit Shield';

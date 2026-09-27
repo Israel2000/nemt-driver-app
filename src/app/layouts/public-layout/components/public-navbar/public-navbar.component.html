@@ -15,130 +15,85 @@
 
     <!-- Center Navigation Links (Desktop) -->
     <nav class="center-nav desktop-nav">
-      <!-- Product & Features with Mega Dropdown -->
-      <button mat-button class="nav-item-link dropdown-trigger-btn" [matMenuTriggerFor]="productMenu">
-        <span>Product &amp; Features</span>
-        <mat-icon class="dropdown-chevron">expand_more</mat-icon>
-      </button>
+      <!-- Direct Anchor: Product & Features -->
+      <a mat-button class="nav-item-link" routerLink="/" [fragment]="'features'">
+        Product &amp; Features
+      </a>
 
       <!-- Direct Anchor: Medicaid Audit Shield -->
-      <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'compliance'">
+      <a mat-button class="nav-item-link" routerLink="/" [fragment]="'compliance'">
         Medicaid Audit Shield
       </a>
 
       <!-- Direct Anchor: Pricing -->
-      <a mat-button class="nav-item-link" [routerLink]="['/']" [fragment]="'pricing'">
+      <a mat-button class="nav-item-link" routerLink="/" [fragment]="'pricing'">
         Pricing
       </a>
     </nav>
-
-    <!-- Desktop Product & Features Mega Dropdown Menu -->
-    <mat-menu #productMenu="matMenu" class="mega-dropdown-menu" xPosition="after">
-      <div class="dropdown-menu-header">
-        <span class="dropdown-header-tag">Platform Modules</span>
-        <h4 class="dropdown-header-title">Audit Defense &amp; Driver Operations</h4>
-      </div>
-      <div class="dropdown-items-grid">
-        <a mat-menu-item [routerLink]="['/']" [fragment]="'features'" class="dropdown-feature-item">
-          <div class="menu-icon-box blue">
-            <mat-icon>how_to_reg</mat-icon>
-          </div>
-          <div class="menu-item-text">
-            <span class="item-title">Driver Onboarding Portal</span>
-            <span class="item-desc">Mobile 4-step applicant intake, camera license scan &amp; tamper-proof signatures</span>
-          </div>
-        </a>
-
-        <a mat-menu-item [routerLink]="['/']" [fragment]="'audit-shield'" class="dropdown-feature-item">
-          <div class="menu-icon-box emerald">
-            <mat-icon>verified_user</mat-icon>
-          </div>
-          <div class="menu-item-text">
-            <span class="item-title">Medicaid Audit Shield</span>
-            <span class="item-desc">Live CPR/DOT radar, 1-click broker binder export &amp; automated dispatch shield</span>
-          </div>
-        </a>
-
-        <a mat-menu-item [routerLink]="['/']" [fragment]="'features'" class="dropdown-feature-item">
-          <div class="menu-icon-box amber">
-            <mat-icon>schedule</mat-icon>
-          </div>
-          <div class="menu-item-text">
-            <span class="item-title">Automated Expiration Radar</span>
-            <span class="item-desc">30/15/7-day proactive SMS &amp; email alerts to eliminate claim denials</span>
-          </div>
-        </a>
-
-        <a mat-menu-item routerLink="/driver" class="dropdown-feature-item">
-          <div class="menu-icon-box indigo">
-            <mat-icon>assignment_ind</mat-icon>
-          </div>
-          <div class="menu-item-text">
-            <span class="item-title">Driver Job Intake Form</span>
-            <span class="item-desc">Dedicated distraction-free portal for candidate driver intake &amp; W-4 upload</span>
-          </div>
-        </a>
-      </div>
-      <div class="dropdown-menu-footer">
-        <div class="dropdown-footer-content">
-          <span>Ready to eliminate audit penalties?</span>
-          <a routerLink="/login" class="dropdown-trial-link">Start 14-Day Free Trial &rarr;</a>
-        </div>
-      </div>
-    </mat-menu>
 
     <span class="navbar-spacer"></span>
 
     <!-- Right-side Action Buttons (Desktop) -->
     <div class="right-actions desktop-actions">
-      <!-- Guest actions -->
-      <ng-container *ngIf="!isAuthenticated">
-        <a mat-button class="signin-btn" routerLink="/login">
-          <mat-icon>login</mat-icon>
-          <span>Sign In</span>
+      <div class="flex items-center gap-3">
+        <!-- Driver Mobile Portal Link -->
+        <a routerLink="/driver" 
+           class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 px-3 py-2 rounded-lg border border-slate-200 hover:border-blue-400 bg-white shadow-sm transition-all flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          <span>Driver App</span>
         </a>
-        <a mat-flat-button color="primary" class="trial-btn" routerLink="/login">
-          <span>Start Free Trial</span>
-          <mat-icon>arrow_forward</mat-icon>
-        </a>
-      </ng-container>
 
-      <!-- Authenticated actions -->
-      <ng-container *ngIf="isAuthenticated">
-        <a *ngIf="isAdmin" mat-stroked-button color="primary" class="console-btn" routerLink="/admin">
-          <mat-icon>dashboard</mat-icon>
-          <span>Admin Console</span>
+        <!-- Sign In Link -->
+        <a routerLink="/admin/login" class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 px-3 py-2">
+          Sign In
         </a>
-        <button mat-button [matMenuTriggerFor]="userMenu" class="user-account-btn">
-          <mat-icon class="account-icon">account_circle</mat-icon>
-          <span class="user-name">{{ currentUser?.fullName || currentWorkspace?.name }}</span>
-          <mat-icon class="dropdown-icon">expand_more</mat-icon>
-        </button>
-        <mat-menu #userMenu="matMenu">
-          <div class="user-menu-info">
-            <strong>{{ currentWorkspace?.name }}</strong>
-            <small>{{ currentUser?.email }} ({{ currentUser?.role | uppercase }})</small>
-          </div>
-          <mat-divider></mat-divider>
-          <a *ngIf="isAdmin" mat-menu-item routerLink="/admin">
-            <mat-icon>dashboard</mat-icon>
-            <span>Operator Hub</span>
-          </a>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon color="warn">logout</mat-icon>
-            <span style="color: #dc2626;">Sign Out</span>
+
+        <!-- Sign Up / Start Free Trial Button -->
+        <a routerLink="/admin/signup" class="text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow-sm transition">
+          Start Free Trial
+        </a>
+
+        <!-- Authenticated User Menu -->
+        <ng-container *ngIf="isAuthenticated">
+          <button mat-button [matMenuTriggerFor]="userMenu" class="user-account-btn">
+            <mat-icon class="account-icon">account_circle</mat-icon>
+            <span class="user-name">{{ currentUser?.fullName || currentWorkspace?.name }}</span>
+            <mat-icon class="dropdown-icon">expand_more</mat-icon>
           </button>
-        </mat-menu>
-      </ng-container>
+          <mat-menu #userMenu="matMenu">
+            <div class="user-menu-info">
+              <strong>{{ currentWorkspace?.name }}</strong>
+              <small>{{ currentUser?.email }} ({{ currentUser?.role | uppercase }})</small>
+            </div>
+            <mat-divider></mat-divider>
+            <a *ngIf="isAdmin" mat-menu-item routerLink="/admin/dispatch">
+              <mat-icon>dashboard</mat-icon>
+              <span>Operator Console</span>
+            </a>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon color="warn">logout</mat-icon>
+              <span style="color: #dc2626;">Sign Out</span>
+            </button>
+          </mat-menu>
+        </ng-container>
+      </div>
     </div>
 
-    <!-- Mobile Hamburger Menu Button -->
-    <div class="mobile-nav-toggle">
-      <a *ngIf="!isAuthenticated" mat-flat-button color="primary" routerLink="/login" class="mobile-trial-cta">
-        Free Trial
+    <!-- Mobile Navigation Toggle -->
+    <div class="mobile-nav-toggle flex items-center gap-2">
+      <a routerLink="/driver" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm flex items-center gap-1">
+        <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </svg>
+        <span>Driver</span>
       </a>
-      <a *ngIf="isAuthenticated && isAdmin" mat-stroked-button color="primary" routerLink="/admin" class="mobile-console-cta">
-        Console
+      <a routerLink="/admin/login" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm">
+        Sign In
+      </a>
+      <a routerLink="/admin/signup" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-blue-600 text-white shadow-sm">
+        Trial
       </a>
       <button mat-icon-button (click)="toggleMobileMenu()" class="mobile-menu-btn" aria-label="Toggle navigation">
         <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
@@ -149,37 +104,37 @@
   <!-- Mobile Dropdown Menu (Enlarged & Enhanced) -->
   <div *ngIf="mobileMenuOpen" class="mobile-dropdown-menu">
     <div class="mobile-menu-container">
-      <div class="mobile-section-label">Solutions &amp; Features</div>
+      <div class="mobile-section-label">Navigation &amp; Solutions</div>
       <div class="mobile-cards-stack">
-        <a [routerLink]="['/']" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-feature-card">
+        <a routerLink="/" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-feature-card">
           <div class="mobile-icon-box blue">
-            <mat-icon>how_to_reg</mat-icon>
+            <mat-icon>dashboard</mat-icon>
           </div>
           <div class="mobile-card-details">
-            <span class="mobile-card-title">Digital Driver Onboarding</span>
-            <span class="mobile-card-subtitle">5-minute mobile intake, camera doc capture, and DQF vault</span>
+            <span class="mobile-card-title">Product &amp; Features</span>
+            <span class="mobile-card-subtitle">Dispatch console, driver apps, and fleet telemetry</span>
           </div>
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>
 
-        <a [routerLink]="['/']" [fragment]="'audit-shield'" (click)="closeMobileMenu()" class="mobile-feature-card">
+        <a routerLink="/" [fragment]="'compliance'" (click)="closeMobileMenu()" class="mobile-feature-card">
           <div class="mobile-icon-box emerald">
             <mat-icon>verified_user</mat-icon>
           </div>
           <div class="mobile-card-details">
             <span class="mobile-card-title">Medicaid Audit Shield</span>
-            <span class="mobile-card-subtitle">Continuous CPR/DOT radar &amp; instant broker audit PDF binders</span>
+            <span class="mobile-card-subtitle">Zero denials, digital signatures, and odometer logs</span>
           </div>
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>
 
-        <a [routerLink]="['/']" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-feature-card">
+        <a routerLink="/" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-feature-card">
           <div class="mobile-icon-box purple">
             <mat-icon>payments</mat-icon>
           </div>
           <div class="mobile-card-details">
-            <span class="mobile-card-title">Fleet Pricing &amp; Plans</span>
-            <span class="mobile-card-subtitle">Transparent per-driver pricing with 14-day zero-risk trial</span>
+            <span class="mobile-card-title">Fleet Pricing</span>
+            <span class="mobile-card-subtitle">Plans starting at $49/mo with 14-day free trial</span>
           </div>
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>
@@ -189,12 +144,12 @@
         <div class="mobile-section-label">Quick Portals</div>
         <div class="mobile-portals-grid">
           <a routerLink="/driver" (click)="closeMobileMenu()" class="mobile-portal-btn">
-            <mat-icon>assignment_ind</mat-icon>
-            <span>Driver Intake</span>
+            <mat-icon>smartphone</mat-icon>
+            <span>Driver Mobile App</span>
           </a>
-          <a routerLink="/w4-upload" (click)="closeMobileMenu()" class="mobile-portal-btn">
-            <mat-icon>file_upload</mat-icon>
-            <span>W-4 Document Portal</span>
+          <a routerLink="/admin/login" (click)="closeMobileMenu()" class="mobile-portal-btn">
+            <mat-icon>desktop_windows</mat-icon>
+            <span>Dispatch Console</span>
           </a>
         </div>
       </div>
@@ -203,18 +158,18 @@
 
       <div class="mobile-actions-panel">
         <ng-container *ngIf="!isAuthenticated">
-          <a mat-stroked-button routerLink="/login" (click)="closeMobileMenu()" class="mobile-signin-btn">
+          <a mat-stroked-button routerLink="/admin/login" (click)="closeMobileMenu()" class="mobile-signin-btn">
             <mat-icon>login</mat-icon>
             <span>Sign In to FleetOS</span>
           </a>
-          <a mat-flat-button color="primary" routerLink="/login" (click)="closeMobileMenu()" class="mobile-primary-btn">
+          <a mat-flat-button color="primary" routerLink="/admin/signup" (click)="closeMobileMenu()" class="mobile-primary-btn">
             <span>Start 14-Day Free Trial</span>
             <mat-icon>arrow_forward</mat-icon>
           </a>
         </ng-container>
 
         <ng-container *ngIf="isAuthenticated">
-          <a *ngIf="isAdmin" mat-flat-button color="primary" routerLink="/admin" (click)="closeMobileMenu()" class="mobile-primary-btn">
+          <a *ngIf="isAdmin" mat-flat-button color="primary" routerLink="/admin/dispatch" (click)="closeMobileMenu()" class="mobile-primary-btn">
             <mat-icon>dashboard</mat-icon>
             <span>Enter Operator Console</span>
           </a>

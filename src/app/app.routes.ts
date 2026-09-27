@@ -1,60 +1,57 @@
 import { Routes } from '@angular/router';
-
-// Layout Shells
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-
-// Public Surface Components
-import { HomeComponent } from './pages/home/home.component';
-import { DriverApplicationComponent } from './transportations/driver-forms/driver-forms.component';
-import { W4UploadComponent } from './transportations/w4-upload/w4-upload.component';
-import { DriverVaultComponent } from './transportations/driver-vault/driver-vault.component';
-import { DriverDvirComponent } from './transportations/driver-dvir/driver-dvir.component';
-import { LoginComponent } from './pages/login/login.component';
-import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
-
-// Authenticated Admin Surface Components
-import { ExecutiveOverviewComponent } from './pages/admin/executive-overview/executive-overview.component';
-import { CandidateAtsComponent } from './pages/admin/candidate-ats/candidate-ats.component';
-import { AuditShieldComponent } from './pages/admin/audit-shield/audit-shield.component';
-import { FleetVehiclesComponent } from './pages/admin/fleet-vehicles/fleet-vehicles.component';
-import { WorkspaceBillingComponent } from './pages/admin/workspace-billing/workspace-billing.component';
-
-import { authGuard } from './guards/auth.guard';
+import { DriverLayoutComponent } from './layouts/driver-layout/driver-layout.component';
 
 export const routes: Routes = [
-  // --- STANDALONE DISTRACTION-FREE APPLICANT PORTAL (Decoupled from marketing shell) ---
-  { path: 'driver', component: DriverApplicationComponent },
-  { path: 'apply', component: DriverApplicationComponent },
-
-  // --- PUBLIC MARKETING & ONBOARDING SURFACE ---
+  // Public Marketing Surface
   {
     path: '',
     component: PublicLayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'w4-upload', component: W4UploadComponent },
-      { path: 'w-4-upload', redirectTo: 'w4-upload', pathMatch: 'full' },
-      { path: 'driver/vault', component: DriverVaultComponent },
-      { path: 'driver/dvir', component: DriverDvirComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'admin/login', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'access-denied', component: AccessDeniedComponent }
+      { path: '', loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) },
+      { path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
+      { path: 'apply', loadComponent: () => import('./transportations/driver-forms/driver-forms.component').then(m => m.DriverApplicationComponent) },
+      { path: 'w4-upload', loadComponent: () => import('./transportations/w4-upload/w4-upload.component').then(m => m.W4UploadComponent) },
+      { path: 'access-denied', loadComponent: () => import('./pages/access-denied/access-denied.component').then(m => m.AccessDeniedComponent) }
     ]
   },
 
-  // --- AUTHENTICATED SAAS ADMIN DASHBOARD ---
+  // Standalone Admin Auth Pages
+  {
+    path: 'admin/login',
+    loadComponent: () => import('./pages/admin/auth/admin-login.component').then(m => m.AdminLoginComponent)
+  },
+  {
+    path: 'admin/signup',
+    loadComponent: () => import('./pages/admin/auth/admin-signup.component').then(m => m.AdminSignupComponent)
+  },
+
+  // Desktop Admin & Dispatch Operations
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    canActivate: [authGuard],
     children: [
-      { path: '', redirectTo: 'overview', pathMatch: 'full' },
-      { path: 'overview', component: ExecutiveOverviewComponent },
-      { path: 'candidates', component: CandidateAtsComponent },
-      { path: 'audit-shield', component: AuditShieldComponent },
-      { path: 'fleet', component: FleetVehiclesComponent },
-      { path: 'billing', component: WorkspaceBillingComponent }
+      { path: '', redirectTo: 'dispatch', pathMatch: 'full' },
+      { path: 'dispatch', loadComponent: () => import('./pages/admin/dispatch-console/dispatch-console.component').then(m => m.DispatchConsoleComponent) },
+      { path: 'overview', loadComponent: () => import('./pages/admin/executive-overview/executive-overview.component').then(m => m.ExecutiveOverviewComponent) },
+      { path: 'candidates', loadComponent: () => import('./pages/admin/candidate-ats/candidate-ats.component').then(m => m.CandidateAtsComponent) },
+      { path: 'audit-shield', loadComponent: () => import('./pages/admin/audit-shield/audit-shield.component').then(m => m.AuditShieldComponent) },
+      { path: 'fleet', loadComponent: () => import('./pages/admin/fleet-vehicles/fleet-vehicles.component').then(m => m.FleetVehiclesComponent) },
+      { path: 'billing', loadComponent: () => import('./pages/admin/workspace-billing/workspace-billing.component').then(m => m.WorkspaceBillingComponent) }
+    ]
+  },
+
+  // Mobile Driver Experience
+  {
+    path: 'driver',
+    component: DriverLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', loadComponent: () => import('./pages/driver/driver-login/driver-login.component').then(m => m.DriverLoginComponent) },
+      { path: 'verification', loadComponent: () => import('./pages/driver/driver-verification/driver-verification.component').then(m => m.DriverVerificationComponent) },
+      { path: 'trips', loadComponent: () => import('./pages/driver/driver-runs/driver-runs.component').then(m => m.DriverRunsComponent) },
+      { path: 'credentials', loadComponent: () => import('./pages/driver/driver-credentials/driver-credentials.component').then(m => m.DriverCredentialsComponent) }
     ]
   },
 

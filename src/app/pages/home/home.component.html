@@ -1,300 +1,84 @@
-<div class="marketing-page">
+<div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500 selection:text-white">
 
   <!-- =========================================================================
-       1. HERO SECTION
+       HERO SECTION: THE COMPLETE NEMT OPERATING SYSTEM
        ========================================================================= -->
-  <section class="hero-section">
-    <div class="hero-backdrop-glow"></div>
-    <div class="hero-container">
+  <section class="relative pt-12 pb-20 sm:pt-16 sm:pb-28 overflow-hidden bg-gradient-to-b from-blue-50/70 via-white to-slate-50 border-b border-slate-200/70">
+    <!-- Ambient Background Glow Effects -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-r from-blue-400/10 via-indigo-500/10 to-teal-400/10 blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute -top-24 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-2xl pointer-events-none -z-10"></div>
+    <div class="absolute -top-24 right-1/4 w-80 h-80 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none -z-10"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       
-      <!-- Modern Badge -->
-      <div class="hero-badge-pill">
-        <span class="badge-dot-pulse"></span>
-        <mat-icon class="badge-icon">verified_user</mat-icon>
-        <span class="badge-text">Medicaid Audit Defense &amp; Digital Onboarding</span>
+      <!-- Eyebrow Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-blue-800 text-xs sm:text-sm font-semibold shadow-xs mb-8 hover:bg-blue-100 transition-colors">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+        </span>
+        <span>⚡ Built for 5–25 Vehicle Fleets • Compatible with State Medicaid &amp; MediDrive / Modivcare / MTM</span>
       </div>
 
-      <!-- Headline -->
-      <h1 class="hero-headline">
-        Never Fail an NEMT Audit Again.<br />
-        <span class="hero-headline-highlight">Ditch the Paper Binders.</span>
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] max-w-4xl mx-auto mb-6">
+        The Dispatch &amp; Medicaid Audit <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 bg-clip-text text-transparent">Operating System</span> for NEMT Fleets
       </h1>
 
-      <!-- Subheadline -->
-      <p class="hero-subheadline">
-        Streamline driver intake, automate credential expirations, and stay 100% audit-ready for Medicaid and national brokers in minutes.
+      <!-- Sub-headline -->
+      <p class="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
+        Equip your dispatchers with a live GPS desktop command console and your drivers with a seamless mobile execution app. Eliminate paper manifests, stop Medicaid clawbacks, and automate driver credentialing.
       </p>
 
-      <!-- Action Buttons -->
-      <div class="hero-cta-actions">
-        <a mat-flat-button color="primary" routerLink="/admin" class="cta-primary-btn">
-          <mat-icon>rocket_launch</mat-icon>
-          <span>Start Free Trial</span>
+      <!-- Primary CTA Group -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md sm:max-w-none mx-auto mb-14">
+        <a routerLink="/admin/signup"
+           class="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2.5 group">
+          <svg class="w-5 h-5 text-blue-200 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span>Start 14-Day Free Fleet Trial</span>
+          <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
         </a>
-        <a mat-stroked-button routerLink="/driver" class="cta-secondary-btn">
-          <mat-icon>badge</mat-icon>
-          <span>Driver Portal Preview</span>
+
+        <a routerLink="/admin/dispatch"
+           class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm sm:text-base border border-slate-300 hover:border-slate-400 shadow-sm hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2.5">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Launch Live Interactive Demo</span>
         </a>
       </div>
 
-      <!-- Micro Trust Badges -->
-      <div class="hero-trust-bar">
-        <span class="trust-item"><mat-icon>check_circle</mat-icon> 14-Day Free Trial</span>
-        <span class="trust-dot">&bull;</span>
-        <span class="trust-item"><mat-icon>check_circle</mat-icon> No Credit Card Required</span>
-        <span class="trust-dot">&bull;</span>
-        <span class="trust-item"><mat-icon>check_circle</mat-icon> Modivcare &amp; MTM Compliant</span>
-      </div>
-
-      <!-- Hero Mockup Preview: "Medicaid Audit Shield Status" Dashboard -->
-      <div class="hero-mockup-wrapper">
-        <div class="mockup-frame-card">
-          
-          <!-- Mockup Window Header -->
-          <div class="mockup-window-header">
-            <div class="window-controls">
-              <span class="ctrl-dot dot-red"></span>
-              <span class="ctrl-dot dot-yellow"></span>
-              <span class="ctrl-dot dot-green"></span>
-            </div>
-            <div class="mockup-url-bar">
-              <mat-icon class="url-lock-icon">lock</mat-icon>
-              <span>fleetos.app/admin/audit-shield &bull; Metro Care Transit LLC</span>
-            </div>
-            <div class="shield-live-status">
-              <span class="pulse-live"></span>
-              <span>Audit Shield: Active</span>
-            </div>
-          </div>
-
-          <!-- Mockup Content Canvas -->
-          <div class="mockup-canvas">
-            
-            <!-- Mockup Header Row -->
-            <div class="mockup-top-bar">
-              <div class="mockup-title-block">
-                <span class="mockup-sub">Continuous Compliance Engine</span>
-                <h3 class="mockup-title">Medicaid Audit Shield Status</h3>
-              </div>
-              <div class="mockup-stat-pill">
-                <mat-icon class="shield-pass-icon">shield</mat-icon>
-                <span>Zero Claim Denials Recorded</span>
-              </div>
-            </div>
-
-            <!-- Mockup Quick KPI Strip -->
-            <div class="mockup-kpi-grid">
-              <div class="mockup-kpi-item">
-                <span class="kpi-label">Active Fleet Drivers</span>
-                <span class="kpi-value">28 Drivers</span>
-                <span class="kpi-status ok"><mat-icon>check_circle</mat-icon> 100% Compliant</span>
-              </div>
-              <div class="mockup-kpi-item">
-                <span class="kpi-label">DQF Files Complete</span>
-                <span class="kpi-value">28 / 28 Files</span>
-                <span class="kpi-status ok"><mat-icon>check_circle</mat-icon> 0 Missing Items</span>
-              </div>
-              <div class="mockup-kpi-item">
-                <span class="kpi-label">Upcoming Expirations</span>
-                <span class="kpi-value warning">1 Impending</span>
-                <span class="kpi-status warn"><mat-icon>schedule</mat-icon> CPR Exp: 22 Days (Alerted)</span>
-              </div>
-              <div class="mockup-kpi-item">
-                <span class="kpi-label">Broker Audit Readiness</span>
-                <span class="kpi-value">100% Pass</span>
-                <span class="kpi-status ok"><mat-icon>verified</mat-icon> 1-Click Export Ready</span>
-              </div>
-            </div>
-
-            <!-- Mockup Mini Table Preview -->
-            <div class="mockup-table-box">
-              <div class="mockup-table-header">
-                <span>Driver Qualification Profile</span>
-                <span>MVR &amp; Driver License</span>
-                <span>CPR / First Aid</span>
-                <span>Dispatch Shield</span>
-              </div>
-              
-              <div class="mockup-table-row">
-                <div class="col-driver">
-                  <strong>Marcus Vance</strong>
-                  <small>Van #4 (Wheelchair Ramp)</small>
-                </div>
-                <div class="col-license">
-                  <span>CO-9842104 &bull; Class C</span>
-                  <small class="text-ok">Valid (Exp 11/2026)</small>
-                </div>
-                <div class="col-cpr">
-                  <span class="cpr-badge-warn">Exp: 22 Days (Alert Sent)</span>
-                </div>
-                <div class="col-status">
-                  <span class="mock-status-pill approved">
-                    <mat-icon>verified</mat-icon> DISPATCH READY
-                  </span>
-                </div>
-              </div>
-
-              <div class="mockup-table-row">
-                <div class="col-driver">
-                  <strong>Elena Rostova</strong>
-                  <small>Van #2 (Bariatric Lift)</small>
-                </div>
-                <div class="col-license">
-                  <span>CO-7714902 &bull; Class B CDL</span>
-                  <small class="text-ok">Valid (Exp 08/2027)</small>
-                </div>
-                <div class="col-cpr">
-                  <span class="cpr-badge-ok">Valid (Exp 01/2027)</span>
-                </div>
-                <div class="col-status">
-                  <span class="mock-status-pill approved">
-                    <mat-icon>verified</mat-icon> DISPATCH READY
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Mockup Bottom Notification Banner -->
-            <div class="mockup-banner">
-              <mat-icon class="banner-icon">gpp_good</mat-icon>
-              <span>Automated Medicaid Exclusion &amp; Pre-Trip Inspection Lockout Active across all vehicles.</span>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- =========================================================================
-       2. VALUE STRIP / SOCIAL PROOF
-       ========================================================================= -->
-  <section class="value-strip-section">
-    <div class="value-strip-container">
-      <div class="value-grid">
+      <!-- Social Proof Bar -->
+      <div class="pt-8 border-t border-slate-200/80 max-w-4xl mx-auto">
+        <p class="text-xs uppercase tracking-widest font-bold text-slate-500 mb-6">
+          Trusted by independent medical transit operators across Colorado &amp; nationwide
+        </p>
         
-        <div class="value-stat-card">
-          <div class="value-stat-number">100%</div>
-          <div class="value-stat-title">Audit-Ready Rosters</div>
-          <p class="value-stat-desc">Complete digital qualification dossiers ready for immediate state &amp; broker inspection.</p>
-        </div>
-
-        <div class="value-stat-divider"></div>
-
-        <div class="value-stat-card">
-          <div class="value-stat-number">&lt; 5 Min</div>
-          <div class="value-stat-title">Under 5-Min Driver Intake</div>
-          <p class="value-stat-desc">Mobile camera photo snap and electronic signatures get qualified drivers submitted in minutes.</p>
-        </div>
-
-        <div class="value-stat-divider"></div>
-
-        <div class="value-stat-card">
-          <div class="value-stat-number">0</div>
-          <div class="value-stat-title">0 Claim Denials From Expired Credentials</div>
-          <p class="value-stat-desc">Automated 30-day proactive alert sentinels prevent disqualified trips from ever getting dispatched.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =========================================================================
-       3. 3-CARD FEATURE BREAKDOWN
-       ========================================================================= -->
-  <section class="features-section scroll-mt-20" id="features" style="scroll-margin-top: 5rem;">
-    <div class="features-container">
-      
-      <div class="section-intro-header">
-        <span class="intro-pill-badge">Core Platform Capabilities</span>
-        <h2 class="section-title">Built Specifically for NEMT Regulations &amp; Broker Audits</h2>
-        <p class="section-subtitle">
-          Generic HR tools don't understand Modivcare guidelines or Medicaid fraud defense. FleetOS is purpose-built to eliminate paperwork chaos and protect your cash flow.
-        </p>
-      </div>
-
-      <div class="features-grid">
-
-        <!-- Card 1: Digital Qualification Files (DQF) -->
-        <div class="feature-card">
-          <div class="feature-icon-circle blue">
-            <mat-icon>folder_shared</mat-icon>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left sm:text-center">
+          <div class="p-4 rounded-2xl bg-white/80 backdrop-blur-xs border border-slate-200 shadow-xs">
+            <div class="text-2xl sm:text-3xl font-extrabold text-blue-600 tracking-tight">100% Audit Ready</div>
+            <div class="text-xs sm:text-sm font-semibold text-slate-800 mt-1">Medicaid Proof of Delivery</div>
+            <p class="text-xs text-slate-500 mt-0.5">Digital signatures &amp; verified odometer logs</p>
           </div>
-          <h3 class="feature-card-title">Digital Qualification Files (DQF)</h3>
-          <p class="feature-card-description">
-            Replace physical paper files with secure digital profiles, W-4 signatures, and background check releases.
-          </p>
-          <ul class="feature-checklist">
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>Standard W-4 / W-9 IRS tax document vault with instant download</span>
-            </li>
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>FCRA-compliant 7-year background check &amp; MVR authorization releases</span>
-            </li>
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>Digital legal signature capture with tamper-proof timestamps</span>
-            </li>
-          </ul>
-        </div>
 
-        <!-- Card 2: Expiration Radar & Alerts -->
-        <div class="feature-card highlight-border">
-          <div class="card-top-tag">Proactive Sentinels</div>
-          <div class="feature-icon-circle emerald">
-            <mat-icon>verified_user</mat-icon>
+          <div class="p-4 rounded-2xl bg-white/80 backdrop-blur-xs border border-slate-200 shadow-xs">
+            <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight">0 Denied Claims</div>
+            <div class="text-xs sm:text-sm font-semibold text-slate-800 mt-1">Lockout Shield Protection</div>
+            <p class="text-xs text-slate-500 mt-0.5">Automated pre-trip verification &amp; GPS timestamps</p>
           </div>
-          <h3 class="feature-card-title">Automated Expiry Radar</h3>
-          <p class="feature-card-description">
-            Real-time tracking of CPR cards, driver licenses, and vehicle inspections with zero manual spreadsheets.
-          </p>
-          <ul class="feature-checklist">
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>Automated 30/15/7-day SMS &amp; email expiration warnings for CPR &amp; DOT physicals</span>
-            </li>
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>1-Click Audit Export: Instantly generate compliant PDF binders for brokers</span>
-            </li>
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>Automated dispatch lockout shield blocks non-compliant operators</span>
-            </li>
-          </ul>
-        </div>
 
-        <!-- Card 3: Mobile Driver Portal -->
-        <div class="feature-card">
-          <div class="feature-icon-circle purple">
-            <mat-icon>smartphone</mat-icon>
+          <div class="p-4 rounded-2xl bg-white/80 backdrop-blur-xs border border-slate-200 shadow-xs">
+            <div class="text-2xl sm:text-3xl font-extrabold text-indigo-600 tracking-tight">5-Min Onboarding</div>
+            <div class="text-xs sm:text-sm font-semibold text-slate-800 mt-1">Zero Hardware Required</div>
+            <p class="text-xs text-slate-500 mt-0.5">iOS, Android &amp; Web PWA support</p>
           </div>
-          <h3 class="feature-card-title">Mobile Driver Portal</h3>
-          <p class="feature-card-description">
-            Clean, responsive intake where drivers snap license photos and sign onboarding documents on the go.
-          </p>
-          <ul class="feature-checklist">
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>Direct smartphone camera capture with instant thumbnail preview and retake</span>
-            </li>
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>Intuitive 4-step guided intake: Personal, License, Employment, and W-4</span>
-            </li>
-            <li>
-              <mat-icon class="check-bullet">check_circle</mat-icon>
-              <span>No app store downloads required; runs natively on any mobile browser</span>
-            </li>
-          </ul>
         </div>
-
       </div>
 
     </div>
@@ -302,280 +86,703 @@
 
 
   <!-- =========================================================================
-       4. COMPLIANCE & MEDICAID AUDIT SHIELD DEDICATED SECTION
+       DUAL-PRODUCT ECOSYSTEM SHOWCASE (DESKTOP & MOBILE COMPATIBILITY)
        ========================================================================= -->
-  <!-- Compliance / Audit Shield Section -->
-  <section id="compliance" class="scroll-mt-20 py-20 bg-slate-900 text-white" style="scroll-margin-top: 5rem;">
-    <span id="audit-shield" class="anchor-target" style="scroll-margin-top: 5rem;"></span>
+  <section class="py-20 bg-white border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Medicaid Audit Shield &bull; Continuous Defense
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-wider mb-3">
+          Dual-Product Ecosystem
         </div>
-        <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-          Never Fail an NEMT Audit Again. Ditch the Paper Binders.
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Two Purpose-Built Surfaces. One Synchronized Engine.
         </h2>
-        <p class="mt-4 text-base text-slate-300 leading-relaxed">
-          State Medicaid agencies and national brokers like Modivcare and MTM audit driver rosters without warning. 
-          FleetOS continuously verifies credentials, screens federal exclusion databases, and compiles inspection binders in 1 click.
+        <p class="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
+          Status transitions and proof of delivery logged on mobile update the desktop dispatcher console in real-time.
         </p>
       </div>
 
-      <!-- 4 Pillars Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-emerald-500/50 transition shadow-lg">
-          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
-            <mat-icon>security</mat-icon>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">OIG &amp; SAM Screening</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            Automated recurring monthly checks against federal LEIE &amp; SAM exclusion databases to prevent illegal Medicaid billing.
-          </p>
-        </div>
+      <!-- Two-Column Product Comparison Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
-        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-blue-500/50 transition shadow-lg">
-          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
-            <mat-icon>notifications_active</mat-icon>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">30/15/7-Day Radar</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            Proactive multi-channel SMS and email expiration alerts for CPR, DOT physicals, and driver licenses before trips are booked.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-purple-500/50 transition shadow-lg">
-          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
-            <mat-icon>picture_as_pdf</mat-icon>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">1-Click Audit Export</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            Instantly package complete, timestamped DQF dossiers into broker-compliant PDF binders for immediate field inspection.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 hover:border-amber-500/50 transition shadow-lg">
-          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
-            <mat-icon>gavel</mat-icon>
-          </div>
-          <h3 class="text-lg font-bold text-white mb-2">Dispatch Lockout</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            Automated safety shield automatically blocks non-compliant drivers or expired vehicles from receiving dispatched trips.
-          </p>
-        </div>
-      </div>
-
-      <!-- Live Compliance Status Banner inside Section -->
-      <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center shrink-0">
-            <mat-icon>verified</mat-icon>
-          </div>
+        <!-- CARD 1: Desktop Dispatch & Live Tracking Console -->
+        <div class="flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-slate-50 border-2 border-slate-200/90 hover:border-blue-400 hover:shadow-xl transition-all duration-300 relative group">
           <div>
-            <div class="text-white font-bold text-base">Medicaid Audit Shield Active Guarantee</div>
-            <p class="text-xs text-slate-400 mt-0.5">Tested against Department of Health, Modivcare, and MTM audit protocols.</p>
+            <div class="flex items-center justify-between gap-2 flex-wrap mb-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wide">
+                <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span>Desktop Web App • For Fleet Owners &amp; Dispatchers</span>
+              </span>
+              <span class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Live Dispatch Active</span>
+              </span>
+            </div>
+
+            <h3 class="text-2xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+              Desktop Dispatch &amp; Live Tracking Console
+            </h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+              Real-time situational awareness for fleet coordinators. Track GPS breadcrumbs, manage dynamic driver assignments, and compile Medicaid audit proofs in one click.
+            </p>
+
+            <!-- Visual Preview Snippet -->
+            <div class="mt-6 mb-6 p-4 rounded-2xl bg-slate-900 text-white shadow-inner border border-slate-800 space-y-3 font-sans">
+              <div class="flex items-center justify-between text-xs pb-2 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping"></span>
+                  <span class="font-bold text-slate-200">Denver Metro • Live Telemetry Radar</span>
+                </div>
+                <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+                  WEBSOCKET SYNC
+                </span>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700 flex items-center justify-between text-xs">
+                <div class="truncate mr-2">
+                  <div class="font-bold text-slate-100">TRP-101 • Eleanor Vance (Wheelchair)</div>
+                  <div class="text-[10px] text-slate-400 truncate">500 E Hampden Ave &rarr; 1420 S Pearl St</div>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-900/80 text-blue-300 border border-blue-500/40 shrink-0">
+                  EN ROUTE
+                </span>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700 flex items-center justify-between text-xs">
+                <div class="truncate mr-2">
+                  <div class="font-bold text-slate-100">TRP-102 • James Miller (Ambulatory)</div>
+                  <div class="text-[10px] text-slate-400 truncate">700 Delaware St &rarr; 1601 E 19th Ave</div>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-700 text-slate-300 shrink-0">
+                  SCHEDULED
+                </span>
+              </div>
+            </div>
+
+            <!-- Features Checklist -->
+            <ul class="space-y-2.5 text-sm text-slate-700 mb-8">
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>Live Leaflet interactive fleet map</strong> with real-time GPS pings</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>Instant trip dispatching</strong> &amp; dynamic driver reassignment</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>1-Click Medicaid Audit Binder export</strong> (PDF trip logs with signatures)</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>Proactive driver credential radar</strong> (30-day CPR/DOT expiration warnings)</span>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <a mat-flat-button color="primary" routerLink="/login" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg shadow-md transition">
-            Activate Audit Shield
-          </a>
-          <a mat-stroked-button routerLink="/driver" class="border border-slate-600 text-slate-300 hover:text-white px-5 py-2.5 rounded-lg transition">
-            Driver Preview
-          </a>
-        </div>
-      </div>
 
-    </div>
-  </section>
-
-
-  <!-- =========================================================================
-       5. TRANSPARENT SAAS PRICING TABLE
-       ========================================================================= -->
-  <!-- Pricing Section -->
-  <section id="pricing" class="pricing-section scroll-mt-20 py-20 bg-slate-50" style="scroll-margin-top: 5rem;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-3xl font-bold text-slate-900">Simple, Transparent Fleet Pricing</h2>
-        <p class="mt-3 text-base text-slate-600">Everything you need to stay Medicaid audit-proof.</p>
-      </div>
-
-      <div class="pricing-grid">
-
-        <!-- Tier 1: Starter -->
-        <div class="pricing-card">
-          <div class="pricing-card-header">
-            <span class="plan-level">Starter</span>
-            <div class="price-row">
-              <span class="currency">$</span>
-              <span class="price-value">49</span>
-              <span class="period">/mo</span>
-            </div>
-            <p class="plan-tagline">Ideal for independent operators and small startup fleets.</p>
-          </div>
-
-          <div class="plan-features-list">
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span><strong>Up to 5 Active Drivers</strong></span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Digital Onboarding Portal</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Basic Document Storage</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Mobile License Photo Capture</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Email Support</span>
-            </div>
-          </div>
-
-          <div class="pricing-card-action">
-            <a mat-stroked-button color="primary" routerLink="/admin" class="plan-cta-btn">
-              Start 14-Day Free Trial
+          <div class="pt-4 border-t border-slate-200">
+            <a routerLink="/admin/dispatch"
+               class="w-full py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 transition-all flex items-center justify-center gap-2 group">
+              <span>Open Dispatch Console</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
             </a>
           </div>
         </div>
 
-        <!-- Tier 2: Growth (Most Popular) -->
-        <div class="pricing-card popular-card">
-          <div class="popular-ribbon">Most Popular</div>
-          <div class="pricing-card-header">
-            <span class="plan-level">Growth</span>
-            <div class="price-row">
-              <span class="currency">$</span>
-              <span class="price-value">149</span>
-              <span class="period">/mo</span>
+        <!-- CARD 2: Driver Mobile Operations App -->
+        <div class="flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-slate-50 border-2 border-slate-200/90 hover:border-emerald-400 hover:shadow-xl transition-all duration-300 relative group">
+          <div>
+            <div class="flex items-center justify-between gap-2 flex-wrap mb-4">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wide">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                <span>Native iOS, Android &amp; Mobile Web PWA • For Field Drivers</span>
+              </span>
+              <span class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Van #4 On-Duty</span>
+              </span>
             </div>
-            <p class="plan-tagline">The complete compliance engine for growing NEMT companies.</p>
+
+            <h3 class="text-2xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+              Driver Mobile Operations App
+            </h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+              Distraction-free mobile execution flow designed for drivers wearing gloves. One-tap lifecycle steppers, turn-by-turn navigation, and tamper-proof touch signatures.
+            </p>
+
+            <!-- Visual Preview Snippet -->
+            <div class="mt-6 mb-6 p-4 rounded-2xl bg-white shadow-sm border border-slate-200 space-y-3 font-sans">
+              <div class="flex items-center justify-between text-xs">
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px]">
+                  Wheelchair (WC)
+                </span>
+                <span class="font-bold text-blue-600 text-xs">09:30 AM Target</span>
+              </div>
+              <div>
+                <div class="font-bold text-sm text-slate-900">Eleanor Vance</div>
+                <div class="text-xs text-slate-500 mt-0.5">📍 500 E Hampden Ave, Englewood, CO</div>
+              </div>
+              <div class="pt-1">
+                <div class="w-full py-2.5 rounded-xl bg-amber-500 text-white font-bold text-xs text-center shadow-xs flex items-center justify-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span>Arrived at Pickup Location</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Features Checklist -->
+            <ul class="space-y-2.5 text-sm text-slate-700 mb-6">
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>Turn-by-turn navigation link</strong> to Google Maps / Waze</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>1-Tap trip lifecycle stepper:</strong> En Route &rarr; Arrived &rarr; Boarded &rarr; Complete</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>In-app digital signature canvas</strong> for patient &amp; facility sign-off</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <svg class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span><strong>Daily pre-trip vehicle safety checklist</strong> &amp; odometer verification</span>
+              </li>
+            </ul>
+
+            <!-- App Store & Google Play Badges -->
+            <div class="pt-4 border-t border-slate-200/80 mb-6">
+              <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
+                Download for field operators:
+              </p>
+              <div class="flex items-center gap-3 flex-wrap">
+                <a routerLink="/driver/login"
+                   class="inline-flex items-center gap-3 bg-slate-950 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">
+                  <svg class="w-6 h-6 fill-current text-white shrink-0" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.63 1.35-.57.65-.98 1.72-.85 2.74 1.01.08 2.04-.54 2.56-1.24z"/>
+                  </svg>
+                  <div class="text-left leading-tight">
+                    <span class="text-[9px] uppercase tracking-wider text-slate-300 block">Download on the</span>
+                    <span class="text-xs font-bold text-white block">App Store</span>
+                  </div>
+                </a>
+
+                <a routerLink="/driver/login"
+                   class="inline-flex items-center gap-3 bg-slate-950 hover:bg-slate-800 text-white px-4 py-2.5 rounded-xl border border-slate-800 shadow-md transition-all cursor-pointer">
+                  <svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M3.6 1.8L13.8 12 3.6 22.2c-.3-.3-.5-.7-.5-1.2V3c0-.5.2-.9.5-1.2z"/>
+                    <path fill="#34A853" d="M17.2 8.6L13.8 12l3.4 3.4 3.9-2.2c1.1-.6 1.1-1.7 0-2.3l-3.9-2.3z"/>
+                    <path fill="#FBBC05" d="M3.6 1.8c.2-.2.5-.3.8-.3.4 0 .8.2 1.1.4l11.7 6.7-3.4 3.4L3.6 1.8z"/>
+                    <path fill="#EA4335" d="M13.8 12l3.4 3.4-11.7 6.7c-.3.2-.7.4-1.1.4-.3 0-.6-.1-.8-.3L13.8 12z"/>
+                  </svg>
+                  <div class="text-left leading-tight">
+                    <span class="text-[9px] uppercase tracking-wider text-slate-300 block">GET IT ON</span>
+                    <span class="text-xs font-bold text-white block">Google Play</span>
+                  </div>
+                </a>
+              </div>
+
+              <div class="mt-3">
+                <a routerLink="/driver/login" class="text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
+                  <span>Or open instantly in Mobile Web Browser</span>
+                  &rarr;
+                </a>
+              </div>
+            </div>
           </div>
 
-          <div class="plan-features-list">
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check feat-highlight">check</mat-icon>
-              <span><strong>Up to 25 Active Drivers</strong></span>
+          <div class="pt-4 border-t border-slate-200">
+            <a routerLink="/driver/login"
+               class="w-full py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 group">
+              <span>Launch Driver Mobile App</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       SECTION 1: FEATURES SHOWCASE (id="features")
+       ========================================================================= -->
+  <section id="features" class="py-20 bg-slate-50 scroll-mt-20 border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-3">
+          End-to-End Capabilities
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Everything Your Fleet Needs to Operate at Full Capacity
+        </h2>
+        <p class="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
+          Engineered to satisfy strict state Medicaid regulations while maximizing driver utilization across every daily shift.
+        </p>
+      </div>
+
+      <!-- 3 Feature Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Feature 1: Live Desktop Dispatch Console -->
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-xs">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.485V5.515a2 2 0 011.553-1.959L9 2m0 18l6 3m-6-3V2m6 21l5.447-2.724A2 2 0 0021 18.485V8.515a2 2 0 00-1.553-1.959L15 4m0 17V4m0 0L9 2"/>
+              </svg>
             </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check feat-highlight">check</mat-icon>
-              <span><strong>Full Medicaid Audit Shield</strong></span>
+            <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+              Live Desktop Dispatch Console
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Interactive Leaflet map, live driver GPS pings, and instant will-call reassignments. Pinpoint delays before they impact schedules.
+            </p>
+            <ul class="pt-2 space-y-2 text-xs text-slate-600">
+              <li class="flex items-center gap-2">
+                <span class="text-blue-600 font-bold">✓</span> Real-time polyline telemetry routing
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-blue-600 font-bold">✓</span> Centered quick dispatch modal overlay
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-blue-600 font-bold">✓</span> Van-level driver status monitoring
+              </li>
+            </ul>
+          </div>
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <a routerLink="/admin/dispatch" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5">
+              <span>Explore Dispatch Console</span>
+              &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature 2: Native Driver Execution App -->
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-xs">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              </svg>
             </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check feat-highlight">check</mat-icon>
-              <span>Automated Expiry SMS/Email Alerts</span>
+            <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+              Native Driver Execution App
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Turn-by-turn routing, one-tap trip status progression, and in-app signoffs. Keeps field operators focused strictly on safe driving.
+            </p>
+            <ul class="pt-2 space-y-2 text-xs text-slate-600">
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-600 font-bold">✓</span> Google Maps / Waze direction launcher
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-600 font-bold">✓</span> 1-Tap En Route &rarr; Arrived &rarr; Boarded
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-600 font-bold">✓</span> Digital signature canvas on device
+              </li>
+            </ul>
+          </div>
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <a routerLink="/driver/login" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 flex items-center gap-1.5">
+              <span>View Driver Workflow</span>
+              &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Feature 3: Pre-Trip Readiness Verification -->
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all duration-300 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-xs">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
             </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check feat-highlight">check</mat-icon>
-              <span><strong>1-Click Audit Export</strong> (Modivcare/MTM)</span>
+            <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+              Pre-Trip Readiness Verification
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Mandatory daily odometer checks and vehicle safety compliance checklists before unlocking manifest access.
+            </p>
+            <ul class="pt-2 space-y-2 text-xs text-slate-600">
+              <li class="flex items-center gap-2">
+                <span class="text-indigo-600 font-bold">✓</span> Certified beginning mileage audit records
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-indigo-600 font-bold">✓</span> Daily DVIR pre-trip vehicle walkaround
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-indigo-600 font-bold">✓</span> 30-Day CPR &amp; DOT physical sentinels
+              </li>
+            </ul>
+          </div>
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <a routerLink="/admin/overview" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5">
+              <span>Inspect Readiness Radar</span>
+              &rarr;
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       SECTION 2: MEDICAID AUDIT SHIELD (id="compliance")
+       ========================================================================= -->
+  <section id="compliance" class="py-20 bg-white scroll-mt-20 border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Continuous Regulatory Defense
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Medicaid Audit Shield: Zero Billing Denials
+        </h2>
+        <p class="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
+          Brokers and state auditors routinely claw back thousands for missing signatures and undocumented drop-offs. FleetOS makes every trip airtight.
+        </p>
+      </div>
+
+      <!-- 3 Pillars Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        
+        <!-- Pillar 1 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-400 transition shadow-xs space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center justify-center font-bold">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Tamper-Proof Digital Signatures</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Captured directly with patient or facility staff fingertips. Automatically embedded into certified PNG receipts with SHA-256 validation timestamps.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-400 transition shadow-xs space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-600 flex items-center justify-center font-bold">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">GPS-Stamped Odometer Logs</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Verified starting and ending mileage attached to billing runs. Proves billable miles traveled for state claims without manual spreadsheet math.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-400 transition shadow-xs space-y-3">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 flex items-center justify-center font-bold">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">1-Click State Audit Package</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Download a complete, compliant trip dossier ready for submission in 5 seconds. Formatted to satisfy Modivcare, MTM, and State Medicaid inspectors.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Problem vs. Solution Comparison Box -->
+      <div class="p-8 sm:p-10 rounded-3xl bg-slate-900 text-white shadow-xl border border-slate-800">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="text-xs uppercase tracking-widest font-bold text-slate-400">Why Fleets Switch</span>
+          <h3 class="text-2xl font-bold text-white mt-1">Paperwork Vulnerability vs. FleetOS Defense</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- The Old Paper Way -->
+          <div class="p-6 rounded-2xl bg-slate-800/80 border border-rose-900/60 space-y-4">
+            <div class="flex items-center gap-2 text-rose-400 font-bold text-sm border-b border-slate-700/80 pb-3">
+              <span>✕</span>
+              <span>The Old Paper Way</span>
             </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check feat-highlight">check</mat-icon>
-              <span>Vehicle DVIR Pre-Trip Inspections</span>
+            <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Paper clipboards lost between dialysis centers &amp; clinics</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Denied Medicaid claims due to missing patient signatures</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Surprise state audit panic hunting through binders</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Paying admin salaries just to track CPR card expirations</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- The NEMT FleetOS Way -->
+          <div class="p-6 rounded-2xl bg-slate-800/80 border border-emerald-600/60 space-y-4">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm border-b border-slate-700/80 pb-3">
+              <span>✓</span>
+              <span>The NEMT FleetOS Standard</span>
             </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check feat-highlight">check</mat-icon>
-              <span>Priority Phone &amp; Chat Support</span>
+            <ul class="space-y-3 text-xs sm:text-sm text-slate-200">
+              <li class="flex items-start gap-2.5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>GPS-timestamped digital proof of delivery on every run</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>In-app finger signature and odometer capture</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>1-Click audit binder export ready in under 5 seconds</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-emerald-400 font-bold">✓</span>
+                <span>Automated SMS/email alerts before credentials lapse</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       SECTION 3: TRANSPARENT PRICING TABLE (id="pricing")
+       ========================================================================= -->
+  <section id="pricing" class="py-20 bg-slate-50 border-t border-slate-200 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Transparent Fleet Plans
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Predictable, Scalable Pricing for Fleets of Any Size
+        </h2>
+        <p class="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
+          No setup fees. No multi-month contracts. Cancel anytime.
+        </p>
+      </div>
+
+      <!-- 3 Pricing Tiers Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto mb-16">
+        
+        <!-- Tier 1: Starter Fleet -->
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-6">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Starter Fleet</span>
+              <div class="flex items-baseline gap-1 mt-2">
+                <span class="text-4xl font-black text-slate-900">$49</span>
+                <span class="text-slate-500 font-semibold text-sm">/month</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-2">For independent operators and startup medical transit fleets.</p>
+            </div>
+
+            <div class="space-y-3 border-t border-slate-100 pt-6 text-xs sm:text-sm text-slate-700">
+              <div class="flex items-center gap-2.5 font-semibold text-slate-900">
+                <span class="text-blue-600 font-bold">✓</span> Up to 5 vehicles &amp; drivers
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Live dispatch &amp; driver mobile app
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Odometer &amp; signature capture
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Turn-by-turn map navigation
+              </div>
+              <div class="flex items-center gap-2.5 text-slate-400">
+                <span>—</span> Standard email support
+              </div>
             </div>
           </div>
 
-          <div class="pricing-card-action">
-            <a mat-flat-button color="primary" routerLink="/admin" class="plan-cta-btn plan-cta-primary">
-              Start 14-Day Free Trial
+          <div class="pt-8">
+            <a routerLink="/admin/signup"
+               class="w-full py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider text-center block shadow-sm transition">
+              Start Free Trial
+            </a>
+          </div>
+        </div>
+
+        <!-- Tier 2: Growth Pro (Most Popular) -->
+        <div class="bg-white rounded-3xl p-8 border-2 border-blue-600 shadow-xl relative flex flex-col justify-between lg:-translate-y-2">
+          <!-- Most Popular Ribbon -->
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-blue-600 text-white font-bold text-[11px] uppercase tracking-wider shadow-sm">
+            Most Popular
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Growth Pro</span>
+              <div class="flex items-baseline gap-1 mt-2">
+                <span class="text-4xl font-black text-slate-900">$99</span>
+                <span class="text-slate-500 font-semibold text-sm">/month</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-2">The standard operating system for growing Medicaid providers.</p>
+            </div>
+
+            <div class="space-y-3 border-t border-slate-100 pt-6 text-xs sm:text-sm text-slate-700">
+              <div class="flex items-center gap-2.5 font-bold text-slate-900">
+                <span class="text-blue-600 font-bold">✓</span> Up to 15 vehicles &amp; drivers
+              </div>
+              <div class="flex items-center gap-2.5 font-semibold text-slate-800">
+                <span class="text-blue-600 font-bold">✓</span> Everything in Starter +
+              </div>
+              <div class="flex items-center gap-2.5 font-bold text-emerald-700">
+                <span class="text-emerald-600 font-bold">✓</span> 1-Click Medicaid Audit Dossier PDF Export
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Automated CPR &amp; DOT expiration alerts
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Daily vehicle DVIR safety logs
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Priority chat &amp; email support
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-8">
+            <a routerLink="/admin/signup"
+               class="w-full py-4 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider text-center block shadow-lg shadow-blue-600/30 transition hover:shadow-blue-600/40">
+              Start Free Trial
             </a>
           </div>
         </div>
 
         <!-- Tier 3: Enterprise -->
-        <div class="pricing-card">
-          <div class="pricing-card-header">
-            <span class="plan-level">Enterprise</span>
-            <div class="price-row">
-              <span class="currency">$</span>
-              <span class="price-value">299</span>
-              <span class="period">/mo</span>
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+          <div class="space-y-6">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Enterprise</span>
+              <div class="flex items-baseline gap-1 mt-2">
+                <span class="text-4xl font-black text-slate-900">$199</span>
+                <span class="text-slate-500 font-semibold text-sm">/month</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-2">High-volume fleet control, multi-terminal dispatch, and dedicated SLAs.</p>
             </div>
-            <p class="plan-tagline">Custom broker defense and multi-branch control for large fleets.</p>
-          </div>
 
-          <div class="plan-features-list">
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span><strong>Unlimited Fleet</strong></span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Custom Broker Compliance Standards</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Multi-Branch Admin Access</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Dedicated Compliance Specialist</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>Custom Dispatch System Integrations</span>
-            </div>
-            <div class="plan-feature-item">
-              <mat-icon class="feat-check">check</mat-icon>
-              <span>99.9% Uptime Guarantee</span>
+            <div class="space-y-3 border-t border-slate-100 pt-6 text-xs sm:text-sm text-slate-700">
+              <div class="flex items-center gap-2.5 font-semibold text-slate-900">
+                <span class="text-blue-600 font-bold">✓</span> Up to 35 vehicles (expandable)
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Priority live phone dispatch support
+              </div>
+              <div class="flex items-center gap-2.5 font-semibold text-slate-800">
+                <span class="text-blue-600 font-bold">✓</span> Broker integration (MediDrive, Modivcare, MTM)
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Custom audit export &amp; billing feeds
+              </div>
+              <div class="flex items-center gap-2.5">
+                <span class="text-blue-600 font-bold">✓</span> Dedicated Compliance Account Manager
+              </div>
             </div>
           </div>
 
-          <div class="pricing-card-action">
-            <a mat-stroked-button color="primary" routerLink="/admin" class="plan-cta-btn">
-              Start 14-Day Free Trial
+          <div class="pt-8">
+            <a routerLink="/admin/signup"
+               class="w-full py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider text-center block shadow-sm transition">
+              Contact Sales
             </a>
           </div>
         </div>
 
       </div>
 
-    </div>
-  </section>
+      <!-- Pricing Teaser Banner -->
+      <div class="rounded-3xl bg-gradient-to-br from-blue-900 via-indigo-950 to-slate-950 text-white p-8 sm:p-12 shadow-2xl border border-slate-800 text-center relative overflow-hidden max-w-5xl mx-auto">
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
+        <div class="relative z-10 max-w-3xl mx-auto space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold uppercase tracking-wider">
+            Zero Risk Onboarding
+          </div>
 
-  <!-- =========================================================================
-       5. FINAL BOTTOM CTA BANNER
-       ========================================================================= -->
-  <section class="final-cta-section">
-    <div class="final-cta-container">
-      <div class="cta-banner-box">
-        <div class="cta-banner-glow"></div>
-        
-        <div class="cta-banner-content">
-          <h2 class="cta-banner-title">
-            Ready to protect your fleet from surprise Medicaid audits?
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Ready to deploy your dispatch console and mobile driver apps?
           </h2>
-          <p class="cta-banner-subtext">
-            Join hundreds of transportation providers who automated their compliance files with FleetOS. Get set up in under 5 minutes.
+
+          <p class="text-sm sm:text-base text-slate-300">
+            Join fleets across Colorado and nationwide operating with 100% audit confidence. 14-day zero-risk trial.
           </p>
 
-          <div class="cta-banner-btn-row">
-            <a mat-flat-button routerLink="/admin" class="cta-banner-solid-btn">
-              <mat-icon>rocket_launch</mat-icon>
-              <span>Get Started Now</span>
-            </a>
-            <a mat-stroked-button routerLink="/driver" class="cta-banner-ghost-btn">
-              <mat-icon>badge</mat-icon>
-              <span>Preview Driver Application</span>
-            </a>
+          <div class="flex items-center justify-center gap-6 text-xs sm:text-sm text-slate-300 flex-wrap pt-2">
+            <span class="flex items-center gap-1.5">
+              <span class="text-emerald-400 font-bold">✓</span> 14-Day Free Trial
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="text-emerald-400 font-bold">✓</span> No Credit Card Required
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="text-emerald-400 font-bold">✓</span> Cancel Anytime
+            </span>
           </div>
 
-          <span class="cta-banner-micro">14-day free trial &bull; Cancel anytime &bull; No setup fees</span>
+          <div class="pt-4">
+            <a routerLink="/admin/signup"
+               class="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-base shadow-xl shadow-blue-600/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer">
+              <span>Start Free Fleet Trial</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+          </div>
         </div>
-
       </div>
+
     </div>
   </section>
 

@@ -39,6 +39,16 @@
 
       <a
         class="nav-item"
+        routerLink="/admin/dispatch"
+        routerLinkActive="active"
+        title="Live Dispatch & Tracking Console"
+      >
+        <mat-icon class="nav-icon">alt_route</mat-icon>
+        <span class="nav-label" *ngIf="!sidebarCollapsed">Dispatch Console</span>
+      </a>
+
+      <a
+        class="nav-item"
         routerLink="/admin/overview"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
