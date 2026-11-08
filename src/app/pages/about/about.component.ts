@@ -20,12 +20,36 @@ import { MatIconModule } from '@angular/material/icon';
       <!-- Page header -->
       <section class="about-hero">
         <div class="about-container about-center">
-          <span class="about-badge">About FleetOS</span>
-          <h1 class="about-h1">Built by people who have watched NEMT paperwork eat a fleet alive</h1>
+          <span class="about-badge">Our Mission</span>
+          <h1 class="about-h1">Built for the fleets Medicaid depends on.</h1>
           <p class="about-lead">
-            NEMT FleetOS is the dispatch, driver, and compliance operating system for non-emergency medical
-            transportation providers — built in Colorado, for fleets running 5 to 35 vehicles.
+            FleetOS was engineered specifically for 5–25 vehicle NEMT operators who live and die by clean trip documentation. We replaced paper logs and clunky desktop software with a lightning-fast browser command system.
           </p>
+        </div>
+      </section>
+
+
+      <!-- Core Pillars (Israel's design) -->
+      <section class="about-section about-section-white">
+        <div class="about-container">
+          <div class="about-pillars-grid">
+            <div class="fleet-card about-pillar-card">
+              <div class="about-pillar-title">Compliance First</div>
+              <p class="about-small">GPS, timestamps, and signatures captured automatically so audit binders build themselves.</p>
+            </div>
+            <div class="fleet-card about-pillar-card">
+              <div class="about-pillar-title">Zero Hardware</div>
+              <p class="about-small">Runs entirely in standard web browsers across desktop, tablets, and phones.</p>
+            </div>
+            <div class="fleet-card about-pillar-card">
+              <div class="about-pillar-title">Driver Friendly</div>
+              <p class="about-small">Large touch targets and intuitive one-tap steps built for drivers on the road.</p>
+            </div>
+            <div class="fleet-card about-pillar-card">
+              <div class="about-pillar-title">Instant Sync</div>
+              <p class="about-small">A driver tap updates dispatch in real time, keeping your whole operation synchronized.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -215,12 +239,28 @@ import { MatIconModule } from '@angular/material/icon';
       .about-h2 { font-size: 32px; }
       .about-cta-row { flex-direction: row; }
       .about-steps-grid { grid-template-columns: 1fr 1fr; }
+      .about-pillars-grid { grid-template-columns: 1fr 1fr; }
     }
+    /* Core Pillars grid (Israel's design): 1 col phones, 2 cols tablets, 4 cols desktop */
+    .about-pillars-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .about-pillar-card { padding: 24px; border-radius: 16px; background: #ffffff; }
+    .about-pillar-card.fleet-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .about-pillar-card.fleet-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.3);
+      box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12);
+    }
+    .about-pillar-title { font-size: 18px; line-height: 1.4; font-weight: 700; color: #2563eb; margin-bottom: 8px; }
     @media (min-width: 1024px) {
       .about-container, .about-container-narrow { padding-left: 32px; padding-right: 32px; }
       .about-h1 { font-size: 48px; }
       .about-story-grid { grid-template-columns: 1fr 1fr; gap: 48px; }
       .about-steps-grid { grid-template-columns: repeat(4, 1fr); }
+      .about-pillars-grid { grid-template-columns: repeat(4, 1fr); }
       .about-legal-grid { grid-template-columns: 1fr 1fr; }
     }
   `]

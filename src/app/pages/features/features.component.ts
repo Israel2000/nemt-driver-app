@@ -13,89 +13,48 @@ import { MatIconModule } from '@angular/material/icon';
     <div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500 selection:text-white">
 
       <!-- Page header -->
-      <section class="pt-14 pb-12 bg-gradient-to-b from-blue-50/70 via-white to-slate-50 border-b border-slate-200/70">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section class="feat-hero">
+        <div class="feat-glow" aria-hidden="true"></div>
+        <div class="feat-hero-inner">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-4">
-            End-to-End Capabilities
+            Platform Capabilities
           </div>
           <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight max-w-3xl mx-auto">
-            Everything Your Fleet Needs to Operate at Full Capacity
+            Everything a Medicaid fleet needs, in one place.
           </h1>
           <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Engineered to satisfy strict state Medicaid regulations while maximizing driver utilization across every daily shift.
+            From real-time GPS dispatch boards to 1-click audit binders, explore how FleetOS keeps your vehicles moving and compliant.
           </p>
         </div>
       </section>
 
-      <!-- 3 feature cards -->
-      <section id="features" class="py-16 bg-slate-50 scroll-mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- 2 feature cards (Israel's design) -->
+      <section id="features" class="feat-cards-section">
+        <div class="feat-container">
+          <div class="feat-grid">
 
-            <div class="fleet-card bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 flex flex-col justify-between group">
-              <div class="space-y-4">
-                <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-xs">
-                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.485V5.515a2 2 0 011.553-1.959L9 2m0 18l6 3m-6-3V2m6 21l5.447-2.724A2 2 0 0021 18.485V8.515a2 2 0 00-1.553-1.959L15 4m0 17V4m0 0L9 2"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Live Desktop Dispatch Console</h3>
-                <p class="text-sm text-slate-600 leading-relaxed">Interactive Leaflet map, live driver GPS pings, and instant will-call reassignments. Pinpoint delays before they impact schedules.</p>
-                <ul class="pt-2 space-y-2 text-xs text-slate-600">
-                  <li class="flex items-center gap-2"><span class="text-blue-600 font-bold">✓</span> Real-time polyline telemetry routing</li>
-                  <li class="flex items-center gap-2"><span class="text-blue-600 font-bold">✓</span> Centered quick dispatch modal overlay</li>
-                  <li class="flex items-center gap-2"><span class="text-blue-600 font-bold">✓</span> Van-level driver status monitoring</li>
-                </ul>
-              </div>
-              <div class="pt-6 mt-6 border-t border-slate-100">
-                <a routerLink="/admin/dispatch" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1.5">
-                  <span>Explore Dispatch Console</span> &rarr;
-                </a>
-              </div>
+            <div class="fleet-card feat-card">
+              <div class="feat-icon">📍</div>
+              <h3 class="feat-h3">Live Dispatch Command</h3>
+              <p class="feat-text">
+                Real-time map telemetry, drag-and-drop trip assignments, and instant status updates between dispatch coordinators and drivers in the field.
+              </p>
+              <ul class="feat-list">
+                <li><span class="feat-check">✓</span> Live interactive fleet map</li>
+                <li><span class="feat-check">✓</span> Automated late-trip alerts</li>
+              </ul>
             </div>
 
-            <div class="fleet-card bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group">
-              <div class="space-y-4">
-                <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-xs">
-                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Driver Web App</h3>
-                <p class="text-sm text-slate-600 leading-relaxed">Turn-by-turn routing, one-tap trip status progression, and in-app signoffs — in any browser, with nothing to install. Keeps field operators focused strictly on safe driving.</p>
-                <ul class="pt-2 space-y-2 text-xs text-slate-600">
-                  <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Google Maps / Waze direction launcher</li>
-                  <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> 1-Tap En Route &rarr; Arrived &rarr; Boarded</li>
-                  <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Digital signature canvas on device</li>
-                </ul>
-              </div>
-              <div class="pt-6 mt-6 border-t border-slate-100">
-                <a routerLink="/driver/login" class="text-xs font-bold text-emerald-600 hover:text-emerald-800 flex items-center gap-1.5">
-                  <span>View Driver Workflow</span> &rarr;
-                </a>
-              </div>
-            </div>
-
-            <div class="fleet-card bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all duration-300 flex flex-col justify-between group">
-              <div class="space-y-4">
-                <div class="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-xs">
-                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Pre-Trip Readiness Verification</h3>
-                <p class="text-sm text-slate-600 leading-relaxed">Mandatory daily odometer checks and vehicle safety compliance checklists before unlocking manifest access.</p>
-                <ul class="pt-2 space-y-2 text-xs text-slate-600">
-                  <li class="flex items-center gap-2"><span class="text-indigo-600 font-bold">✓</span> Certified beginning mileage audit records</li>
-                  <li class="flex items-center gap-2"><span class="text-indigo-600 font-bold">✓</span> Daily DVIR pre-trip vehicle walkaround</li>
-                  <li class="flex items-center gap-2"><span class="text-indigo-600 font-bold">✓</span> 30-Day CPR &amp; DOT physical sentinels</li>
-                </ul>
-              </div>
-              <div class="pt-6 mt-6 border-t border-slate-100">
-                <a routerLink="/admin/overview" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5">
-                  <span>Inspect Readiness Radar</span> &rarr;
-                </a>
-              </div>
+            <div class="fleet-card feat-card">
+              <div class="feat-icon">🛡️</div>
+              <h3 class="feat-h3">Medicaid Audit Shield</h3>
+              <p class="feat-text">
+                Automatically bind GPS coordinates, dual digital signatures, and odometer readings to every trip record to completely eliminate claim denials.
+              </p>
+              <ul class="feat-list">
+                <li><span class="feat-check">✓</span> 1-Click PDF audit binder export</li>
+                <li><span class="feat-check">✓</span> Proactive credential lockout radar</li>
+              </ul>
             </div>
 
           </div>
@@ -192,7 +151,72 @@ import { MatIconModule } from '@angular/material/icon';
       </section>
 
     </div>
-  `
+  `,
+  styles: [`
+    :host { display: block; width: 100%; font-family: "DM Sans", sans-serif; color: #0f172a; background: #ffffff; }
+    :host * { font-family: "DM Sans", sans-serif; box-sizing: border-box; }
+    /* Features header (Israel's design, real CSS — no Tailwind in this project) */
+    .feat-hero { position: relative; overflow: hidden; padding: 80px 16px 64px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; text-align: center; }
+    .feat-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(500px, 90vw); height: 300px; border-radius: 9999px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0) 70%);
+      filter: blur(100px); pointer-events: none; z-index: 0;
+    }
+    .feat-hero-inner { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; text-align: center; }
+    .feat-badge {
+      display: inline-block; padding: 6px 14px; border-radius: 9999px;
+      background: #dbeafe; color: #1e40af; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.05);
+    }
+    .feat-h1 {
+      max-width: 768px; margin: 0 auto 16px; font-size: 36px; line-height: 1.2;
+      font-weight: 800; letter-spacing: -0.02em; color: #0f172a;
+    }
+    .feat-lead { max-width: 640px; margin: 0 auto; font-size: 18px; line-height: 1.6; color: #475569; }
+    /* 2-card grid: 1 column on phones, 2 side-by-side from 768px up */
+    .feat-cards-section { padding: 64px 0 96px; background: #f8fafc; }
+    .feat-container { max-width: 1120px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+    .feat-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+    .feat-card { padding: 32px; border-radius: 24px; background: #ffffff; }
+    /* Re-assert Israel's fleet-card values: component-encapsulated rules would
+       otherwise override the global .fleet-card background/border. */
+    .feat-card.fleet-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .feat-card.fleet-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.3);
+      box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12);
+    }
+    .feat-icon {
+      width: 48px; height: 48px; border-radius: 16px; background: #eff6ff; color: #2563eb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; margin-bottom: 24px;
+      box-shadow: inset 0 2px 4px rgba(15,23,42,0.06);
+    }
+    .feat-h3 { margin: 0 0 12px; font-size: 24px; line-height: 1.3; font-weight: 700; color: #0f172a; }
+    .feat-text { margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #475569; }
+    .feat-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #334155; }
+    .feat-list li { display: flex; align-items: center; gap: 8px; }
+    .feat-check { color: #2563eb; font-weight: 700; flex-shrink: 0; }
+    @media (min-width: 640px) {
+      .feat-hero { padding-left: 24px; padding-right: 24px; }
+      .feat-container { padding-left: 24px; padding-right: 24px; }
+      .feat-h1 { font-size: 44px; }
+    }
+    @media (min-width: 768px) {
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1024px) {
+      .feat-hero { padding-left: 32px; padding-right: 32px; }
+      .feat-container { padding-left: 32px; padding-right: 32px; }
+      .feat-h1 { font-size: 48px; }
+    }
+  `]
 })
 export class FeaturesComponent {
   flowSteps = [

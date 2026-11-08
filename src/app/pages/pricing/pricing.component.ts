@@ -13,6 +13,7 @@ interface Plan {
   features: string[];
   featured?: boolean;
   cta: string;
+  ctaLink: string;
 }
 
 /*
@@ -31,9 +32,9 @@ interface Plan {
 
       <section class="pricing-hero">
         <div class="pricing-container pricing-center">
-          <span class="pricing-badge">Transparent Fleet Plans</span>
-          <h1 class="pricing-h1">Predictable, Scalable Pricing for Fleets of Any Size</h1>
-          <p class="pricing-lead">No setup fees. No multi-month contracts. Cancel anytime.</p>
+          <span class="pricing-badge">Transparent Plans</span>
+          <h1 class="pricing-h1">Simple plans for fleets of any size.</h1>
+          <p class="pricing-lead">No setup fees, no long-term contracts, and no hardware to install. Start your 14-day free trial instantly.</p>
 
           <!-- Monthly / Annual toggle (annual = 20% off, billed annually) -->
           <div class="pricing-toggle">
@@ -84,7 +85,7 @@ interface Plan {
                 </div>
 
                 <div class="pricing-plan-cta">
-                  <a routerLink="/admin/signup" class="pricing-cta" [class.pricing-cta-featured]="plan.featured">
+                  <a [routerLink]="plan.ctaLink" class="pricing-cta" [class.pricing-cta-featured]="plan.featured">
                     {{ plan.cta }}
                   </a>
                 </div>
@@ -297,7 +298,8 @@ export class PricingComponent {
         'Turn-by-turn map navigation',
         'Standard email support'
       ],
-      cta: 'Start Free Trial'
+      cta: 'Start Free Trial',
+      ctaLink: '/admin/signup'
     },
     {
       name: 'Growth Pro',
@@ -313,7 +315,8 @@ export class PricingComponent {
         'Daily vehicle DVIR safety logs',
         'Priority chat & email support'
       ],
-      cta: 'Start Free Trial'
+      cta: 'Start Free Trial',
+      ctaLink: '/admin/signup'
     },
     {
       name: 'Enterprise',
@@ -327,7 +330,8 @@ export class PricingComponent {
         'Custom audit export & billing feeds',
         'Dedicated Compliance Account Manager'
       ],
-      cta: 'Contact Sales'
+      cta: 'Contact Sales',
+      ctaLink: '/contact'
     }
   ];
 

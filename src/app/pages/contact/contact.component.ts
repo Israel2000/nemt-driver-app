@@ -28,11 +28,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     <div class="contact-page">
       <section class="contact-hero">
         <div class="contact-container contact-center">
-          <span class="contact-badge">Contact</span>
-          <h1 class="contact-h1">Contact the team</h1>
+          <span class="contact-badge">Get In Touch</span>
+          <h1 class="contact-h1">Talk to the FleetOS team.</h1>
           <p class="contact-lead">
-            Questions about plans, onboarding, or whether FleetOS fits your fleet?
-            Write to us — we answer within one business day.
+            Have questions about onboarding, Medicaid broker integrations, or custom pricing? Send us a message below.
           </p>
         </div>
       </section>
@@ -47,33 +46,34 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
               <button mat-stroked-button color="primary" (click)="resetContactForm()" class="contact-btn-secondary">Send another message</button>
             </div>
           } @else {
-            <form (ngSubmit)="submitContact()" class="contact-form">
-              <mat-form-field appearance="outline" class="contact-field">
-                <mat-label>Your name</mat-label>
-                <input matInput [(ngModel)]="contactName" name="contactName" required placeholder="Jane Rivera" />
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="contact-field">
-                <mat-label>Work email</mat-label>
-                <input matInput type="email" [(ngModel)]="contactEmail" name="contactEmail" required placeholder="jane@yourfleet.com" />
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="contact-field">
-                <mat-label>Fleet size</mat-label>
-                <mat-select [(ngModel)]="contactFleetSize" name="contactFleetSize">
-                  <mat-option value="1-5 vehicles">1–5 vehicles</mat-option>
-                  <mat-option value="6-20 vehicles">6–20 vehicles</mat-option>
-                  <mat-option value="21-50 vehicles">21–50 vehicles</mat-option>
-                  <mat-option value="50+ vehicles">50+ vehicles</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="contact-field">
-                <mat-label>How can we help?</mat-label>
-                <textarea matInput rows="4" [(ngModel)]="contactMessage" name="contactMessage" required
-                  placeholder="We run 8 wheelchair vans in Denver and need help with Medicaid audit prep..."></textarea>
-              </mat-form-field>
+            <form (ngSubmit)="submitContact()" class="contact-form-card">
+              <div class="contact-field-group">
+                <label class="contact-label" for="contactName">Fleet Name &amp; Contact Person</label>
+                <input id="contactName" type="text" [(ngModel)]="contactName" name="contactName" required
+                  placeholder="Sarah Jenkins (Colorado Medical Transit)" class="contact-input" />
+              </div>
+              <div class="contact-field-group">
+                <label class="contact-label" for="contactEmail">Business Email</label>
+                <input id="contactEmail" type="email" [(ngModel)]="contactEmail" name="contactEmail" required
+                  placeholder="sarah@coloradotransit.com" class="contact-input" />
+              </div>
+              <div class="contact-field-group">
+                <label class="contact-label" for="contactFleetSize">Fleet Size</label>
+                <select id="contactFleetSize" [(ngModel)]="contactFleetSize" name="contactFleetSize" class="contact-input contact-select">
+                  <option value="5-10 vehicles">5 – 10 Vehicles</option>
+                  <option value="11-25 vehicles">11 – 25 Vehicles</option>
+                  <option value="25+ vehicles">25+ Vehicles</option>
+                </select>
+              </div>
+              <div class="contact-field-group">
+                <label class="contact-label" for="contactMessage">Message or Questions</label>
+                <textarea id="contactMessage" rows="4" [(ngModel)]="contactMessage" name="contactMessage" required
+                  placeholder="Tell us about your dispatch workflow..." class="contact-input contact-textarea"></textarea>
+              </div>
               @if (contactError) {
                 <p class="contact-error">{{ contactError }}</p>
               }
-              <button mat-flat-button color="primary" type="submit" class="contact-submit">Send message</button>
+              <button type="submit" class="contact-submit-btn">Send Message &rarr;</button>
               <p class="contact-note">Demo contact form — messages are saved in this browser only until the backend contact inbox is connected.</p>
             </form>
           }
@@ -124,11 +124,36 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     .contact-back { margin-top: 32px; font-size: 15px; color: #475569; }
     .contact-link { font-weight: 700; color: #2563eb; text-decoration: none; }
     .contact-link:hover { color: #1d4ed8; text-decoration: underline; }
+    /* Israel's form design: plain labelled inputs in a white card */
+    .contact-form-card {
+      display: flex; flex-direction: column; gap: 24px;
+      padding: 32px; border: 1px solid #e2e8f0; border-radius: 24px;
+      background: #ffffff; box-shadow: 0 20px 48px rgba(15,23,42,0.12);
+    }
+    .contact-field-group { display: flex; flex-direction: column; gap: 8px; }
+    .contact-label { font-size: 14px; font-weight: 600; color: #334155; }
+    .contact-input {
+      width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px;
+      background: #ffffff; font-family: "DM Sans", sans-serif; font-size: 14px; color: #0f172a;
+    }
+    .contact-input::placeholder { color: #94a3b8; }
+    .contact-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
+    .contact-select { appearance: none; cursor: pointer; }
+    .contact-textarea { resize: vertical; min-height: 110px; }
+    .contact-submit-btn {
+      width: 100%; padding: 16px; border: none; border-radius: 12px;
+      background: #2563eb; color: #ffffff; font-family: "DM Sans", sans-serif;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
+      transition: background 0.15s ease;
+    }
+    .contact-submit-btn:hover { background: #1d4ed8; }
     @media (min-width: 640px) {
       .contact-container, .contact-container-narrow { padding-left: 24px; padding-right: 24px; }
       .contact-section { padding-top: 80px; padding-bottom: 80px; }
       .contact-h1 { font-size: 44px; }
       .contact-form { padding: 32px; }
+      .contact-form-card { padding: 40px; }
     }
     @media (min-width: 1024px) {
       .contact-container, .contact-container-narrow { padding-left: 32px; padding-right: 32px; }
@@ -139,7 +164,7 @@ export class ContactComponent {
   // Contact form (frontend-only: stored in localStorage until the backend inbox lands)
   contactName = '';
   contactEmail = '';
-  contactFleetSize = '6-20 vehicles';
+  contactFleetSize = '5-10 vehicles';
   contactMessage = '';
   contactError = '';
   messageSent = false;
