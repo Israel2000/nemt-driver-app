@@ -54,12 +54,6 @@
   text-transform: uppercase;
 }
 
-.home-eyebrow-light {
-  background: #2563eb;
-  border-color: #2563eb;
-  color: #ffffff;
-}
-
 .home-h2 {
   margin: 0 0 12px;
   font-size: 30px;
@@ -68,8 +62,6 @@
   letter-spacing: -0.02em;
   color: #0f172a;
 }
-
-.home-h2-light { color: #ffffff; }
 
 .home-h3 {
   margin: 0 0 8px;
@@ -87,8 +79,6 @@
   font-weight: 400;
   color: #475569;
 }
-
-.home-sub-light { color: #cbd5e1; }
 
 .home-body {
   margin: 0;
@@ -936,36 +926,6 @@
 
 /* ---------- Contact ---------- */
 .home-contact { background: #eff6ff; }
-
-/* ---------- Closing CTA ---------- */
-.home-closing { background: #ffffff; border-bottom: none; }
-
-.home-closing-card {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 48px 32px;
-  border-radius: 24px;
-  background: #0f172a;
-  color: #ffffff;
-  text-align: center;
-  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25);
-}
-
-.home-closing-card .home-sub {
-  margin-bottom: 24px;
-}
-
-.home-closing-points {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-  margin: 0 0 32px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #cbd5e1;
-}
 
 /* ---------- Responsive ---------- */
 @media (min-width: 640px) {
