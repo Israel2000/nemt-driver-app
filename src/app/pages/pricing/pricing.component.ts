@@ -55,7 +55,7 @@ interface Plan {
           <div class="pricing-plans">
 
             @for (plan of plans; track plan.name) {
-              <div class="pricing-plan" [class.pricing-plan-featured]="plan.featured">
+              <div class="pricing-plan" [class.pricing-plan-featured]="plan.featured" [class.fleet-card]="!plan.featured" [class.fleet-card-dark]="plan.featured">
                 @if (plan.featured) {
                   <div class="pricing-flag">Most Popular</div>
                 }
@@ -174,6 +174,37 @@ interface Plan {
       border: 2px solid #2563eb;
       box-shadow: 0 8px 24px rgba(37,99,235,0.15);
     }
+    /* FleetOS card look (from src/styles.css): component-encapsulated plan
+       rules would otherwise override the global .fleet-card background/border,
+       so re-assert Israel's values here with the combined selectors. */
+    .pricing-plan.fleet-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pricing-plan.fleet-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.3);
+      box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12);
+    }
+    .pricing-plan.fleet-card-dark {
+      background: linear-gradient(145deg, #0f172a 0%, #020617 100%);
+      border: 2px solid #2563eb;
+      box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #f1f5f9;
+    }
+    /* Dark card: light text so price/features stay readable on navy. */
+    .pricing-plan.fleet-card-dark .pricing-price { color: #ffffff; }
+    .pricing-plan.fleet-card-dark .pricing-per { color: #94a3b8; }
+    .pricing-plan.fleet-card-dark .pricing-blurb { color: #cbd5e1; }
+    .pricing-plan.fleet-card-dark .pricing-features { color: #e2e8f0; border-top-color: rgba(148, 163, 184, 0.2); }
+    .pricing-plan.fleet-card-dark .pricing-plan-name-featured { color: #93c5fd; }
+    .pricing-plan.fleet-card-dark .pricing-annual-line { color: #6ee7b7; }
+    .pricing-plan.fleet-card-dark .pricing-check { color: #60a5fa; }
+    /* Featured card sits raised (-8px at >=768px); hover lifts it further
+       instead of dropping it to the snippet's flat -4px. */
+    .pricing-plan.fleet-card-dark:hover { transform: translateY(-12px); }
     .pricing-flag {
       position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
       padding: 4px 16px; border-radius: 9999px; background: #2563eb; color: #ffffff;

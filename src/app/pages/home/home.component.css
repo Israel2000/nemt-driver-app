@@ -161,13 +161,40 @@
 
 /* ---------- Hero ---------- */
 .home-hero {
+  position: relative;
+  overflow: hidden;
   padding-top: 56px;
   padding-bottom: 64px;
   background: #eff6ff;
   border-bottom: 1px solid #e2e8f0;
 }
 
-.home-hero-inner { text-align: center; }
+/* Hero content sits above the .hero-glow-bg (z-index -1), which paints
+   above the hero background but below this in-flow content. */
+.home-hero-inner { position: relative; text-align: center; }
+
+/* FleetOS card look (from src/styles.css): component-encapsulated card
+   rules would otherwise override the global .fleet-card background/border,
+   so re-assert Israel's values here with the combined selectors. */
+.home-product-card.fleet-card,
+.home-problem-card.fleet-card,
+.home-feature-card.fleet-card,
+.home-explore-card.fleet-card,
+.home-mini-card.fleet-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-product-card.fleet-card:hover,
+.home-problem-card.fleet-card:hover,
+.home-feature-card.fleet-card:hover,
+.home-explore-card.fleet-card:hover,
+.home-mini-card.fleet-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12);
+}
 
 .home-badge {
   display: inline-flex;

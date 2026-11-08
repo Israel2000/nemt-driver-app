@@ -2,9 +2,10 @@
 
   <!-- ================= HERO ================= -->
   <section class="home-hero">
+    <div class="hero-glow-bg" aria-hidden="true"></div>
     <div class="home-container home-hero-inner">
       <div class="home-badge">
-        <span class="home-badge-dot"></span>
+        <span class="fleet-pulse-dot"></span>
         <span>Built for 5–25 vehicle NEMT fleets · Works with MediDrive, Modivcare &amp; MTM</span>
       </div>
 
@@ -161,7 +162,7 @@
         <p class="home-sub">Every one of these is a claim denied, a trip lost, or an audit failed. FleetOS fixes each one where the work happens.</p>
       </div>
       <div class="home-grid-3">
-        <div class="home-problem-card">
+        <div class="home-problem-card fleet-card">
           <div class="home-problem-tag">Problem</div>
           <h3 class="home-h3">Paper manifests get lost</h3>
           <p class="home-body">Trip sheets, signatures, and odometer readings on paper — lost, illegible, or never filed.</p>
@@ -170,7 +171,7 @@
             <p class="home-body">Every trip is a digital record: GPS, timestamps, odometer, and both signatures captured in the driver&rsquo;s browser and stored with the trip.</p>
           </div>
         </div>
-        <div class="home-problem-card">
+        <div class="home-problem-card fleet-card">
           <div class="home-problem-tag">Problem</div>
           <h3 class="home-h3">Medicaid claims get denied</h3>
           <p class="home-body">A missing signature or timestamp is all it takes for a broker to deny a trip you already drove.</p>
@@ -179,7 +180,7 @@
             <p class="home-body">A trip can&rsquo;t be completed without its proof bundle. Dispatch sees &ldquo;Ready to Bill&rdquo; — or exactly what evidence is missing — before anything is submitted.</p>
           </div>
         </div>
-        <div class="home-problem-card">
+        <div class="home-problem-card fleet-card">
           <div class="home-problem-tag">Problem</div>
           <h3 class="home-h3">Expired credentials slip through</h3>
           <p class="home-body">A CPR card or DOT medical lapses, a driver still gets dispatched, and the trip is unbillable — or worse.</p>
@@ -203,10 +204,10 @@
 
       <div class="home-grid-2">
         <!-- Dispatch console -->
-        <div class="home-product-card">
+        <div class="home-product-card fleet-card">
           <div class="home-product-top">
             <span class="home-pill home-pill-blue">Desktop web app &middot; For fleet owners &amp; dispatchers</span>
-            <span class="home-live"><span class="home-live-dot"></span>Live Dispatch Active</span>
+            <span class="home-live"><span class="fleet-pulse-dot"></span>Live Dispatch Active</span>
           </div>
           <h3 class="home-product-title">Desktop Dispatch &amp; Live Tracking Console</h3>
           <p class="home-body">Real-time situational awareness for fleet coordinators. Track GPS, manage assignments, and compile Medicaid audit proofs in one click.</p>
@@ -245,10 +246,10 @@
         </div>
 
         <!-- Driver web app -->
-        <div class="home-product-card">
+        <div class="home-product-card fleet-card">
           <div class="home-product-top">
             <span class="home-pill home-pill-green">Web browser app &middot; For field drivers</span>
-            <span class="home-live"><span class="home-live-dot"></span>Van #4 On-Duty</span>
+            <span class="home-live"><span class="fleet-pulse-dot"></span>Van #4 On-Duty</span>
           </div>
           <h3 class="home-product-title">Driver Web App — Runs in Any Browser</h3>
           <p class="home-body">Distraction-free execution flow designed for drivers wearing gloves. One-tap steps, turn-by-turn navigation, and tamper-proof touch signatures — no app store download, no install.</p>
@@ -321,7 +322,7 @@
         </div>
       </div>
       <div class="home-sync-bar">
-        <span class="home-sync-dot"></span>
+        <span class="fleet-pulse-dot"></span>
         <div>
           <strong>Live sync, both ways.</strong>
           <span> A driver tap updates dispatch instantly. A dispatch change re-orders the driver&rsquo;s manifest. Offline taps queue and sync when the connection returns.</span>
@@ -338,19 +339,19 @@
         <h2 class="home-h2">Everything a Medicaid fleet needs, in one place</h2>
       </div>
       <div class="home-grid-4 home-grid-2-sm">
-        <div class="home-feature-card">
+        <div class="home-feature-card fleet-card">
           <h3 class="home-h3">Live dispatch</h3>
           <p class="home-body">Live map, trip board, and one-click assignment — with late trips surfaced first.</p>
         </div>
-        <div class="home-feature-card">
+        <div class="home-feature-card fleet-card">
           <h3 class="home-h3">Driver web app</h3>
           <p class="home-body">Runs in any browser. No download, no install, works on phone and tablet.</p>
         </div>
-        <div class="home-feature-card">
+        <div class="home-feature-card fleet-card">
           <h3 class="home-h3">Medicaid Audit Shield</h3>
           <p class="home-body">GPS, timestamps, odometer, and signatures on every trip, with a one-click audit binder.</p>
         </div>
-        <div class="home-feature-card">
+        <div class="home-feature-card fleet-card">
           <h3 class="home-h3">Credential lockout</h3>
           <p class="home-body">CPR, DOT, and licence expiry tracked — dispatch is blocked from assigning an expired driver.</p>
         </div>
@@ -401,17 +402,17 @@
         <h2 class="home-h2">See what the platform does for your fleet</h2>
       </div>
       <div class="home-grid-3">
-        <a routerLink="/features" class="home-explore-card">
+        <a routerLink="/features" class="home-explore-card fleet-card">
           <h3 class="home-h3">Features &amp; Services</h3>
           <p class="home-body">Live dispatch, the driver web app, pre-trip verification, and the Medicaid Audit Shield — every capability in one place.</p>
           <span class="home-link">Explore features &rarr;</span>
         </a>
-        <a routerLink="/pricing" class="home-explore-card">
+        <a routerLink="/pricing" class="home-explore-card fleet-card">
           <h3 class="home-h3">Pricing</h3>
           <p class="home-body">Predictable plans for fleets of any size — Starter, Growth Pro, and Enterprise. No setup fees, no contracts, cancel anytime.</p>
           <span class="home-link">See pricing &rarr;</span>
         </a>
-        <a routerLink="/about" class="home-explore-card">
+        <a routerLink="/about" class="home-explore-card fleet-card">
           <h3 class="home-h3">About</h3>
           <p class="home-body">Why FleetOS exists, how onboarding works, and answers to common questions.</p>
           <span class="home-link">About FleetOS &rarr;</span>
@@ -432,19 +433,19 @@
           <a routerLink="/about" class="home-btn home-btn-dark">Read the full story</a>
         </div>
         <div class="home-grid-2 home-grid-2-sm home-about-cards">
-          <div class="home-mini-card">
+          <div class="home-mini-card fleet-card">
             <div class="home-mini-title">Compliance first</div>
             <p class="home-body">GPS, timestamps, odometer and signatures on every trip — the audit binder builds itself.</p>
           </div>
-          <div class="home-mini-card">
+          <div class="home-mini-card fleet-card">
             <div class="home-mini-title">No hardware</div>
             <p class="home-body">Desktop, tablet and phone, all in the browser. Nothing to install, nothing to maintain.</p>
           </div>
-          <div class="home-mini-card">
+          <div class="home-mini-card fleet-card">
             <div class="home-mini-title">Drivers come first</div>
             <p class="home-body">Big touch targets, one tap per step, glove-friendly — built for the road, not the office.</p>
           </div>
-          <div class="home-mini-card">
+          <div class="home-mini-card fleet-card">
             <div class="home-mini-title">Live, both ways</div>
             <p class="home-body">A driver tap updates dispatch instantly, and a dispatch change re-orders the driver manifest.</p>
           </div>
