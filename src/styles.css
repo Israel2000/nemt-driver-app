@@ -67,7 +67,9 @@ img, canvas, svg {
 .flex-1 { flex: 1 1 0%; }
 .bg-slate-50 { background-color: #f8fafc; }
 .text-slate-900 { color: #0f172a; }
-.font-sans { font-family: inherit; }
+/* Font consistency: Tailwind's font-sans must be DM Sans, not the system stack,
+   or the home page mixes DM Sans (body) with system-ui (font-sans). */
+.font-sans { font-family: "DM Sans", sans-serif; }
 
 .sticky { position: sticky; }
 .top-0 { top: 0; }
