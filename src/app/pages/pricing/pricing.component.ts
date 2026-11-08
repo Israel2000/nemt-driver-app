@@ -15,92 +15,76 @@ interface Plan {
   cta: string;
 }
 
+/*
+ * Pricing page — self-contained real CSS (DM Sans only).
+ * This project has no Tailwind installed, so the old `grid grid-cols-1
+ * lg:grid-cols-3` never rendered and the 3 plan cards always stacked.
+ * The plans grid below is real CSS: 3 columns from 768px up (featured
+ * card raised), 1 column only on phones. Prices unchanged.
+ */
 @Component({
   selector: 'app-pricing',
   standalone: true,
   imports: [CommonModule, RouterModule, MatCardModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500 selection:text-white">
+    <div class="pricing-page">
 
-      <section class="pt-14 pb-12 bg-gradient-to-b from-blue-50/70 via-white to-slate-50 border-b border-slate-200/70">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-4">
-            Transparent Fleet Plans
-          </div>
-          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight max-w-3xl mx-auto">
-            Predictable, Scalable Pricing for Fleets of Any Size
-          </h1>
-          <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            No setup fees. No multi-month contracts. Cancel anytime.
-          </p>
+      <section class="pricing-hero">
+        <div class="pricing-container pricing-center">
+          <span class="pricing-badge">Transparent Fleet Plans</span>
+          <h1 class="pricing-h1">Predictable, Scalable Pricing for Fleets of Any Size</h1>
+          <p class="pricing-lead">No setup fees. No multi-month contracts. Cancel anytime.</p>
 
           <!-- Monthly / Annual toggle (annual = 20% off, billed annually) -->
-          <div class="mt-8 inline-flex items-center rounded-full bg-white border border-slate-200 shadow-sm p-1">
+          <div class="pricing-toggle">
             <button type="button" (click)="isAnnualBilling = false"
-              class="px-5 py-2 rounded-full text-sm font-bold transition"
-              [class.bg-blue-600]="!isAnnualBilling" [class.text-white]="!isAnnualBilling"
-              [class.text-slate-600]="isAnnualBilling">Monthly</button>
+              class="pricing-toggle-btn" [class.pricing-toggle-active]="!isAnnualBilling">Monthly</button>
             <button type="button" (click)="isAnnualBilling = true"
-              class="px-5 py-2 rounded-full text-sm font-bold transition flex items-center gap-1.5"
-              [class.bg-blue-600]="isAnnualBilling" [class.text-white]="isAnnualBilling"
-              [class.text-slate-600]="!isAnnualBilling">Annual
-              <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full"
-                [class.bg-emerald-100]="isAnnualBilling" [class.text-emerald-700]="isAnnualBilling"
-                [class.bg-emerald-50]="!isAnnualBilling" [class.text-emerald-600]="!isAnnualBilling">SAVE 20%</span>
+              class="pricing-toggle-btn pricing-toggle-annual" [class.pricing-toggle-active]="isAnnualBilling">Annual
+              <span class="pricing-save">SAVE 20%</span>
             </button>
           </div>
           @if (isAnnualBilling) {
-            <p class="mt-3 text-xs font-semibold text-emerald-700">Annual billing: two months free on every plan — charged once a year.</p>
+            <p class="pricing-annual-note">Annual billing: two months free on every plan — charged once a year.</p>
           }
         </div>
       </section>
 
-      <section class="py-16 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto mb-16">
+      <section class="pricing-section">
+        <div class="pricing-container">
+          <div class="pricing-plans">
 
             @for (plan of plans; track plan.name) {
-              <div class="rounded-3xl p-8 border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-                [class.bg-white]="!plan.featured" [class.border-slate-200]="!plan.featured"
-                [class.border-2]="plan.featured" [class.border-blue-600]="plan.featured"
-                [class.shadow-xl]="plan.featured" [class.relative]="plan.featured" [class.lg:-translate-y-2]="plan.featured">
+              <div class="pricing-plan" [class.pricing-plan-featured]="plan.featured">
                 @if (plan.featured) {
-                  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-blue-600 text-white font-bold text-[11px] uppercase tracking-wider shadow-sm">
-                    Most Popular
-                  </div>
+                  <div class="pricing-flag">Most Popular</div>
                 }
-                <div class="space-y-6">
+                <div class="pricing-plan-body">
                   <div>
-                    <span class="text-xs font-bold uppercase tracking-widest"
-                      [class.text-blue-600]="plan.featured" [class.text-slate-500]="!plan.featured">{{ plan.name }}</span>
-                    <div class="flex items-baseline gap-1 mt-2">
-                      <span class="text-4xl font-black text-slate-900">{{ priceFor(plan) | currency:'USD':'symbol':'1.0-0' }}</span>
-                      <span class="text-slate-500 font-semibold text-sm">/month</span>
+                    <span class="pricing-plan-name" [class.pricing-plan-name-featured]="plan.featured">{{ plan.name }}</span>
+                    <div class="pricing-price-row">
+                      <span class="pricing-price">{{ priceFor(plan) | currency:'USD':'symbol':'1.0-0' }}</span>
+                      <span class="pricing-per">/month</span>
                     </div>
                     @if (isAnnualBilling) {
-                      <p class="text-xs text-emerald-700 font-semibold mt-1">
+                      <p class="pricing-annual-line">
                         {{ annualTotal(plan) | currency:'USD':'symbol':'1.0-0' }} billed annually — you save {{ (plan.monthly * 12 - annualTotal(plan)) | currency:'USD':'symbol':'1.0-0' }}/yr
                       </p>
                     }
-                    <p class="text-xs text-slate-500 mt-2">{{ plan.blurb }}</p>
+                    <p class="pricing-blurb">{{ plan.blurb }}</p>
                   </div>
 
-                  <div class="space-y-3 border-t border-slate-100 pt-6 text-xs sm:text-sm text-slate-700">
+                  <div class="pricing-features">
                     @for (f of plan.features; track f) {
-                      <div class="flex items-center gap-2.5">
-                        <span class="text-blue-600 font-bold">✓</span> {{ f }}
+                      <div class="pricing-feature">
+                        <span class="pricing-check">✓</span> {{ f }}
                       </div>
                     }
                   </div>
                 </div>
 
-                <div class="pt-8">
-                  <a routerLink="/admin/signup"
-                     class="w-full py-3.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider text-center block shadow-sm transition"
-                     [class.bg-blue-600]="plan.featured" [class.hover:bg-blue-700]="plan.featured"
-                     [class.text-white]="plan.featured" [class.shadow-lg]="plan.featured"
-                     [class.bg-slate-900]="!plan.featured" [class.hover:bg-slate-800]="!plan.featured"
-                     [class.text-white]="!plan.featured">
+                <div class="pricing-plan-cta">
+                  <a routerLink="/admin/signup" class="pricing-cta" [class.pricing-cta-featured]="plan.featured">
                     {{ plan.cta }}
                   </a>
                 </div>
@@ -110,43 +94,161 @@ interface Plan {
           </div>
 
           <!-- Trial banner -->
-          <div class="rounded-3xl bg-gradient-to-br from-blue-900 via-indigo-950 to-slate-950 text-white p-8 sm:p-12 shadow-2xl border border-slate-800 text-center relative overflow-hidden max-w-5xl mx-auto">
-            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="relative z-10 max-w-3xl mx-auto space-y-6">
-              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold uppercase tracking-wider">
-                Zero Risk Onboarding
-              </div>
-              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                Ready to deploy your dispatch console and driver web app?
-              </h2>
-              <p class="text-sm sm:text-base text-slate-300">
+          <div class="pricing-trial">
+            <div class="pricing-trial-inner">
+              <span class="pricing-trial-badge">Zero Risk Onboarding</span>
+              <h2 class="pricing-trial-h2">Ready to deploy your dispatch console and driver web app?</h2>
+              <p class="pricing-trial-text">
                 Join fleets across Colorado and nationwide operating with 100% audit confidence. 14-day zero-risk trial.
               </p>
-              <div class="flex items-center justify-center gap-6 text-xs sm:text-sm text-slate-300 flex-wrap pt-2">
-                <span class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> 14-Day Free Trial</span>
-                <span class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> No Credit Card Required</span>
-                <span class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Cancel Anytime</span>
+              <div class="pricing-trial-points">
+                <span><span class="pricing-tick">✓</span> 14-Day Free Trial</span>
+                <span><span class="pricing-tick">✓</span> No Credit Card Required</span>
+                <span><span class="pricing-tick">✓</span> Cancel Anytime</span>
               </div>
-              <div class="pt-4">
-                <a routerLink="/admin/signup"
-                   class="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-base shadow-xl shadow-blue-600/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer">
+              <div class="pricing-trial-cta">
+                <a routerLink="/admin/signup" class="pricing-trial-btn">
                   <span>Start Free Fleet Trial</span>
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                  </svg>
+                  <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             </div>
           </div>
 
-          <p class="text-center text-xs text-slate-500 mt-8">
-            Questions about which plan fits your fleet? <a routerLink="/about" class="font-bold text-blue-600 hover:underline">Talk to the team →</a>
+          <p class="pricing-center pricing-talk">
+            Questions about which plan fits your fleet? <a routerLink="/contact" class="pricing-link">Talk to the team →</a>
           </p>
         </div>
       </section>
 
     </div>
-  `
+  `,
+  styles: [`
+    :host { display: block; width: 100%; font-family: "DM Sans", sans-serif; color: #0f172a; background: #ffffff; }
+    :host * { font-family: "DM Sans", sans-serif; box-sizing: border-box; }
+    .pricing-page { background: #f8fafc; color: #0f172a; min-height: 100vh; }
+    .pricing-container { max-width: 1120px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+    .pricing-center { text-align: center; }
+    .pricing-hero { padding: 56px 0 48px; background: #eff6ff; border-bottom: 1px solid #e2e8f0; }
+    .pricing-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 9999px;
+      background: #dbeafe; color: #1e40af; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .pricing-h1 {
+      max-width: 768px; margin: 0 auto; font-size: 36px; line-height: 1.2;
+      font-weight: 800; letter-spacing: -0.02em; color: #0f172a;
+    }
+    .pricing-lead { max-width: 640px; margin: 16px auto 0; font-size: 17px; line-height: 1.6; color: #475569; }
+    .pricing-toggle {
+      display: inline-flex; align-items: center; margin-top: 32px; padding: 4px;
+      border: 1px solid #e2e8f0; border-radius: 9999px; background: #ffffff;
+      box-shadow: 0 1px 2px rgba(15,23,42,0.05);
+    }
+    .pricing-toggle-btn {
+      padding: 8px 20px; border: none; border-radius: 9999px; background: none;
+      font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 700;
+      color: #475569; cursor: pointer;
+    }
+    .pricing-toggle-active { background: #2563eb; color: #ffffff; }
+    .pricing-toggle-annual { display: inline-flex; align-items: center; gap: 6px; }
+    .pricing-save {
+      padding: 2px 6px; border-radius: 9999px; background: #ecfdf5;
+      color: #047857; font-size: 10px; font-weight: 800;
+    }
+    .pricing-toggle-active .pricing-save { background: #d1fae5; color: #065f46; }
+    .pricing-annual-note { margin: 12px 0 0; font-size: 12px; font-weight: 600; color: #047857; }
+    .pricing-section { padding-top: 64px; padding-bottom: 64px; }
+    /* Plans: 1 column on phones, 3 side-by-side from 768px up. */
+    .pricing-plans {
+      display: grid; grid-template-columns: 1fr; gap: 24px;
+      max-width: 1024px; margin: 0 auto 64px;
+    }
+    .pricing-plan {
+      position: relative; display: flex; flex-direction: column; justify-content: space-between;
+      padding: 32px; border: 1px solid #e2e8f0; border-radius: 24px;
+      background: #ffffff; box-shadow: 0 1px 2px rgba(15,23,42,0.05);
+    }
+    .pricing-plan:hover { box-shadow: 0 8px 24px rgba(15,23,42,0.1); }
+    .pricing-plan-featured {
+      border: 2px solid #2563eb;
+      box-shadow: 0 8px 24px rgba(37,99,235,0.15);
+    }
+    .pricing-flag {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      padding: 4px 16px; border-radius: 9999px; background: #2563eb; color: #ffffff;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      white-space: nowrap; box-shadow: 0 1px 2px rgba(15,23,42,0.1);
+    }
+    .pricing-plan-body { display: flex; flex-direction: column; gap: 24px; }
+    .pricing-plan-name { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #64748b; }
+    .pricing-plan-name-featured { color: #2563eb; }
+    .pricing-price-row { display: flex; align-items: baseline; gap: 4px; margin-top: 8px; }
+    .pricing-price { font-size: 40px; line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; color: #0f172a; }
+    .pricing-per { font-size: 14px; font-weight: 600; color: #64748b; }
+    .pricing-annual-line { margin: 4px 0 0; font-size: 12px; font-weight: 600; color: #047857; }
+    .pricing-blurb { margin: 8px 0 0; font-size: 12px; line-height: 1.6; color: #64748b; }
+    .pricing-features {
+      display: flex; flex-direction: column; gap: 12px;
+      padding-top: 24px; border-top: 1px solid #f1f5f9;
+      font-size: 14px; line-height: 1.5; color: #334155;
+    }
+    .pricing-feature { display: flex; align-items: flex-start; gap: 10px; }
+    .pricing-check { color: #2563eb; font-weight: 700; flex-shrink: 0; }
+    .pricing-plan-cta { padding-top: 32px; }
+    .pricing-cta {
+      display: block; width: 100%; padding: 14px 16px; border-radius: 12px;
+      background: #0f172a; color: #ffffff; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; text-align: center;
+      text-decoration: none; box-shadow: 0 1px 2px rgba(15,23,42,0.1);
+    }
+    .pricing-cta:hover { background: #1e293b; }
+    .pricing-cta-featured { background: #2563eb; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+    .pricing-cta-featured:hover { background: #1d4ed8; }
+    .pricing-trial {
+      max-width: 880px; margin: 0 auto; padding: 48px 32px; border-radius: 24px;
+      background: #0f172a; color: #ffffff; text-align: center;
+      box-shadow: 0 20px 48px rgba(15,23,42,0.25);
+    }
+    .pricing-trial-inner { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; align-items: center; }
+    .pricing-trial-badge {
+      padding: 4px 14px; border: 1px solid rgba(96,165,250,0.4); border-radius: 9999px;
+      background: rgba(37,99,235,0.2); color: #93c5fd; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .pricing-trial-h2 { margin: 0; font-size: 26px; line-height: 1.3; font-weight: 800; letter-spacing: -0.02em; color: #ffffff; }
+    .pricing-trial-text { margin: 0; font-size: 15px; line-height: 1.6; color: #cbd5e1; }
+    .pricing-trial-points {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 8px 24px; font-size: 14px; font-weight: 600; color: #cbd5e1;
+    }
+    .pricing-tick { color: #34d399; font-weight: 700; }
+    .pricing-trial-cta { padding-top: 8px; }
+    .pricing-trial-btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px;
+      border-radius: 12px; background: #2563eb; color: #ffffff;
+      font-size: 16px; font-weight: 800; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37,99,235,0.4);
+    }
+    .pricing-trial-btn:hover { background: #3b82f6; }
+    .pricing-talk { margin-top: 32px; font-size: 12px; color: #64748b; }
+    .pricing-link { font-weight: 700; color: #2563eb; text-decoration: none; }
+    .pricing-link:hover { color: #1d4ed8; text-decoration: underline; }
+    @media (min-width: 640px) {
+      .pricing-container { padding-left: 24px; padding-right: 24px; }
+      .pricing-section { padding-top: 80px; padding-bottom: 80px; }
+      .pricing-h1 { font-size: 44px; }
+      .pricing-trial-h2 { font-size: 30px; }
+    }
+    @media (min-width: 768px) {
+      .pricing-plans { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+      .pricing-plan-featured { transform: translateY(-8px); }
+    }
+    @media (min-width: 1024px) {
+      .pricing-container { padding-left: 32px; padding-right: 32px; }
+      .pricing-h1 { font-size: 48px; }
+    }
+  `]
 })
 export class PricingComponent {
   isAnnualBilling = false;

@@ -28,7 +28,11 @@
       </a>
 
       <a mat-button class="nav-item-link" routerLink="/about" routerLinkActive="active">
-        About &amp; Contact
+        About
+      </a>
+
+      <a mat-button class="nav-item-link" routerLink="/contact" routerLinkActive="active">
+        Contact
       </a>
     </nav>
 
@@ -145,8 +149,19 @@
             <mat-icon>info</mat-icon>
           </div>
           <div class="mobile-card-details">
-            <span class="mobile-card-title">About &amp; Contact</span>
-            <span class="mobile-card-subtitle">How FleetOS works, FAQ, and how to reach the team</span>
+            <span class="mobile-card-title">About FleetOS</span>
+            <span class="mobile-card-subtitle">How FleetOS works and answers to common questions</span>
+          </div>
+          <mat-icon class="card-arrow">chevron_right</mat-icon>
+        </a>
+
+        <a routerLink="/contact" (click)="closeMobileMenu()" class="mobile-feature-card">
+          <div class="mobile-icon-box emerald">
+            <mat-icon>mail</mat-icon>
+          </div>
+          <div class="mobile-card-details">
+            <span class="mobile-card-title">Contact</span>
+            <span class="mobile-card-subtitle">Questions about plans or onboarding? Write to the team</span>
           </div>
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>

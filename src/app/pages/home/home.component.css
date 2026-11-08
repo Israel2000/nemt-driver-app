@@ -690,6 +690,59 @@
 /* ---------- How it works ---------- */
 .home-steps { background: #f8fafc; }
 
+/* Wide container for the flow — 4 small boxes need the full 1280px. */
+.home-container-wide { max-width: 1280px; }
+
+/* Horizontal flow: 4 small compact boxes in a row, → arrows between them
+   pointing forward to the next step, like a route map. On mobile the boxes
+   stack vertically and the arrows rotate to point down. */
+.home-flow-track {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 40px;
+}
+
+.home-flow-step {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.home-flow-title { font-size: 16px; }
+
+.home-flow-step .home-body { font-size: 14px; }
+
+.home-flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 800;
+  color: #2563eb;
+  transform: rotate(90deg);
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .home-flow-track {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .home-flow-arrow {
+    padding: 0 6px;
+    align-self: center;
+    transform: none;
+  }
+}
+
 .home-step-card {
   padding: 24px;
   border: 1px solid #e2e8f0;

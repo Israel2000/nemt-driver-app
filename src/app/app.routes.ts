@@ -17,6 +17,7 @@ export const routes: Routes = [
       { path: 'features', loadComponent: () => import('./pages/features/features.component').then(m => m.FeaturesComponent) },
       { path: 'pricing', loadComponent: () => import('./pages/pricing/pricing.component').then(m => m.PricingComponent) },
       { path: 'about', loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent) },
+      { path: 'contact', loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent) },
       { path: 'apply', loadComponent: () => import('./transportations/driver-forms/driver-forms.component').then(m => m.DriverApplicationComponent) },
       { path: 'w4-upload', loadComponent: () => import('./transportations/w4-upload/w4-upload.component').then(m => m.W4UploadComponent) },
       { path: 'access-denied', loadComponent: () => import('./pages/access-denied/access-denied.component').then(m => m.AccessDeniedComponent) }
