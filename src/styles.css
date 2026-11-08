@@ -509,66 +509,6 @@ img, canvas, svg {
   animation: fleet-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* --- Sticky Start Free Trial bar (public layout only) ---
-   Sits directly under the 68px navbar and sticks there while scrolling
-   (top: 68px), so the trial CTA stays visible without living in the nav. */
-.sticky-trial-bar {
-  position: sticky;
-  top: 68px;
-  z-index: 999;
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
-}
-
-.sticky-trial-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 8px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.sticky-trial-text {
-  margin-right: auto;
-  font-size: 13px;
-  font-weight: 600;
-  color: #64748b;
-}
-
-.sticky-trial-btn {
-  background: #2563eb;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 13.5px;
-  padding: 8px 18px;
-  border-radius: 9999px;
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
-  transition: background 0.15s ease;
-}
-
-.sticky-trial-btn:hover {
-  background: #1d4ed8;
-}
-
-@media (max-width: 640px) {
-  .sticky-trial-text {
-    display: none;
-  }
-
-  .sticky-trial-inner {
-    padding: 8px 16px;
-  }
-
-  .sticky-trial-btn {
-    flex: 1;
-    text-align: center;
-  }
-}
-
 /* --- No Material ripple on the public/marketing site ---
    Hides the .mat-mdc-button-persistent-ripple / .mdc-button__ripple spans
    Angular Material renders inside every mat-button, scoped to the public
