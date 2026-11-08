@@ -317,45 +317,6 @@
   height: 36px !important;
 }
 
-.user-account-btn {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-  color: #1e293b !important;
-}
-
-.account-icon {
-  color: #2563eb;
-}
-
-.user-name {
-  max-width: 130px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dropdown-icon {
-  color: #64748b;
-}
-
-.user-menu-info {
-  padding: 10px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.user-menu-info strong {
-  font-size: 13px;
-  color: #0f172a;
-}
-
-.user-menu-info small {
-  font-size: 11px;
-  color: #64748b;
-}
-
 /* Mobile Navigation */
 .mobile-nav-toggle {
   display: none;

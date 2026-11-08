@@ -6,11 +6,10 @@ import { RouterModule, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 
-import { AuthService, User, CompanyWorkspace } from '../../../../services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-public-navbar',
@@ -21,7 +20,6 @@ import { AuthService, User, CompanyWorkspace } from '../../../../services/auth.s
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
     MatDividerModule,
     MatBadgeModule
   ],
@@ -31,8 +29,6 @@ import { AuthService, User, CompanyWorkspace } from '../../../../services/auth.s
 export class PublicNavbarComponent implements OnInit {
   isAuthenticated = false;
   isAdmin = false;
-  currentUser: User | null = null;
-  currentWorkspace: CompanyWorkspace | null = null;
   mobileMenuOpen = false;
 
   constructor(
@@ -41,15 +37,6 @@ export class PublicNavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-      this.isAdmin = this.authService.hasAdminAccess();
-    });
-
-    this.authService.currentWorkspace$.subscribe(ws => {
-      this.currentWorkspace = ws;
-    });
-
     this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
       this.isAdmin = this.authService.hasAdminAccess();

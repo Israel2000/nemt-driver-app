@@ -50,33 +50,19 @@
           <span>Driver App</span>
         </a>
 
-        <!-- Sign In Link -->
-        <a routerLink="/admin/login" class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 px-3 py-2">
+        <!-- Sign In Link (logged out only) -->
+        <a *ngIf="!isAuthenticated" routerLink="/admin/login" class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 px-3 py-2">
           Sign In
         </a>
 
-        <!-- Authenticated User Menu -->
+        <!-- Authenticated: direct links, no dropdown menu -->
         <ng-container *ngIf="isAuthenticated">
-          <button mat-button disableRipple [matMenuTriggerFor]="userMenu" class="user-account-btn">
-            <mat-icon class="account-icon">account_circle</mat-icon>
-            <span class="user-name">{{ currentUser?.fullName || currentWorkspace?.name }}</span>
-            <mat-icon class="dropdown-icon">expand_more</mat-icon>
+          <a *ngIf="isAdmin" routerLink="/admin/dispatch" class="text-xs sm:text-sm font-semibold text-slate-700 hover:text-blue-600 px-3 py-2">
+            Operator Console
+          </a>
+          <button (click)="logout()" class="text-xs sm:text-sm font-semibold px-3 py-2" style="color: #dc2626;">
+            Sign Out
           </button>
-          <mat-menu #userMenu="matMenu">
-            <div class="user-menu-info">
-              <strong>{{ currentWorkspace?.name }}</strong>
-              <small>{{ currentUser?.email }} ({{ currentUser?.role | uppercase }})</small>
-            </div>
-            <mat-divider></mat-divider>
-            <a *ngIf="isAdmin" mat-menu-item routerLink="/admin/dispatch">
-              <mat-icon>dashboard</mat-icon>
-              <span>Operator Console</span>
-            </a>
-            <button mat-menu-item (click)="logout()">
-              <mat-icon color="warn">logout</mat-icon>
-              <span style="color: #dc2626;">Sign Out</span>
-            </button>
-          </mat-menu>
         </ng-container>
       </div>
     </div>
@@ -89,9 +75,12 @@
         </svg>
         <span>Driver</span>
       </a>
-      <a routerLink="/admin/login" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm">
+      <a *ngIf="!isAuthenticated" routerLink="/admin/login" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm">
         Sign In
       </a>
+      <button *ngIf="isAuthenticated" (click)="logout()" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white shadow-sm" style="color: #dc2626;">
+        Sign Out
+      </button>
       <button mat-icon-button disableRipple (click)="toggleMobileMenu()" class="mobile-menu-btn" aria-label="Toggle navigation">
         <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
       </button>
