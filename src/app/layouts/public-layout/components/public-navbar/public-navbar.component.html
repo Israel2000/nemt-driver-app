@@ -15,23 +15,23 @@
 
     <!-- Center Navigation Links (Desktop) — the 4 marketing pages -->
     <nav class="center-nav desktop-nav">
-      <a mat-button class="nav-item-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a mat-button disableRipple class="nav-item-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         Home
       </a>
 
-      <a mat-button class="nav-item-link" routerLink="/features" routerLinkActive="active">
+      <a mat-button disableRipple class="nav-item-link" routerLink="/features" routerLinkActive="active">
         Features
       </a>
 
-      <a mat-button class="nav-item-link" routerLink="/pricing" routerLinkActive="active">
+      <a mat-button disableRipple class="nav-item-link" routerLink="/pricing" routerLinkActive="active">
         Pricing
       </a>
 
-      <a mat-button class="nav-item-link" routerLink="/about" routerLinkActive="active">
+      <a mat-button disableRipple class="nav-item-link" routerLink="/about" routerLinkActive="active">
         About
       </a>
 
-      <a mat-button class="nav-item-link" routerLink="/contact" routerLinkActive="active">
+      <a mat-button disableRipple class="nav-item-link" routerLink="/contact" routerLinkActive="active">
         Contact
       </a>
     </nav>
@@ -55,14 +55,9 @@
           Sign In
         </a>
 
-        <!-- Sign Up / Start Free Trial Button -->
-        <a routerLink="/admin/signup" class="text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow-sm transition">
-          Start Free Trial
-        </a>
-
         <!-- Authenticated User Menu -->
         <ng-container *ngIf="isAuthenticated">
-          <button mat-button [matMenuTriggerFor]="userMenu" class="user-account-btn">
+          <button mat-button disableRipple [matMenuTriggerFor]="userMenu" class="user-account-btn">
             <mat-icon class="account-icon">account_circle</mat-icon>
             <span class="user-name">{{ currentUser?.fullName || currentWorkspace?.name }}</span>
             <mat-icon class="dropdown-icon">expand_more</mat-icon>
@@ -97,10 +92,7 @@
       <a routerLink="/admin/login" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 shadow-sm">
         Sign In
       </a>
-      <a routerLink="/admin/signup" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-blue-600 text-white shadow-sm">
-        Trial
-      </a>
-      <button mat-icon-button (click)="toggleMobileMenu()" class="mobile-menu-btn" aria-label="Toggle navigation">
+      <button mat-icon-button disableRipple (click)="toggleMobileMenu()" class="mobile-menu-btn" aria-label="Toggle navigation">
         <mat-icon>{{ mobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
       </button>
     </div>
@@ -185,22 +177,18 @@
 
       <div class="mobile-actions-panel">
         <ng-container *ngIf="!isAuthenticated">
-          <a mat-stroked-button routerLink="/admin/login" (click)="closeMobileMenu()" class="mobile-signin-btn">
+          <a mat-stroked-button disableRipple routerLink="/admin/login" (click)="closeMobileMenu()" class="mobile-signin-btn">
             <mat-icon>login</mat-icon>
             <span>Sign In to FleetOS</span>
-          </a>
-          <a mat-flat-button color="primary" routerLink="/admin/signup" (click)="closeMobileMenu()" class="mobile-primary-btn">
-            <span>Start 14-Day Free Trial</span>
-            <mat-icon>arrow_forward</mat-icon>
           </a>
         </ng-container>
 
         <ng-container *ngIf="isAuthenticated">
-          <a *ngIf="isAdmin" mat-flat-button color="primary" routerLink="/admin/dispatch" (click)="closeMobileMenu()" class="mobile-primary-btn">
+          <a *ngIf="isAdmin" mat-flat-button disableRipple color="primary" routerLink="/admin/dispatch" (click)="closeMobileMenu()" class="mobile-primary-btn">
             <mat-icon>dashboard</mat-icon>
             <span>Enter Operator Console</span>
           </a>
-          <button mat-stroked-button color="warn" (click)="logout()" class="mobile-signin-btn">
+          <button mat-stroked-button disableRipple color="warn" (click)="logout()" class="mobile-signin-btn">
             <mat-icon>logout</mat-icon>
             <span>Sign Out</span>
           </button>

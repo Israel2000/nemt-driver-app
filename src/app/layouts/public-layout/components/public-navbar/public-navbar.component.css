@@ -259,11 +259,16 @@
   text-decoration: underline;
 }
 
-/* Right-side Actions (Desktop) */
+/* Right-side Actions (Desktop) — Sign In + Driver App pinned to the far
+   right corner of the navbar (margin-left: auto, after the center links).
+   The Start Free Trial button no longer lives here; the sticky trial bar
+   in the public layout owns it. */
 .right-actions {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .signin-btn {
