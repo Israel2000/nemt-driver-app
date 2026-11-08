@@ -25,10 +25,11 @@
       <div>
         <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Platform</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a routerLink="/" fragment="features" class="hover:text-white transition">Driver Onboarding</a></li>
-          <li><a routerLink="/" fragment="audit-shield" class="hover:text-white transition">Medicaid Audit Shield</a></li>
-          <li><a routerLink="/" fragment="features" class="hover:text-white transition">Credential Radar</a></li>
-          <li><a routerLink="/" fragment="pricing" class="hover:text-white transition">Pricing Plans</a></li>
+          <li><a routerLink="/features" class="hover:text-white transition">Features &amp; Services</a></li>
+          <li><a routerLink="/features" fragment="audit-shield" class="hover:text-white transition">Medicaid Audit Shield</a></li>
+          <li><a routerLink="/apply" class="hover:text-white transition">Driver Onboarding</a></li>
+          <li><a routerLink="/pricing" class="hover:text-white transition">Pricing Plans</a></li>
+          <li><a routerLink="/about" class="hover:text-white transition">About &amp; Contact</a></li>
         </ul>
       </div>
 
@@ -36,9 +37,10 @@
       <div>
         <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Quick Portals</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a routerLink="/admin" class="hover:text-white transition font-medium text-blue-400">Sign In to FleetOS</a></li>
-          <li><a routerLink="/login" class="hover:text-white transition">Create Operator Account</a></li>
-          <li><a routerLink="/driver" class="hover:text-white transition">Driver Job Intake</a></li>
+          <li><a routerLink="/admin/login" class="hover:text-white transition font-medium text-blue-400">Sign In to FleetOS</a></li>
+          <li><a routerLink="/admin/signup" class="hover:text-white transition">Create Operator Account</a></li>
+          <li><a routerLink="/apply" class="hover:text-white transition">Driver Application</a></li>
+          <li><a routerLink="/driver" class="hover:text-white transition">Driver Web App</a></li>
           <li><a routerLink="/w4-upload" class="hover:text-white transition">Submit W-4 Document</a></li>
         </ul>
       </div>
@@ -47,10 +49,10 @@
       <div>
         <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Compliance</h4>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-          <li><a href="#" class="hover:text-white transition">HIPAA Safeguards</a></li>
-          <li><a href="#" class="hover:text-white transition">Security Statement</a></li>
+          <li><a routerLink="/about" fragment="privacy" class="hover:text-white transition">Privacy Policy</a></li>
+          <li><a routerLink="/about" fragment="terms" class="hover:text-white transition">Terms of Service</a></li>
+          <li><a routerLink="/about" fragment="hipaa" class="hover:text-white transition">HIPAA Safeguards</a></li>
+          <li><a routerLink="/about" fragment="security" class="hover:text-white transition">Security Statement</a></li>
         </ul>
       </div>
 

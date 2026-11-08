@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -161,9 +161,10 @@ import { AuthService } from '../../../services/auth.service';
     </div>
   `
 })
-export class AdminSignupComponent {
+export class AdminSignupComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   companyName = '';
   providerId = '';
@@ -171,6 +172,14 @@ export class AdminSignupComponent {
   email = '';
   password = '';
   errorMessage = '';
+
+  /** Where to land after sign-up (defaults to the dispatch console). */
+  returnUrl = '/admin/dispatch';
+
+  ngOnInit(): void {
+    const requested = this.route.snapshot.queryParams['returnUrl'] as string | undefined;
+    if (requested && requested.startsWith('/admin')) this.returnUrl = requested;
+  }
 
   onSubmit() {
     if (!this.companyName.trim()) {
@@ -198,7 +207,7 @@ export class AdminSignupComponent {
     );
 
     if (success) {
-      this.router.navigate(['/admin/dispatch']);
+      this.router.navigateByUrl(this.returnUrl);
     } else {
       this.errorMessage = 'Could not create workspace. Please check your information and try again.';
     }

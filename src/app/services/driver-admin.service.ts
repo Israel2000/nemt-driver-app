@@ -230,7 +230,7 @@ export class DriverAdminService {
         licenseNumber: 'CO-9842104',
         licenseState: 'CO',
         licenseExpiration: '2026-11-15',
-        cprExpiration: '2026-09-25', // Expiring soon (< 30 days)
+        cprExpiration: '2027-09-25',
         dotPhysicalExpiration: '2027-04-10',
         drugScreenDate: '2025-08-10',
         vehicleAssigned: 'Van #4 (Wheelchair Ramp)',

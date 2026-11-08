@@ -67,6 +67,6 @@ export class PublicNavbarComponent implements OnInit {
   logout(): void {
     this.authService.logout();
     this.closeMobileMenu();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin/login']);
   }
 }

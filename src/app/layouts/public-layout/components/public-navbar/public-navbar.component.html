@@ -13,21 +13,22 @@
 
     <span class="navbar-spacer"></span>
 
-    <!-- Center Navigation Links (Desktop) -->
+    <!-- Center Navigation Links (Desktop) — the 4 marketing pages -->
     <nav class="center-nav desktop-nav">
-      <!-- Direct Anchor: Product & Features -->
-      <a mat-button class="nav-item-link" routerLink="/" [fragment]="'features'">
-        Product &amp; Features
+      <a mat-button class="nav-item-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        Home
       </a>
 
-      <!-- Direct Anchor: Medicaid Audit Shield -->
-      <a mat-button class="nav-item-link" routerLink="/" [fragment]="'compliance'">
-        Medicaid Audit Shield
+      <a mat-button class="nav-item-link" routerLink="/features" routerLinkActive="active">
+        Features
       </a>
 
-      <!-- Direct Anchor: Pricing -->
-      <a mat-button class="nav-item-link" routerLink="/" [fragment]="'pricing'">
+      <a mat-button class="nav-item-link" routerLink="/pricing" routerLinkActive="active">
         Pricing
+      </a>
+
+      <a mat-button class="nav-item-link" routerLink="/about" routerLinkActive="active">
+        About &amp; Contact
       </a>
     </nav>
 
@@ -106,18 +107,18 @@
     <div class="mobile-menu-container">
       <div class="mobile-section-label">Navigation &amp; Solutions</div>
       <div class="mobile-cards-stack">
-        <a routerLink="/" [fragment]="'features'" (click)="closeMobileMenu()" class="mobile-feature-card">
+        <a routerLink="/features" (click)="closeMobileMenu()" class="mobile-feature-card">
           <div class="mobile-icon-box blue">
             <mat-icon>dashboard</mat-icon>
           </div>
           <div class="mobile-card-details">
-            <span class="mobile-card-title">Product &amp; Features</span>
-            <span class="mobile-card-subtitle">Dispatch console, driver apps, and fleet telemetry</span>
+            <span class="mobile-card-title">Features &amp; Services</span>
+            <span class="mobile-card-subtitle">Dispatch console, driver web app, and fleet telemetry</span>
           </div>
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>
 
-        <a routerLink="/" [fragment]="'compliance'" (click)="closeMobileMenu()" class="mobile-feature-card">
+        <a routerLink="/features" fragment="audit-shield" (click)="closeMobileMenu()" class="mobile-feature-card">
           <div class="mobile-icon-box emerald">
             <mat-icon>verified_user</mat-icon>
           </div>
@@ -128,13 +129,24 @@
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>
 
-        <a routerLink="/" [fragment]="'pricing'" (click)="closeMobileMenu()" class="mobile-feature-card">
+        <a routerLink="/pricing" (click)="closeMobileMenu()" class="mobile-feature-card">
           <div class="mobile-icon-box purple">
             <mat-icon>payments</mat-icon>
           </div>
           <div class="mobile-card-details">
             <span class="mobile-card-title">Fleet Pricing</span>
             <span class="mobile-card-subtitle">Plans starting at $49/mo with 14-day free trial</span>
+          </div>
+          <mat-icon class="card-arrow">chevron_right</mat-icon>
+        </a>
+
+        <a routerLink="/about" (click)="closeMobileMenu()" class="mobile-feature-card">
+          <div class="mobile-icon-box amber">
+            <mat-icon>info</mat-icon>
+          </div>
+          <div class="mobile-card-details">
+            <span class="mobile-card-title">About &amp; Contact</span>
+            <span class="mobile-card-subtitle">How FleetOS works, FAQ, and how to reach the team</span>
           </div>
           <mat-icon class="card-arrow">chevron_right</mat-icon>
         </a>
@@ -145,7 +157,7 @@
         <div class="mobile-portals-grid">
           <a routerLink="/driver" (click)="closeMobileMenu()" class="mobile-portal-btn">
             <mat-icon>smartphone</mat-icon>
-            <span>Driver Mobile App</span>
+            <span>Driver Web App</span>
           </a>
           <a routerLink="/admin/login" (click)="closeMobileMenu()" class="mobile-portal-btn">
             <mat-icon>desktop_windows</mat-icon>

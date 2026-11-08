@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -80,7 +80,7 @@ import { AuthService } from '../../../services/auth.service';
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
                 <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Password</label>
-                <a href="javascript:void(0)" (click)="onForgotPassword()" class="text-[11px] text-blue-400 hover:underline">Forgot password?</a>
+                <button type="button" (click)="onForgotPassword()" class="text-[11px] text-blue-400 hover:underline cursor-pointer bg-transparent border-0 p-0">Forgot password?</button>
               </div>
               <div class="relative">
                 <input
@@ -147,14 +147,27 @@ import { AuthService } from '../../../services/auth.service';
     </div>
   `
 })
-export class AdminLoginComponent {
+export class AdminLoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   email = 'admin@nemtos.com';
   password = 'admin';
   rememberMe = true;
   errorMessage = '';
+
+  /** Where to land after sign-in (set by authGuard, e.g. /admin/dispatch). */
+  returnUrl = '/admin/dispatch';
+
+  ngOnInit(): void {
+    const requested = this.route.snapshot.queryParams['returnUrl'] as string | undefined;
+    if (requested && requested.startsWith('/admin')) this.returnUrl = requested;
+    // Already signed in as an admin? Skip the form and go straight in.
+    if (this.authService.isAuthenticated() && this.authService.hasAdminAccess()) {
+      this.router.navigateByUrl(this.returnUrl);
+    }
+  }
 
   onSubmit() {
     if (!this.email || !this.email.includes('@')) {
@@ -164,7 +177,12 @@ export class AdminLoginComponent {
 
     const success = this.authService.login(this.email, this.password);
     if (success) {
-      this.router.navigate(['/admin/dispatch']);
+      if (!this.authService.hasAdminAccess()) {
+        this.authService.logout();
+        this.errorMessage = 'That account is not an operator account. Driver accounts use the driver web app — sign in there instead.';
+        return;
+      }
+      this.router.navigateByUrl(this.returnUrl);
     } else {
       this.errorMessage = 'Authentication failed. Please verify credentials or use One-Click Sign In.';
     }
@@ -172,10 +190,11 @@ export class AdminLoginComponent {
 
   onDemoLogin() {
     this.authService.quickAdminDemoLogin();
-    this.router.navigate(['/admin/dispatch']);
+    this.router.navigateByUrl(this.returnUrl);
   }
 
   onForgotPassword() {
-    alert('Demo Password: "admin" or click "⚡ One-Click Sign In" to access the dispatch console immediately.');
+    // Demo-only recovery hint (no backend mailer yet): show inline, no pop-up.
+    this.errorMessage = 'Demo recovery: the demo operator password is "admin". Or use "One-Click Sign In" above — no password needed.';
   }
 }

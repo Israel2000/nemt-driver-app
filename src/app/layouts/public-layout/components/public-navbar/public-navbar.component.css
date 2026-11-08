@@ -101,6 +101,11 @@
   background-color: #f1f5f9 !important;
 }
 
+.nav-item-link.active {
+  color: #0369a1 !important;
+  background-color: #e0f2fe !important;
+}
+
 .dropdown-trigger-btn {
   display: inline-flex !important;
   align-items: center !important;

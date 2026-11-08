@@ -223,6 +223,6 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin/login']);
   }
 }

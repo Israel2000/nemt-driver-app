@@ -7,8 +7,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (!authService.isAuthenticated()) {
-    // Not authenticated, redirect to login page with returnUrl
-    return router.createUrlTree(['/login'], {
+    // Not authenticated, redirect to the admin sign-in page with returnUrl
+    return router.createUrlTree(['/admin/login'], {
       queryParams: { returnUrl: state.url }
     });
   }

@@ -33,7 +33,29 @@ export class ComplianceService {
     this.initData();
   }
 
+  /**
+   * Seed v2 (Nov 2026): Marcus Vance's CPR card in the v1 seed expired
+   * 2026-10-01, so the app's own dispatch-lockout engine would block the
+   * demo driver. Browsers that already seeded v1 get re-seeded once.
+   */
+  private static readonly SEED_VERSION = '2';
+  private static readonly SEED_VERSION_KEY = 'nemt_compliance_seed_version';
+
+  private maybeReseed(): void {
+    try {
+      if (localStorage.getItem(ComplianceService.SEED_VERSION_KEY) !== ComplianceService.SEED_VERSION) {
+        localStorage.removeItem(this.DQF_STORAGE_KEY);
+        localStorage.removeItem(this.VEHICLE_STORAGE_KEY);
+        localStorage.removeItem(this.DVIR_STORAGE_KEY);
+        localStorage.setItem(ComplianceService.SEED_VERSION_KEY, ComplianceService.SEED_VERSION);
+      }
+    } catch {
+      // Storage unavailable: in-memory seeds still load below.
+    }
+  }
+
   private initData(): void {
+    this.maybeReseed();
     this.loadDQF();
     this.loadStaff();
     this.loadVehicles();
@@ -436,7 +458,7 @@ export class ComplianceService {
             issuer: 'American Red Cross',
             cardNumber: 'ARC-CPR-77291',
             issueDate: '2024-10-01',
-            expirationDate: '2026-10-01',
+            expirationDate: '2027-10-01',
             status: 'expiring_soon',
             documentFileName: 'cpr_card_vance.jpg'
           },
@@ -465,7 +487,7 @@ export class ComplianceService {
             credentialName: 'OSHA Bloodborne Pathogens & Infection Control',
             issuer: 'Health & Safety Institute (HSI)',
             issueDate: '2025-01-10',
-            expirationDate: '2026-01-10',
+            expirationDate: '2027-01-10',
             status: 'valid'
           },
           hipaaPatientPrivacy: {
