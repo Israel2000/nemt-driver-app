@@ -7,36 +7,27 @@
   <aside class="saas-sidebar" role="navigation">
     <!-- Brand Header -->
     <div class="sidebar-brand-box">
-      <div class="brand-logo-icon">
-        <mat-icon>local_hospital</mat-icon>
-      </div>
+      <div class="brand-logo-icon">F</div>
       <div class="brand-text-block" *ngIf="!sidebarCollapsed">
         <span class="app-name">NEMT FleetOS</span>
-        <span class="app-tier-badge">ENTERPRISE SAAS</span>
+        <span class="app-tier-badge">Enterprise SaaS</span>
       </div>
       <button mat-icon-button class="sidebar-toggle-btn" (click)="toggleSidebar()" title="Toggle Sidebar">
         <mat-icon>{{ sidebarCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
       </button>
     </div>
 
-    <!-- Active Workspace Profile Card -->
+    <!-- Active Workspace Tenant Card (mockup) -->
     <div class="workspace-profile-card" *ngIf="!sidebarCollapsed">
-      <div class="ws-icon">
-        <mat-icon>domain</mat-icon>
-      </div>
       <div class="ws-info">
+        <span class="ws-label">Active Workspace</span>
         <span class="ws-name">{{ currentWorkspace?.name || 'Metro Care Transit LLC' }}</span>
-        <div class="ws-meta">
-          <span class="ws-plan-pill">{{ currentWorkspace?.planTier || 'PRO FLEET' | uppercase }}</span>
-          <span class="ws-id">{{ currentWorkspace?.id || 'ws_metro_care' }}</span>
-        </div>
+        <span class="ws-id">{{ currentWorkspace?.id || 'ws-metro-01' }} &bull; Pro Fleet</span>
       </div>
     </div>
 
     <!-- Navigation Menu Items -->
     <nav class="sidebar-nav">
-      <div class="nav-category-title" *ngIf="!sidebarCollapsed">OPERATIONS & COMPLIANCE</div>
-
       <a
         class="nav-item"
         routerLink="/admin/dispatch"
@@ -94,8 +85,6 @@
         <span class="nav-label" *ngIf="!sidebarCollapsed">Fleet & Vehicles</span>
       </a>
 
-      <div class="nav-category-title" *ngIf="!sidebarCollapsed">PLATFORM SETTINGS</div>
-
       <a
         class="nav-item"
         routerLink="/admin/billing"
@@ -107,39 +96,36 @@
       </a>
     </nav>
 
-    <!-- Sidebar Footer -->
+    <!-- Sidebar Footer: public-site link, then user profile (mockup order) -->
     <div class="sidebar-footer">
+      <a routerLink="/" class="promo-link" *ngIf="!sidebarCollapsed">
+        <mat-icon>open_in_new</mat-icon> Public Marketing Site
+      </a>
       <div class="operator-profile-box" *ngIf="!sidebarCollapsed">
-        <div class="operator-avatar">
-          <mat-icon>admin_panel_settings</mat-icon>
-        </div>
+        <div class="operator-avatar">{{ userInitials }}</div>
         <div class="operator-details">
-          <div class="operator-name">{{ currentUser?.fullName || 'Operator Admin' }}</div>
-          <div class="operator-role-badge">{{ currentUser?.role | uppercase }} CLEARANCE</div>
+          <div class="operator-name">{{ userDisplayName }}</div>
+          <div class="operator-role-badge">{{ userRoleLabel }}</div>
         </div>
         <button mat-icon-button class="logout-icon-btn" (click)="logout()" title="Sign Out of Console">
           <mat-icon color="warn">logout</mat-icon>
         </button>
       </div>
-
-      <a routerLink="/" class="promo-link" *ngIf="!sidebarCollapsed">
-        <mat-icon>open_in_new</mat-icon> Public Marketing Site
-      </a>
     </div>
   </aside>
 
   <!-- 2. MAIN SAAS AREA & TOPBAR -->
   <div class="saas-main-area">
-    <!-- Executive Topbar -->
+    <!-- Status-only Topbar (mockup): page title + subtitle left, Audit Shield pill right.
+         Navigation lives in the sidebar only. -->
     <header class="saas-topbar">
       <div class="topbar-left">
         <button mat-icon-button class="mobile-menu-trigger" (click)="toggleMobileSidebar()" aria-label="Open menu">
           <mat-icon>menu</mat-icon>
         </button>
-        <div class="breadcrumbs">
-          <span class="bc-root">FleetOS Console</span>
-          <mat-icon class="bc-sep">chevron_right</mat-icon>
-          <span class="bc-current">{{ currentSectionTitle }}</span>
+        <div class="topbar-titles">
+          <h1 class="topbar-title">{{ currentSectionTitle }}</h1>
+          <p class="topbar-subtitle">{{ currentSectionSubtitle }}</p>
         </div>
       </div>
 
@@ -149,71 +135,9 @@
           <span class="status-pulse"></span>
           <span class="status-text">Audit Shield: Active</span>
         </div>
-
-        <!-- Operator User Menu -->
-        <button mat-button [matMenuTriggerFor]="topUserMenu" class="topbar-user-btn">
-          <mat-icon class="user-avatar-icon">account_circle</mat-icon>
-          <span class="user-display-name">{{ currentUser?.fullName || 'Administrator' }}</span>
-          <mat-icon class="caret">expand_more</mat-icon>
-        </button>
-        <mat-menu #topUserMenu="matMenu">
-          <div class="user-menu-header">
-            <strong>{{ currentUser?.fullName }}</strong>
-            <small>{{ currentUser?.email }}</small>
-            <span class="role-pill-sm">{{ currentUser?.role | uppercase }}</span>
-          </div>
-          <mat-divider></mat-divider>
-          <a mat-menu-item routerLink="/admin/billing">
-            <mat-icon>manage_accounts</mat-icon>
-            <span>Workspace Settings</span>
-          </a>
-          <a mat-menu-item routerLink="/admin/audit-shield">
-            <mat-icon>security</mat-icon>
-            <span>Compliance Shield</span>
-          </a>
-          <mat-divider></mat-divider>
-          <button mat-menu-item (click)="logout()">
-            <mat-icon color="warn">logout</mat-icon>
-            <span style="color: #dc2626;">Sign Out</span>
-          </button>
-        </mat-menu>
       </div>
     </header>
 
-    <!-- 2b. SECOND NAV ROW — section links live here, not in the crowded
-         topbar. Horizontally scrollable on phones, full row on desktop. -->
-    <nav class="admin-subnav" aria-label="Admin sections">
-      <a class="subnav-link" routerLink="/admin/dispatch" routerLinkActive="active" title="Live Dispatch & Tracking Console">
-        <mat-icon class="subnav-icon">alt_route</mat-icon>
-        <span>Dispatch Console</span>
-      </a>
-      <a class="subnav-link" routerLink="/admin/overview" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" title="Executive Overview">
-        <mat-icon class="subnav-icon">insights</mat-icon>
-        <span>Executive Overview</span>
-      </a>
-      <a class="subnav-link" routerLink="/admin/candidates" routerLinkActive="active" title="Candidate ATS & Pipeline">
-        <mat-icon class="subnav-icon">people_alt</mat-icon>
-        <span>Candidate ATS</span>
-        <span class="subnav-badge" *ngIf="metrics.pendingReview > 0">{{ metrics.pendingReview }}</span>
-      </a>
-      <a class="subnav-link" routerLink="/admin/audit-shield" routerLinkActive="active" title="Medicaid Audit Shield & DQF Roster">
-        <mat-icon class="subnav-icon">verified_user</mat-icon>
-        <span>Medicaid Audit Shield</span>
-        <span class="subnav-badge alert" *ngIf="metrics.expiringCredentialsCount > 0">{{ metrics.expiringCredentialsCount }}</span>
-      </a>
-      <a class="subnav-link" routerLink="/admin/fleet" routerLinkActive="active" title="Fleet Vehicles & DVIR Tracker">
-        <mat-icon class="subnav-icon">directions_bus</mat-icon>
-        <span>Fleet &amp; Vehicles</span>
-      </a>
-      <a class="subnav-link" routerLink="/admin/billing" routerLinkActive="active" title="Workspace Configuration & Medicaid Billing">
-        <mat-icon class="subnav-icon">tune</mat-icon>
-        <span>Workspace &amp; Billing</span>
-      </a>
-      <a class="subnav-link subnav-portal" routerLink="/driver" target="_blank" title="Preview the driver web app">
-        <mat-icon class="subnav-icon">open_in_new</mat-icon>
-        <span>Driver Portal</span>
-      </a>
-    </nav>
 
     <!-- 3. SAAS WORKSPACE CANVAS WITH ROUTER OUTLET -->
     <main class="saas-canvas">

@@ -1,13 +1,6 @@
 <div class="billing-container">
-  <div class="section-header-banner">
-    <div>
-      <h1 class="canvas-title">Workspace Configuration & Medicaid Billing</h1>
-      <p class="canvas-subtitle">Multi-tenant fleet management, broker billing credentials, and subscription status.</p>
-    </div>
-  </div>
-
   <div class="settings-grid">
-    <mat-card class="settings-card">
+    <div class="admin-card">
       <h3>Active Company Workspace</h3>
       <div class="settings-row">
         <span class="settings-label">Organization Name:</span>
@@ -15,7 +8,7 @@
       </div>
       <div class="settings-row">
         <span class="settings-label">Workspace Tenant ID:</span>
-        <span style="font-family: monospace;">{{ currentWorkspace?.id || 'ws_metro_care' }}</span>
+        <span class="tenant-id">{{ currentWorkspace?.id || 'ws-metro-01' }}</span>
       </div>
       <div class="settings-row">
         <span class="settings-label">Plan Tier:</span>
@@ -23,23 +16,23 @@
       </div>
       <div class="settings-row">
         <span class="settings-label">Regional Dispatch:</span>
-        <span>Atlanta Metro / Fulton & Gwinnett Counties</span>
+        <span>Atlanta Metro / Fulton &amp; Gwinnett</span>
       </div>
-    </mat-card>
+    </div>
 
-    <mat-card class="settings-card">
+    <div class="admin-card">
       <h3>Medicaid Broker Provider IDs</h3>
       <div class="settings-row">
         <span class="settings-label">Modivcare Provider ID:</span>
-        <strong style="font-family: monospace;">MODIV-GA-94812</strong>
+        <strong class="mono-val">MODIV-GA-94812</strong>
       </div>
       <div class="settings-row">
         <span class="settings-label">MTM Broker PIN:</span>
-        <strong style="font-family: monospace;">MTM-83910-US</strong>
+        <strong class="mono-val">MTM-83910-US</strong>
       </div>
       <div class="settings-row">
         <span class="settings-label">State Medicaid DOH PIN:</span>
-        <strong style="font-family: monospace;">GAMED-481903</strong>
+        <strong class="mono-val">GAMED-481903</strong>
       </div>
       <div class="settings-row">
         <span class="settings-label">Audit Readiness Shield:</span>
@@ -47,10 +40,10 @@
           <mat-icon class="badge-icon">verified</mat-icon> ACTIVE DEFENSE
         </span>
       </div>
-    </mat-card>
+    </div>
 
-    <mat-card class="settings-card">
-      <h3>Subscription & Invoices</h3>
+    <div class="admin-card">
+      <h3>Subscription &amp; Invoices</h3>
       <div class="settings-row">
         <span class="settings-label">Billing Cycle:</span>
         <strong>Monthly ($149 / month)</strong>
@@ -63,29 +56,29 @@
         <span class="settings-label">Payment Method:</span>
         <span>Visa ending in &bull;&bull;&bull;&bull; 4242</span>
       </div>
-      <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
-        <button mat-stroked-button color="primary" (click)="manageSubscription()">
+      <div class="card-actions">
+        <button type="button" class="admin-card-btn" (click)="manageSubscription()">
           Manage Stripe Invoices
         </button>
       </div>
-    </mat-card>
+    </div>
 
-    <mat-card class="settings-card">
+    <div class="admin-card">
       <h3>Automated Dispatch Shield Rules</h3>
       <div class="settings-row">
         <span class="settings-label">Driver DQF Hard Lockout:</span>
-        <button mat-stroked-button [color]="hardLockoutActive ? 'primary' : 'warn'" (click)="toggleLockoutRule()">
+        <button type="button" class="lockout-pill" [class.lockout-on]="hardLockoutActive" (click)="toggleLockoutRule()">
           {{ hardLockoutActive ? 'ACTIVE (BLOCK DISPATCH)' : 'DISABLED (ALLOW)' }}
         </button>
       </div>
       <div class="settings-row">
         <span class="settings-label">Pre-Trip DVIR Required:</span>
-        <strong style="color: #047857;">Mandatory Before First Trip</strong>
+        <strong class="rule-ok">Mandatory Before First Trip</strong>
       </div>
       <div class="settings-row">
         <span class="settings-label">OIG Automated Check:</span>
-        <span>1st of Every Month (HHS LEIE & SAM.gov)</span>
+        <span>1st of Every Month (HHS LEIE &amp; SAM.gov)</span>
       </div>
-    </mat-card>
+    </div>
   </div>
 </div>
