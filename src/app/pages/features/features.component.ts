@@ -61,20 +61,32 @@ import { MatIconModule } from '@angular/material/icon';
         </div>
       </section>
 
-      <!-- How a trip flows -->
-      <section class="py-16 bg-white border-y border-slate-200/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center max-w-3xl mx-auto mb-12">
-            <h2 class="text-3xl font-extrabold tracking-tight">How a trip flows through FleetOS</h2>
-            <p class="mt-3 text-slate-600">From application to audit-ready proof — every step lives in the same system.</p>
+      <!-- How a trip flows (Israel's 5-step design, real CSS — no Tailwind in this project) -->
+      <section class="feat-flow">
+        <div class="feat-container">
+          <div class="feat-flow-header">
+            <span class="feat-badge">Workflow Architecture</span>
+            <h2 class="feat-flow-h2">How a trip flows through FleetOS</h2>
+            <p class="feat-flow-sub">From application to audit-ready proof — every step lives in the same system.</p>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="feat-flow-grid">
             @for (step of flowSteps; track step.n) {
-              <a [routerLink]="step.link" class="rounded-2xl border border-slate-200 bg-slate-50 p-5 hover:border-blue-400 hover:shadow-md transition block">
-                <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-extrabold text-sm mb-3">{{ step.n }}</div>
-                <h3 class="font-bold text-sm">{{ step.title }}</h3>
-                <p class="text-xs text-slate-600 leading-relaxed mt-1">{{ step.text }}</p>
+              <a [routerLink]="step.link" class="fleet-card feat-flow-card" [class.feat-flow-card-final]="step.final">
+                <div class="feat-flow-top">
+                  <div class="feat-flow-num" [class.feat-flow-num-final]="step.final">{{ step.n }}</div>
+                  @if (step.final) {
+                    <span class="feat-flow-final-pill">Final</span>
+                  } @else {
+                    <span class="feat-flow-arrow" [class.feat-flow-arrow-green]="step.n === 4" aria-hidden="true">&rarr;</span>
+                  }
+                </div>
+                <h3 class="feat-flow-title">{{ step.title }}</h3>
+                <p class="feat-flow-text">{{ step.text }}</p>
+                <div class="feat-flow-tag" [class.feat-flow-tag-final]="step.final">{{ step.tag }}</div>
               </a>
+              @if (!$last) {
+                <div class="feat-flow-arrow-down" aria-hidden="true">&darr;</div>
+              }
             }
           </div>
         </div>
@@ -203,6 +215,60 @@ import { MatIconModule } from '@angular/material/icon';
     .feat-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; color: #334155; }
     .feat-list li { display: flex; align-items: center; gap: 8px; }
     .feat-check { color: #2563eb; font-weight: 700; flex-shrink: 0; }
+    /* How a trip flows — 5 connected step cards (Israel's design, real CSS) */
+    .feat-flow { padding: 64px 0; background: #ffffff; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+    .feat-flow-header { max-width: 640px; margin: 0 auto 48px; text-align: center; }
+    .feat-flow-h2 { margin: 0 0 12px; font-size: 30px; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; color: #0f172a; }
+    .feat-flow-sub { margin: 0; font-size: 15px; line-height: 1.6; color: #475569; }
+    .feat-flow-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .feat-flow-card {
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 20px; border-radius: 16px; background: #ffffff; text-decoration: none;
+    }
+    .feat-flow-card.fleet-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .feat-flow-card.fleet-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.3);
+      box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.12);
+    }
+    .feat-flow-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .feat-flow-num {
+      width: 32px; height: 32px; border-radius: 12px; background: #2563eb; color: #ffffff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; box-shadow: 0 1px 2px rgba(15,23,42,0.1); flex-shrink: 0;
+    }
+    .feat-flow-num-final { background: #059669; }
+    .feat-flow-arrow { display: none; font-size: 18px; font-weight: 700; line-height: 1; color: #cbd5e1; transition: color 0.2s ease; }
+    .feat-flow-card:hover .feat-flow-arrow { color: #2563eb; }
+    .feat-flow-card:hover .feat-flow-arrow-green { color: #059669; }
+    .feat-flow-final-pill {
+      font-size: 12px; font-weight: 700; color: #059669; background: #ecfdf5;
+      padding: 2px 8px; border-radius: 9999px;
+    }
+    .feat-flow-title { margin: 0 0 4px; font-size: 14px; font-weight: 700; color: #0f172a; }
+    .feat-flow-text { margin: 0; font-size: 12px; line-height: 1.6; color: #475569; }
+    .feat-flow-tag {
+      margin-top: 16px; padding-top: 12px; border-top: 1px solid #f1f5f9;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #2563eb;
+    }
+    .feat-flow-tag-final { color: #059669; }
+    .feat-flow-arrow-down {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 800; line-height: 1; color: #2563eb; padding: 2px 0;
+    }
+    @media (min-width: 640px) {
+      .feat-flow-grid { grid-template-columns: 1fr 1fr; }
+      .feat-flow-arrow-down { display: none; }
+      .feat-flow-h2 { font-size: 36px; }
+    }
+    @media (min-width: 1024px) {
+      .feat-flow-grid { grid-template-columns: repeat(5, 1fr); }
+      .feat-flow-arrow { display: inline; }
+    }
     @media (min-width: 640px) {
       .feat-hero { padding-left: 24px; padding-right: 24px; }
       .feat-container { padding-left: 24px; padding-right: 24px; }
@@ -220,10 +286,10 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class FeaturesComponent {
   flowSteps = [
-    { n: 1, title: 'Driver applies', text: 'Public application with license, 7-year history, and digital signature.', link: '/apply' },
-    { n: 2, title: 'Admin reviews', text: 'Candidate pipeline, MVR status, and one-click approve or reject.', link: '/admin/candidates' },
-    { n: 3, title: 'Driver verifies', text: 'Pre-trip DVIR, odometer, and credential check before the shift unlocks.', link: '/driver/login' },
-    { n: 4, title: 'Dispatch & drive', text: 'Live GPS dispatch, one-tap trip stepper, and navigation in the browser.', link: '/driver/trips' },
-    { n: 5, title: 'Proof & audit', text: 'Signatures, odometer logs, and the 1-click audit package.', link: '/admin/audit-shield' }
+    { n: 1, title: 'Driver applies', text: 'Public application with license, history, and signature.', tag: 'Onboarding', final: false, link: '/apply' },
+    { n: 2, title: 'Admin reviews', text: 'Candidate pipeline, MVR status, and quick approval.', tag: 'Verification', final: false, link: '/admin/candidates' },
+    { n: 3, title: 'Driver verifies', text: 'Pre-trip DVIR, odometer, and credential check before shift.', tag: 'Shift Lock', final: false, link: '/driver/login' },
+    { n: 4, title: 'Dispatch & drive', text: 'Live GPS dispatch, trip stepper, and browser navigation.', tag: 'Operations', final: false, link: '/driver/trips' },
+    { n: 5, title: 'Proof & audit', text: 'Signatures, odometer logs, and 1-click audit package.', tag: 'Audit Shield', final: true, link: '/admin/audit-shield' }
   ];
 }
