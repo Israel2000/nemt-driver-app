@@ -1268,7 +1268,52 @@
   }
 
   .saas-topbar {
-    padding: 0 14px;
+    height: auto;
+    min-height: 56px;
+    padding: 8px 12px;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .topbar-left {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .breadcrumbs {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .bc-current {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .topbar-right {
+    flex-shrink: 0;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  /* 'Test Public Portal' is a preview link (also in the sidebar footer) —
+     hide it on mobile so the breadcrumb + user controls fit. */
+  .test-portal-btn {
+    display: none !important;
+  }
+
+  .live-status-pill {
+    padding: 5px 8px;
+    flex-shrink: 0;
+  }
+
+  .topbar-user-btn {
+    padding: 4px 6px !important;
+    flex-shrink: 0;
   }
 
   .topbar-center {
@@ -1313,6 +1358,25 @@
 
   .user-display-name {
     display: none;
+  }
+
+  /* On phones show only the current section name, truncated — the
+     'FleetOS Console >' root crumb is what pushed the row off-screen. */
+  .bc-root,
+  .bc-sep {
+    display: none;
+  }
+
+  .bc-current {
+    font-size: 12px;
+  }
+
+  .caret {
+    display: none;
+  }
+
+  .live-status-pill {
+    padding: 4px 6px;
   }
 
   .drawer-header {

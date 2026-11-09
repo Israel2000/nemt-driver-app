@@ -64,6 +64,8 @@ img, canvas, svg {
 .min-h-screen { min-height: 100vh; }
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.overflow-y-auto { overflow-y: auto; }
 .flex-1 { flex: 1 1 0%; }
 .bg-slate-50 { background-color: #f8fafc; }
 .text-slate-900 { color: #0f172a; }
@@ -520,4 +522,30 @@ img, canvas, svg {
 .public-layout .mat-mdc-button-ripple,
 .public-layout .mat-ripple-element {
   display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Admin dispatch console — mobile header (360/390/430px).
+   The manifest header row (title + Messages / Quick Dispatch buttons) and the
+   sync-status row have no wrapping, so they crowd off-screen on phones.
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .dispatch-manifest-head {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .dispatch-manifest-head > div:first-child {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .dispatch-sync-row {
+    flex-wrap: wrap;
+    gap: 2px 10px;
+  }
+}
+@media (max-width: 480px) {
+  /* Non-essential caption — the live/offline status itself stays. */
+  .dispatch-sync-row > span:last-child {
+    display: none;
+  }
 }

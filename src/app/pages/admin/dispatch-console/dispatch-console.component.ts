@@ -21,7 +21,7 @@ declare const L: any;
            ===================================================================== -->
       <div class="w-full md:w-[440px] bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-20">
         <!-- Column Header -->
-        <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white">
+        <div class="dispatch-manifest-head p-4 border-b border-slate-200 flex items-center justify-between bg-white">
           <div>
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
               <span>Live Trip Manifest</span>
@@ -48,7 +48,7 @@ declare const L: any;
         </div>
 
         <!-- Sync status (shared with the driver app) -->
-        <div class="px-4 py-2 bg-white border-b border-slate-100 flex items-center justify-between text-[11px]">
+        <div class="dispatch-sync-row px-4 py-2 bg-white border-b border-slate-100 flex items-center justify-between text-[11px]">
           <span class="flex items-center gap-1.5 font-bold" [ngClass]="syncService.online() ? 'text-emerald-700' : 'text-amber-700'">
             <span class="w-2 h-2 rounded-full" [ngClass]="syncService.online() ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"></span>
             {{ syncService.online() ? 'Live — synced locally' : 'Offline — ' + syncService.pendingCount() + ' event(s) pending' }}

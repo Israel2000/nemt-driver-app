@@ -62,6 +62,14 @@
   flex-wrap: wrap;
   background: #f8fafc;
   border-bottom: 1px solid #e2e8f0;
+  min-width: 0;
+}
+
+/* The Material field must be allowed to shrink below its content width,
+   or the 260px min-width pushes it past the card edge on phones (the card
+   clips it via overflow:hidden, so the search box looked cut off). */
+.toolbar-filter-row .mat-mdc-form-field {
+  min-width: 0;
 }
 
 .search-field {
@@ -70,9 +78,34 @@
   margin-bottom: -1.34375em;
 }
 
+.search-field input {
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+
+.search-field input::placeholder {
+  text-overflow: ellipsis;
+}
+
 .status-filter-field {
   min-width: 220px;
   margin-bottom: -1.34375em;
+}
+
+@media (max-width: 640px) {
+  .toolbar-filter-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 14px;
+    gap: 0;
+  }
+
+  .search-field,
+  .status-filter-field {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .table-responsive {
