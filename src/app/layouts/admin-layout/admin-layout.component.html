@@ -143,29 +143,12 @@
         </div>
       </div>
 
-      <div class="topbar-center">
-        <div class="global-search-box">
-          <mat-icon class="search-icon">search</mat-icon>
-          <input
-            type="text"
-            placeholder="Search drivers, VINs, license records..."
-            aria-label="Global platform search"
-          />
-        </div>
-      </div>
-
       <div class="topbar-right">
         <!-- Live Audit Shield Status Badge -->
         <div class="live-status-pill" title="Continuous Medicaid exclusion & DQF monitoring active">
           <span class="status-pulse"></span>
           <span class="status-text">Audit Shield: Active</span>
         </div>
-
-        <!-- Portal Preview Button -->
-        <a mat-stroked-button color="primary" routerLink="/driver" target="_blank" class="topbar-btn test-portal-btn">
-          <mat-icon>open_in_new</mat-icon>
-          <span>Test Public Portal</span>
-        </a>
 
         <!-- Operator User Menu -->
         <button mat-button [matMenuTriggerFor]="topUserMenu" class="topbar-user-btn">
@@ -196,6 +179,41 @@
         </mat-menu>
       </div>
     </header>
+
+    <!-- 2b. SECOND NAV ROW — section links live here, not in the crowded
+         topbar. Horizontally scrollable on phones, full row on desktop. -->
+    <nav class="admin-subnav" aria-label="Admin sections">
+      <a class="subnav-link" routerLink="/admin/dispatch" routerLinkActive="active" title="Live Dispatch & Tracking Console">
+        <mat-icon class="subnav-icon">alt_route</mat-icon>
+        <span>Dispatch Console</span>
+      </a>
+      <a class="subnav-link" routerLink="/admin/overview" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" title="Executive Overview">
+        <mat-icon class="subnav-icon">insights</mat-icon>
+        <span>Executive Overview</span>
+      </a>
+      <a class="subnav-link" routerLink="/admin/candidates" routerLinkActive="active" title="Candidate ATS & Pipeline">
+        <mat-icon class="subnav-icon">people_alt</mat-icon>
+        <span>Candidate ATS</span>
+        <span class="subnav-badge" *ngIf="metrics.pendingReview > 0">{{ metrics.pendingReview }}</span>
+      </a>
+      <a class="subnav-link" routerLink="/admin/audit-shield" routerLinkActive="active" title="Medicaid Audit Shield & DQF Roster">
+        <mat-icon class="subnav-icon">verified_user</mat-icon>
+        <span>Medicaid Audit Shield</span>
+        <span class="subnav-badge alert" *ngIf="metrics.expiringCredentialsCount > 0">{{ metrics.expiringCredentialsCount }}</span>
+      </a>
+      <a class="subnav-link" routerLink="/admin/fleet" routerLinkActive="active" title="Fleet Vehicles & DVIR Tracker">
+        <mat-icon class="subnav-icon">directions_bus</mat-icon>
+        <span>Fleet &amp; Vehicles</span>
+      </a>
+      <a class="subnav-link" routerLink="/admin/billing" routerLinkActive="active" title="Workspace Configuration & Medicaid Billing">
+        <mat-icon class="subnav-icon">tune</mat-icon>
+        <span>Workspace &amp; Billing</span>
+      </a>
+      <a class="subnav-link subnav-portal" routerLink="/driver" target="_blank" title="Preview the driver web app">
+        <mat-icon class="subnav-icon">open_in_new</mat-icon>
+        <span>Driver Portal</span>
+      </a>
+    </nav>
 
     <!-- 3. SAAS WORKSPACE CANVAS WITH ROUTER OUTLET -->
     <main class="saas-canvas">

@@ -398,6 +398,7 @@
 .saas-topbar {
   height: 64px;
   min-height: 64px;
+  flex-shrink: 0;
   background: #ffffff;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
@@ -407,12 +408,15 @@
   gap: 16px;
   z-index: 10;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
 }
 
 .topbar-left {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .mobile-menu-trigger {
@@ -425,6 +429,9 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .bc-root {
@@ -442,49 +449,10 @@
 .bc-current {
   color: #0f172a;
   font-weight: 600;
-}
-
-.topbar-center {
-  flex: 1;
-  max-width: 480px;
-  margin: 0 16px;
-}
-
-.global-search-box {
-  display: flex;
-  align-items: center;
-  background: #f1f5f9;
-  border-radius: 8px;
-  padding: 6px 14px;
-  gap: 10px;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-}
-
-.global-search-box:focus-within {
-  background: #ffffff;
-  border-color: #0284c7;
-  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
-}
-
-.global-search-box input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  font-size: 13px;
-  color: #0f172a;
-}
-
-.global-search-box input::placeholder {
-  color: #94a3b8;
-}
-
-.global-search-box .search-icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
-  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .topbar-right {
@@ -519,27 +487,6 @@
   0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
   70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
   100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-
-.topbar-btn {
-  color: #475569 !important;
-}
-
-.test-portal-btn {
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  height: 36px !important;
-  line-height: 34px !important;
-  border-radius: 6px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-}
-
-.test-portal-btn mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
 }
 
 .topbar-user-btn {
@@ -596,6 +543,86 @@
   border-radius: 4px;
   width: fit-content;
   margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   2b. SECOND NAV ROW — section links under the topbar.
+   Desktop: full row. Phones: touch-scrollable strip, no visible scrollbar,
+   no page-level horizontal overflow.
+   -------------------------------------------------------------------------- */
+.admin-subnav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 46px;
+  flex-shrink: 0;
+  padding: 4px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-subnav::-webkit-scrollbar {
+  display: none;
+}
+
+.subnav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.subnav-link:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.subnav-link.active {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.subnav-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.subnav-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.subnav-badge.alert {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.subnav-link.active .subnav-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.subnav-portal {
+  margin-left: auto;
+  color: #0284c7;
 }
 
 /* --------------------------------------------------------------------------
@@ -1300,10 +1327,12 @@
     margin-left: auto;
   }
 
-  /* 'Test Public Portal' is a preview link (also in the sidebar footer) —
-     hide it on mobile so the breadcrumb + user controls fit. */
-  .test-portal-btn {
-    display: none !important;
+  .admin-subnav {
+    padding: 4px 12px;
+  }
+
+  .subnav-portal {
+    display: none;
   }
 
   .live-status-pill {
@@ -1314,10 +1343,6 @@
   .topbar-user-btn {
     padding: 4px 6px !important;
     flex-shrink: 0;
-  }
-
-  .topbar-center {
-    display: none;
   }
 
   .live-status-pill .status-text {
@@ -1352,19 +1377,14 @@
 }
 
 @media (max-width: 480px) {
-  .test-portal-btn span {
-    display: none;
-  }
-
   .user-display-name {
     display: none;
   }
 
-  /* On phones show only the current section name, truncated — the
-     'FleetOS Console >' root crumb is what pushed the row off-screen. */
-  .bc-root,
-  .bc-sep {
-    display: none;
+  /* Brand stays visible now that search + portal left the top row; the
+     section title truncates with an ellipsis instead. */
+  .bc-root {
+    font-size: 12px;
   }
 
   .bc-current {
