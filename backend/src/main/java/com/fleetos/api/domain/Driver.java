@@ -26,6 +26,10 @@ public class Driver {
   @Column(name = "driver_code", nullable = false, unique = true)
   private String driverCode;
 
+  /** Display name, e.g. "Marcus Vance" (Phase 2: the API returns it). */
+  @Column(name = "full_name")
+  private String fullName;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private AppUser user;
@@ -60,6 +64,15 @@ public class Driver {
 
   public UUID getId() { return id; }
   public String getDriverCode() { return driverCode; }
+  public String getFullName() { return fullName; }
+  public void setFullName(String fullName) { this.fullName = fullName; }
+  /** Display name: the driver's own name, else the linked login user's name. */
+  public String displayName() {
+    if (fullName != null && !fullName.isBlank()) {
+      return fullName;
+    }
+    return user != null ? user.getFullName() : driverCode;
+  }
   public AppUser getUser() { return user; }
   public void setUser(AppUser user) { this.user = user; }
   public Workspace getWorkspace() { return workspace; }

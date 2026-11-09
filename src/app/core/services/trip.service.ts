@@ -1,6 +1,76 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { Trip, TripStatus, TripStatusEvent, WheelchairSecurement, haversineMiles, etaMinutesForMiles } from '../models/trip.model';
 import { SyncService } from './sync.service';
+
+/** Wire shape of a trip as returned by GET /api/trips (Phase 2 backend). */
+interface ServerTrip {
+  id: string;
+  code: string;
+  riderName: string;
+  patientPhone?: string | null;
+  mobility: string;
+  pickupAddress: string;
+  pickupLat?: number | null;
+  pickupLng?: number | null;
+  dropoffAddress: string;
+  dropoffLat?: number | null;
+  dropoffLng?: number | null;
+  scheduledAt?: string | null;
+  status: string;
+  frontendStatus: TripStatus;
+  driverId?: string | null;
+  driverName?: string | null;
+  vehicleNumber?: string | null;
+  wheelchair: boolean;
+  odometerStart?: number | null;
+  odometerEnd?: number | null;
+  passengerSignature: boolean;
+  driverSignature: boolean;
+  billable: boolean;
+  signeeName?: string | null;
+  signeeType?: 'patient' | 'facility_staff' | null;
+  completedAt?: string | null;
+  currentLat?: number | null;
+  currentLng?: number | null;
+  securement?: {
+    positioned: boolean; tieDownFrontLeft: boolean; tieDownFrontRight: boolean;
+    tieDownRearLeft: boolean; tieDownRearRight: boolean; brakesSet: boolean;
+    lapBelt: boolean; shoulderBelt: boolean; complete: boolean;
+    completedBy?: string | null; completedAt?: string | null;
+  } | null;
+}
+
+interface ServerTripEvent {
+  status: string;
+  frontendStatus: TripStatus;
+  lat?: number | null;
+  lng?: number | null;
+  gpsSource: 'device' | 'estimated' | 'unavailable';
+  byRole?: string | null;
+  byName?: string | null;
+  reasonCode?: string | null;
+  reasonNote?: string | null;
+  createdAt: string;
+}
+
+function toDisplayTime(iso: string): string {
+  return new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+/** "09:30 AM" → an ISO timestamp for today (the server takes scheduledAt). */
+function scheduledTimeToIso(scheduledTime: string | undefined): string | undefined {
+  if (!scheduledTime) return undefined;
+  const m = scheduledTime.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return undefined;
+  let h = parseInt(m[1], 10);
+  if (/pm/i.test(m[3]) && h !== 12) h += 12;
+  if (/am/i.test(m[3]) && h === 12) h = 0;
+  const d = new Date();
+  d.setHours(h, parseInt(m[2], 10), 0, 0);
+  return d.toISOString();
+}
 
 /**
  * TripService — the ONE shared trip record for driver and dispatch.
@@ -135,6 +205,243 @@ export const DQF_ID_BY_SESSION_ID: Record<string, string> = {
 })
 export class TripService {
   private sync = inject(SyncService);
+  private http = inject(HttpClient);
+
+  /** Phase 2 API base (dev proxy → :8080; unreachable on Vercel → local mode). */
+  private readonly API_URL = '/api/trips';
+  /** null = unknown yet; true once any API call succeeds; false after a network error. */
+  private apiReachable: boolean | null = null;
+
+  private hasJwt(): boolean {
+    try {
+      return !!localStorage.getItem('nemt_jwt');
+    } catch {
+      return false;
+    }
+  }
+
+  private markApiResult(ok: boolean): void {
+    this.apiReachable = ok;
+  }
+
+  /** Map a server trip onto the frontend Trip model (id stays the TRP- code). */
+  private mapServerTrip(s: ServerTrip, events: ServerTripEvent[] = []): Trip {
+    const statusEvents: TripStatusEvent[] = events.map(e => ({
+      status: e.frontendStatus,
+      at: toDisplayTime(e.createdAt),
+      atIso: e.createdAt,
+      lat: e.lat ?? undefined,
+      lng: e.lng ?? undefined,
+      gpsSource: e.gpsSource,
+      by: e.byRole === 'driver' ? 'driver' : 'dispatch',
+      byName: e.byName ?? undefined,
+      reasonCode: e.reasonCode ?? undefined,
+      reasonNote: e.reasonNote ?? undefined,
+    }));
+    const arrived = statusEvents.find(e => e.status === 'arrived_pickup');
+    const completed = statusEvents.find(e => e.status === 'completed');
+    return {
+      id: s.code,
+      patientName: s.riderName,
+      patientPhone: s.patientPhone ?? undefined,
+      mobility: (s.mobility as Trip['mobility']) || 'ambulatory',
+      pickupAddress: s.pickupAddress,
+      pickupLat: s.pickupLat ?? undefined,
+      pickupLng: s.pickupLng ?? undefined,
+      dropoffAddress: s.dropoffAddress,
+      dropoffLat: s.dropoffLat ?? undefined,
+      dropoffLng: s.dropoffLng ?? undefined,
+      scheduledTime: s.scheduledAt ? toDisplayTime(s.scheduledAt) : '08:00 AM',
+      status: s.frontendStatus,
+      driverId: s.driverId ?? undefined,
+      driverName: s.driverName ?? undefined,
+      vehicleNumber: s.vehicleNumber ?? undefined,
+      startOdometer: s.odometerStart ?? undefined,
+      endOdometer: s.odometerEnd ?? undefined,
+      signatureDataUrl: undefined,
+      driverSignatureDataUrl: undefined,
+      driverSignatureName: undefined,
+      completedAt: s.completedAt ? toDisplayTime(s.completedAt) : undefined,
+      signeeType: s.signeeType ?? undefined,
+      signeeName: undefined,
+      lifecycleTimestamps: {},
+      statusEvents,
+      pickupGps: arrived?.lat !== undefined && arrived?.lng !== undefined
+        ? { lat: arrived.lat, lng: arrived.lng, at: arrived.at, source: arrived.gpsSource }
+        : undefined,
+      dropoffGps: completed?.lat !== undefined && completed?.lng !== undefined
+        ? { lat: completed.lat, lng: completed.lng, at: completed.at, source: completed.gpsSource }
+        : undefined,
+      wheelchairSecurement: s.securement
+        ? {
+            positioned: s.securement.positioned,
+            tieDownFrontLeft: s.securement.tieDownFrontLeft,
+            tieDownFrontRight: s.securement.tieDownFrontRight,
+            tieDownRearLeft: s.securement.tieDownRearLeft,
+            tieDownRearRight: s.securement.tieDownRearRight,
+            brakesSet: s.securement.brakesSet,
+            lapBelt: s.securement.lapBelt,
+            shoulderBelt: s.securement.shoulderBelt,
+            completedAt: s.securement.completedAt ? toDisplayTime(s.securement.completedAt) : undefined,
+            completedBy: s.securement.completedBy ?? undefined,
+          }
+        : undefined,
+      billable: s.billable,
+      currentLat: s.currentLat ?? s.pickupLat ?? undefined,
+      currentLng: s.currentLng ?? s.pickupLng ?? undefined,
+    };
+  }
+
+  /**
+   * Pull the server trip list (when a backend is reachable) and make it the
+   * signal's content; localStorage stays as the offline/demo cache. Called
+   * once at startup when a JWT exists, and again on reconnect. If the API
+   * is unreachable the local trips stay exactly as they are.
+   */
+  async refreshFromServer(): Promise<void> {
+    if (!this.hasJwt() || this.apiReachable === false) {
+      return;
+    }
+    try {
+      const serverTrips = await firstValueFrom(this.http.get<ServerTrip[]>(this.API_URL));
+      this.markApiResult(true);
+      const mapped = await Promise.all(serverTrips.map(async s => {
+        let events: ServerTripEvent[] = [];
+        try {
+          events = await firstValueFrom(
+            this.http.get<ServerTripEvent[]>(`${this.API_URL}/${encodeURIComponent(s.code)}/events`));
+        } catch {
+          events = [];
+        }
+        return this.mapServerTrip(s, events);
+      }));
+      // Keep local-only trips the server has never seen (created offline and
+      // not yet flushed) alongside the server list.
+      const serverIds = new Set(mapped.map(t => t.id));
+      const localOnly = this.tripsSignal().filter(t => !serverIds.has(t.id));
+      const merged = [...mapped, ...localOnly];
+      this.tripsSignal.set(merged);
+      this.persist(merged);
+      void this.sync.refreshMessagesFromServer(mapped.map(t => t.id));
+    } catch (err: unknown) {
+      // Network error (status 0) = no backend: stay in local mode silently.
+      // Any other error (e.g. 401) also falls back to local trips.
+      if ((err as { status?: number })?.status === 0 || (err as { status?: number })?.status === undefined) {
+        this.markApiResult(false);
+      }
+    }
+  }
+
+  /** Fire-and-forget server push: success reconciles, failure stays local. */
+  private pushToServer<T>(request: Promise<T>, onOk?: (res: T) => void): void {
+    if (!this.hasJwt() || this.apiReachable === false) {
+      return;
+    }
+    request.then(res => {
+      this.markApiResult(true);
+      onOk?.(res);
+    }).catch((err: unknown) => {
+      if ((err as { status?: number })?.status === 0) {
+        this.markApiResult(false);
+      }
+      // 4xx from the server (e.g. proximity gate, DQF block) means the
+      // server refused the change — the local optimistic state stands as
+      // the demo/offline record; the next refresh reconciles from the server.
+      console.warn('[TripService] server push failed, keeping local state', err);
+    });
+  }
+
+  private pushCreate(trip: Trip): void {
+    const body = {
+      code: trip.id,
+      riderName: trip.patientName,
+      patientPhone: trip.patientPhone,
+      mobility: trip.mobility,
+      pickupAddress: trip.pickupAddress,
+      pickupLat: trip.pickupLat,
+      pickupLng: trip.pickupLng,
+      dropoffAddress: trip.dropoffAddress,
+      dropoffLat: trip.dropoffLat,
+      dropoffLng: trip.dropoffLng,
+      scheduledAt: scheduledTimeToIso(trip.scheduledTime),
+      driverCode: trip.driverId,
+      vehicleLabel: trip.vehicleNumber,
+      wheelchair: trip.mobility === 'wheelchair',
+      odometerStart: trip.startOdometer,
+    };
+    this.pushToServer(
+      firstValueFrom(this.http.post<ServerTrip>(this.API_URL, body)),
+      (serverTrip) => {
+        const merged = this.mapServerTrip(serverTrip, []);
+        this.tripsSignal.update(trips =>
+          trips.map(t => (t.id === merged.id ? { ...merged, statusEvents: t.statusEvents ?? merged.statusEvents } : t)));
+        this.persist(this.tripsSignal());
+      }
+    );
+  }
+
+  private pushStatus(
+    tripId: string,
+    status: TripStatus,
+    metadata?: Partial<Trip> & { reasonCode?: string; reasonNote?: string; fix?: GpsFix }
+  ): void {
+    const body: Record<string, unknown> = {
+      status,
+      lat: metadata?.fix?.lat,
+      lng: metadata?.fix?.lng,
+      gpsSource: metadata?.fix?.source,
+      reasonCode: metadata?.reasonCode,
+      reasonNote: metadata?.reasonNote,
+      odometerEnd: metadata?.endOdometer,
+      passengerSignature: !!metadata?.signatureDataUrl,
+      passengerSignatureData: metadata?.signatureDataUrl,
+      driverSignature: !!metadata?.driverSignatureDataUrl,
+      driverSignatureData: metadata?.driverSignatureDataUrl,
+      driverSignatureName: metadata?.driverSignatureName,
+      signeeName: metadata?.signeeName,
+      signeeType: metadata?.signeeType,
+    };
+    this.pushToServer(
+      firstValueFrom(this.http.post<ServerTrip>(`${this.API_URL}/${encodeURIComponent(tripId)}/status`, body)),
+      (serverTrip) => {
+        this.tripsSignal.update(trips =>
+          trips.map(t => (t.id === serverTrip.code
+            ? { ...t, billable: serverTrip.billable, status: serverTrip.frontendStatus }
+            : t)));
+        this.persist(this.tripsSignal());
+      }
+    );
+  }
+
+  private pushAssign(tripId: string, driverId: string | undefined, vehicleNumber: string | undefined): void {
+    this.pushToServer(
+      firstValueFrom(this.http.patch<ServerTrip>(
+        `${this.API_URL}/${encodeURIComponent(tripId)}/assign`,
+        { driverCode: driverId, vehicleLabel: vehicleNumber }))
+    );
+  }
+
+  private pushSecurement(tripId: string, securement: WheelchairSecurement): void {
+    this.pushToServer(
+      firstValueFrom(this.http.post(
+        `${this.API_URL}/${encodeURIComponent(tripId)}/securement`, securement))
+    );
+  }
+
+  /** Server ETA (haversine @ 30 mph, labelled estimate) — async; templates keep the sync local etaMinutes. */
+  async fetchEtaFromServer(tripId: string, toDropoff: boolean): Promise<number | null> {
+    if (!this.hasJwt() || this.apiReachable === false) {
+      return null;
+    }
+    try {
+      const res = await firstValueFrom(this.http.get<{ minutes: number }>(
+        `${this.API_URL}/${encodeURIComponent(tripId)}/eta?to=${toDropoff ? 'dropoff' : 'pickup'}`));
+      this.markApiResult(true);
+      return res.minutes;
+    } catch {
+      return null;
+    }
+  }
 
   private tripsSignal = signal<Trip[]>(this.loadTrips());
 
@@ -187,7 +494,11 @@ export class TripService {
       window.addEventListener('storage', (e) => {
         if (e.key === TRIPS_KEY) this.tripsSignal.set(this.loadTrips());
       });
+      window.addEventListener('online', () => void this.refreshFromServer());
     }
+    // Phase 2: if a backend JWT exists, the server is the source of truth —
+    // pull its trips (falls back to local trips when unreachable).
+    void this.refreshFromServer();
   }
 
   private loadTrips(): Trip[] {
@@ -290,7 +601,25 @@ export class TripService {
       summary: `Dispatch created trip ${newTrip.id} — ${newTrip.patientName}, ${newTrip.mobility}`,
       by: 'dispatch',
       byName: 'Dispatch',
+      payload: {
+        code: newTrip.id,
+        patientName: newTrip.patientName,
+        patientPhone: newTrip.patientPhone,
+        mobility: newTrip.mobility,
+        pickupAddress: newTrip.pickupAddress,
+        pickupLat: newTrip.pickupLat,
+        pickupLng: newTrip.pickupLng,
+        dropoffAddress: newTrip.dropoffAddress,
+        dropoffLat: newTrip.dropoffLat,
+        dropoffLng: newTrip.dropoffLng,
+        scheduledAt: scheduledTimeToIso(newTrip.scheduledTime),
+        driverCode: newTrip.driverId,
+        vehicleLabel: newTrip.vehicleNumber,
+        wheelchair: newTrip.mobility === 'wheelchair',
+        odometerStart: newTrip.startOdometer,
+      },
     });
+    this.pushCreate(newTrip);
     return newTrip;
   }
 
@@ -311,7 +640,9 @@ export class TripService {
         : `Dispatch unassigned ${tripId} — back in the unassigned queue`,
       by: 'dispatch',
       byName: 'Dispatch',
+      payload: { driverCode: driverId, vehicleLabel: vehicleNumber },
     });
+    this.pushAssign(tripId, driverId, vehicleNumber);
   }
 
   /** Best-effort live GPS fix; falls back to the stop's known coordinates. */
@@ -431,7 +762,24 @@ export class TripService {
       lat: fix.lat,
       lng: fix.lng,
       gpsSource: fix.source,
+      payload: {
+        status,
+        lat: fix.lat,
+        lng: fix.lng,
+        gpsSource: fix.source,
+        reasonCode: metadata?.reasonCode,
+        reasonNote: metadata?.reasonNote,
+        odometerEnd: restMeta.endOdometer,
+        passengerSignature: !!restMeta.signatureDataUrl,
+        passengerSignatureData: restMeta.signatureDataUrl,
+        driverSignature: !!restMeta.driverSignatureDataUrl,
+        driverSignatureData: restMeta.driverSignatureDataUrl,
+        driverSignatureName: restMeta.driverSignatureName,
+        signeeName: restMeta.signeeName,
+        signeeType: restMeta.signeeType,
+      },
     });
+    this.pushStatus(tripId, status, metadata);
   }
 
   /** Record wheelchair securement for a leg (before Boarded). */
@@ -451,7 +799,19 @@ export class TripService {
       summary: `Wheelchair securement completed on ${tripId} — 4-point tie-downs, brakes set, lap + shoulder belt`,
       by: 'driver',
       byName: this.driverSession().driverName,
+      payload: {
+        positioned: securement.positioned,
+        tieDownFrontLeft: securement.tieDownFrontLeft,
+        tieDownFrontRight: securement.tieDownFrontRight,
+        tieDownRearLeft: securement.tieDownRearLeft,
+        tieDownRearRight: securement.tieDownRearRight,
+        brakesSet: securement.brakesSet,
+        lapBelt: securement.lapBelt,
+        shoulderBelt: securement.shoulderBelt,
+        completedBy: this.driverSession().driverName,
+      },
     });
+    this.pushSecurement(tripId, securement);
   }
 
   /** Minutes from the driver's current position to a stop (30 mph estimate). */

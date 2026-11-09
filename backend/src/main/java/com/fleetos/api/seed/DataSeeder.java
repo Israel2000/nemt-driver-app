@@ -75,12 +75,15 @@ public class DataSeeder implements CommandLineRunner {
     users.save(operator);
 
     Driver marcus = new Driver("DRV-101", driverUser, ws);
+    marcus.setFullName("Marcus Vance");
     marcus.setLicenseExpiresAt(LocalDate.of(2026, 11, 15));
     marcus.setDqfId("DRV-101");
     Driver elena = new Driver("DRV-102", null, ws);
+    elena.setFullName("Elena Rostova");
     elena.setLicenseExpiresAt(LocalDate.of(2027, 3, 1));
     elena.setDqfId("DRV-102");
     Driver darnell = new Driver("DRV-103", null, ws);
+    darnell.setFullName("Darnell Washington");
     darnell.setLicenseExpiresAt(LocalDate.of(2026, 8, 20));
     darnell.setDqfId("DRV-103");
     drivers.save(marcus);

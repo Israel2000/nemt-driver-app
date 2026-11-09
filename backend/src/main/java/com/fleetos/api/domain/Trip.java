@@ -43,11 +43,30 @@ public class Trip {
   @Column(name = "rider_name")
   private String riderName;
 
+  @Column(name = "patient_phone")
+  private String patientPhone;
+
+  /** ambulatory | wheelchair | stretcher (frontend MobilityType). */
+  @Column(name = "mobility", nullable = false)
+  private String mobility = "ambulatory";
+
   @Column(name = "pickup_address")
   private String pickupAddress;
 
+  @Column(name = "pickup_lat", precision = 10, scale = 7)
+  private BigDecimal pickupLat;
+
+  @Column(name = "pickup_lng", precision = 10, scale = 7)
+  private BigDecimal pickupLng;
+
   @Column(name = "dropoff_address")
   private String dropoffAddress;
+
+  @Column(name = "dropoff_lat", precision = 10, scale = 7)
+  private BigDecimal dropoffLat;
+
+  @Column(name = "dropoff_lng", precision = 10, scale = 7)
+  private BigDecimal dropoffLng;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
@@ -84,6 +103,23 @@ public class Trip {
   @Column(name = "driver_signature", nullable = false)
   private boolean driverSignature = false;
 
+  /** Signature images (data URLs from the driver canvas capture). */
+  @Column(name = "passenger_signature_data", columnDefinition = "TEXT")
+  private String passengerSignatureData;
+
+  @Column(name = "driver_signature_data", columnDefinition = "TEXT")
+  private String driverSignatureData;
+
+  /** Who signed at drop-off (patient / facility staff). */
+  @Column(name = "signee_name")
+  private String signeeName;
+
+  @Column(name = "signee_type")
+  private String signeeType;
+
+  @Column(name = "completed_at")
+  private Instant completedAt;
+
   @Column(name = "billable", nullable = false)
   private boolean billable = false;
 
@@ -109,10 +145,22 @@ public class Trip {
   public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
   public String getRiderName() { return riderName; }
   public void setRiderName(String riderName) { this.riderName = riderName; }
+  public String getPatientPhone() { return patientPhone; }
+  public void setPatientPhone(String patientPhone) { this.patientPhone = patientPhone; }
+  public String getMobility() { return mobility; }
+  public void setMobility(String mobility) { this.mobility = mobility; }
   public String getPickupAddress() { return pickupAddress; }
   public void setPickupAddress(String pickupAddress) { this.pickupAddress = pickupAddress; }
+  public BigDecimal getPickupLat() { return pickupLat; }
+  public void setPickupLat(BigDecimal pickupLat) { this.pickupLat = pickupLat; }
+  public BigDecimal getPickupLng() { return pickupLng; }
+  public void setPickupLng(BigDecimal pickupLng) { this.pickupLng = pickupLng; }
   public String getDropoffAddress() { return dropoffAddress; }
   public void setDropoffAddress(String dropoffAddress) { this.dropoffAddress = dropoffAddress; }
+  public BigDecimal getDropoffLat() { return dropoffLat; }
+  public void setDropoffLat(BigDecimal dropoffLat) { this.dropoffLat = dropoffLat; }
+  public BigDecimal getDropoffLng() { return dropoffLng; }
+  public void setDropoffLng(BigDecimal dropoffLng) { this.dropoffLng = dropoffLng; }
   public TripStatus getStatus() { return status; }
   public void setStatus(TripStatus status) { this.status = status; }
   public boolean isWheelchair() { return wheelchair; }
@@ -135,6 +183,16 @@ public class Trip {
   public void setPassengerSignature(boolean passengerSignature) { this.passengerSignature = passengerSignature; }
   public boolean isDriverSignature() { return driverSignature; }
   public void setDriverSignature(boolean driverSignature) { this.driverSignature = driverSignature; }
+  public String getPassengerSignatureData() { return passengerSignatureData; }
+  public void setPassengerSignatureData(String passengerSignatureData) { this.passengerSignatureData = passengerSignatureData; }
+  public String getDriverSignatureData() { return driverSignatureData; }
+  public void setDriverSignatureData(String driverSignatureData) { this.driverSignatureData = driverSignatureData; }
+  public String getSigneeName() { return signeeName; }
+  public void setSigneeName(String signeeName) { this.signeeName = signeeName; }
+  public String getSigneeType() { return signeeType; }
+  public void setSigneeType(String signeeType) { this.signeeType = signeeType; }
+  public Instant getCompletedAt() { return completedAt; }
+  public void setCompletedAt(Instant completedAt) { this.completedAt = completedAt; }
   public boolean isBillable() { return billable; }
   public void setBillable(boolean billable) { this.billable = billable; }
   public Instant getCreatedAt() { return createdAt; }

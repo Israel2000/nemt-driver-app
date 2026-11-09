@@ -1,4 +1,6 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { TripStatus } from '../models/trip.model';
 
 /**
@@ -42,6 +44,9 @@ export interface QueuedEvent {
   summary: string;
   queuedAtIso: string;
   queuedAt: string;
+  /** Full server payload (status, coords, proof, message body, …) so a
+   * flushed event can be re-applied by POST /api/sync/outbox. */
+  payload?: Record<string, unknown>;
 }
 
 export interface TripActivityEvent {
@@ -58,6 +63,8 @@ export interface TripActivityEvent {
   lng?: number;
   gpsSource?: 'device' | 'estimated' | 'unavailable';
   synced: boolean;
+  /** Server payload for this event (carried into the outbox, not the log). */
+  payload?: Record<string, unknown>;
 }
 
 export interface DispatchMessage {
@@ -91,12 +98,30 @@ function nowDisplay(): string {
   return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 }
 
+function toDisplayTime(iso: string): string {
+  return new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
 function uid(): string {
   return `ev-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`;
 }
 
 @Injectable({ providedIn: 'root' })
 export class SyncService {
+  private http = inject(HttpClient);
+
+  /** Phase 2 API base (dev proxy → :8080; unreachable on Vercel → local mode). */
+  private readonly API_URL = '/api';
+  private apiReachable: boolean | null = null;
+
+  private hasJwt(): boolean {
+    try {
+      return !!localStorage.getItem('nemt_jwt');
+    } catch {
+      return false;
+    }
+  }
+
   /** Real browser online state, OR-ed with the demo toggle below. */
   private browserOnline = signal<boolean>(typeof navigator === 'undefined' ? true : navigator.onLine);
   /** Demo toggle: "Simulate offline" on the driver screen. */
@@ -205,6 +230,7 @@ export class SyncService {
         summary: full.summary,
         queuedAtIso: full.atIso,
         queuedAt: full.at,
+        payload: full.payload,
       };
       this.outboxSignal.update(list => [...list, queued]);
       this.write(OUTBOX_KEY, this.outboxSignal());
@@ -212,13 +238,61 @@ export class SyncService {
     return full;
   }
 
-  /** Flush the outbox on reconnect, oldest first; marks entries synced. */
+  /**
+   * Flush the outbox on reconnect, oldest first. Phase 2: when a backend is
+   * reachable the queued events go to POST /api/sync/outbox (idempotent —
+   * the server reports APPLIED / REJECTED / DUPLICATE per event). Applied
+   * and duplicate events leave the outbox; rejected ones stay queued for
+   * the next flush. When the backend is unreachable (or there is no JWT)
+   * the original local flush runs exactly as before.
+   */
   flushOutbox(): void {
     const pending = this.outboxSignal();
     if (pending.length === 0) {
       this.markSynced();
       return;
     }
+    if (this.hasJwt() && this.apiReachable !== false) {
+      void this.flushOutboxToServer(pending);
+      return;
+    }
+    this.flushOutboxLocally(pending);
+  }
+
+  private async flushOutboxToServer(pending: QueuedEvent[]): Promise<void> {
+    try {
+      const res = await firstValueFrom(this.http.post<{ results: { clientEventId: string; result: string }[] }>(
+        `${this.API_URL}/sync/outbox`,
+        { events: pending.map(p => ({ clientEventId: p.id, kind: p.kind, tripId: p.tripId, payload: p.payload ?? {} })) }
+      ));
+      this.apiReachable = true;
+      const done = new Set(
+        res.results.filter(r => r.result === 'APPLIED' || r.result === 'DUPLICATE').map(r => r.clientEventId));
+      const rejected = res.results.filter(r => r.result === 'REJECTED');
+      if (rejected.length > 0) {
+        console.warn('[SyncService] server rejected outbox events, keeping them queued', rejected);
+      }
+      const remaining = this.outboxSignal().filter(p => !done.has(p.id));
+      this.outboxSignal.set(remaining);
+      this.write(OUTBOX_KEY, remaining);
+      const flushedIds = new Set(pending.filter(p => done.has(p.id)).map(p => p.id));
+      this.activitySignal.update(list =>
+        list.map(e => (flushedIds.has(e.id) ? { ...e, synced: true } : e))
+      );
+      this.write(ACTIVITY_KEY, this.activitySignal());
+      this.markSynced();
+      try { this.channel?.postMessage({ type: 'outbox-flushed', at: new Date().toISOString() }); } catch { /* ignore */ }
+    } catch (err: unknown) {
+      // Network error (status 0) = no backend: local flush instead.
+      if ((err as { status?: number })?.status === 0) {
+        this.apiReachable = false;
+      }
+      this.flushOutboxLocally(this.outboxSignal());
+    }
+  }
+
+  /** The original local flush: mark everything synced, empty the outbox. */
+  private flushOutboxLocally(pending: QueuedEvent[]): void {
     const pendingIds = new Set(pending.map(p => p.id));
     this.activitySignal.update(list =>
       list.map(e => (pendingIds.has(e.id) ? { ...e, synced: true } : e))
@@ -249,14 +323,72 @@ export class SyncService {
     this.notifyMessagesChanged();
     if (this.online()) {
       this.markSynced();
+      // Phase 2: also push to the server thread when a backend is reachable.
+      if (full.tripId && this.hasJwt() && this.apiReachable !== false) {
+        void firstValueFrom(this.http.post(
+          `${this.API_URL}/trips/${encodeURIComponent(full.tripId)}/messages`,
+          { body: full.text, fromName: full.fromName }
+        )).then(
+          () => { this.apiReachable = true; },
+          (err: unknown) => {
+            if ((err as { status?: number })?.status === 0) this.apiReachable = false;
+          }
+        );
+      }
     } else {
       this.outboxSignal.update(list => [
         ...list,
-        { id: full.id, kind: 'message', tripId: full.tripId ?? undefined, summary: full.text, queuedAtIso: full.atIso, queuedAt: full.at },
+        { id: full.id, kind: 'message', tripId: full.tripId ?? undefined, summary: full.text, queuedAtIso: full.atIso, queuedAt: full.at,
+          payload: { body: full.text, fromName: full.fromName } },
       ]);
       this.write(OUTBOX_KEY, this.outboxSignal());
     }
     return full;
+  }
+
+  /**
+   * Pull server message threads for the given trips and merge them into the
+   * local thread (deduped by id and by body, so a message sent locally and
+   * already pushed does not appear twice). No-op when no backend is reachable.
+   */
+  async refreshMessagesFromServer(tripIds: string[]): Promise<void> {
+    if (!this.hasJwt() || this.apiReachable === false || tripIds.length === 0) {
+      return;
+    }
+    try {
+      const all = await Promise.all(tripIds.map(async tripId => {
+        try {
+          const list = await firstValueFrom(this.http.get<{ id: string; senderRole: string; senderName: string; body: string; createdAt: string }[]>(
+            `${this.API_URL}/trips/${encodeURIComponent(tripId)}/messages`));
+          return list.map(m => ({
+            id: m.id,
+            from: (m.senderRole === 'driver' ? 'driver' : 'dispatch') as 'driver' | 'dispatch',
+            fromName: m.senderName,
+            tripId,
+            text: m.body,
+            at: toDisplayTime(m.createdAt),
+            atIso: m.createdAt,
+          } as DispatchMessage));
+        } catch {
+          return [] as DispatchMessage[];
+        }
+      }));
+      this.apiReachable = true;
+      const incoming = all.flat();
+      if (incoming.length === 0) {
+        return;
+      }
+      this.messagesSignal.update(list => {
+        const known = new Set(list.map(m => m.id));
+        const seenBodies = new Set(list.map(m => `${m.tripId ?? ''}|${m.text}`));
+        const fresh = incoming.filter(m =>
+          !known.has(m.id) && !seenBodies.has(`${m.tripId ?? ''}|${m.text}`));
+        return fresh.length ? [...list, ...fresh].slice(-200) : list;
+      });
+      this.write(MESSAGES_KEY, this.messagesSignal());
+    } catch {
+      // No backend: keep local messages exactly as they are.
+    }
   }
 
   messagesForTrip(tripId: string | null | undefined): DispatchMessage[] {

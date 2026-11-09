@@ -30,6 +30,16 @@ public class Workspace {
   @Column(name = "billing_cycle", nullable = false)
   private String billingCycle = "monthly";
 
+  /**
+   * DQF hard lockout (Phase 2): when ON, a driver with an expired
+   * credential is hard-blocked from dispatch (POST /api/trips → 403).
+   * When OFF, expired credentials only warn and dispatch is allowed.
+   * Stored here (V3: workspaces.dqf_lockout_enabled, default TRUE) so the
+   * toggle in the admin billing page has a server-side home.
+   */
+  @Column(name = "dqf_lockout_enabled", nullable = false)
+  private boolean dqfLockoutEnabled = true;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdAt = Instant.now();
 
@@ -54,5 +64,7 @@ public class Workspace {
   public void setPlan(String plan) { this.plan = plan; }
   public String getBillingCycle() { return billingCycle; }
   public void setBillingCycle(String billingCycle) { this.billingCycle = billingCycle; }
+  public boolean isDqfLockoutEnabled() { return dqfLockoutEnabled; }
+  public void setDqfLockoutEnabled(boolean dqfLockoutEnabled) { this.dqfLockoutEnabled = dqfLockoutEnabled; }
   public Instant getCreatedAt() { return createdAt; }
 }

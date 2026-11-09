@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import {
   DQFRecord,
   NonDriverStaffRecord,
@@ -12,6 +13,18 @@ import {
   providedIn: 'root'
 })
 export class ComplianceService {
+  private http = inject(HttpClient);
+  /** Phase 2 API base (dev proxy → :8080; unreachable on Vercel → local mode). */
+  private readonly API_URL = '/api/drivers';
+  private apiReachable: boolean | null = null;
+
+  private hasJwt(): boolean {
+    try {
+      return !!localStorage.getItem('nemt_jwt');
+    } catch {
+      return false;
+    }
+  }
   private readonly DQF_STORAGE_KEY = 'nemt_dqf_records';
   private readonly STAFF_STORAGE_KEY = 'nemt_staff_records';
   private readonly VEHICLE_STORAGE_KEY = 'nemt_vehicle_compliance';
@@ -31,6 +44,60 @@ export class ComplianceService {
 
   constructor() {
     this.initData();
+    // Phase 2: when a backend is reachable, refresh the local DQF records
+    // from the server (GET /api/drivers/{code}/dqf) so credential expiries
+    // match the database. Falls back silently to the local seed records.
+    if (this.hasJwt()) {
+      for (const code of ['DRV-101', 'DRV-102', 'DRV-103']) {
+        void this.refreshDqfFromServer(code);
+      }
+    }
+  }
+
+  /**
+   * Pull one driver's credential list from the server and patch the local
+   * DQF record's expiry dates (license / CPR / DOT medical). Local
+   * computation (evaluateDispatchEligibility) stays the source for the
+   * dispatch check — the server re-checks on trip creation regardless.
+   */
+  async refreshDqfFromServer(driverCode: string): Promise<void> {
+    if (!this.hasJwt() || this.apiReachable === false) {
+      return;
+    }
+    try {
+      const res = await firstValueFrom(this.http.get<{
+        credentials: { type: string; expiresAt: string | null; status: string }[];
+      }>(`${this.API_URL}/${encodeURIComponent(driverCode)}/dqf`));
+      this.apiReachable = true;
+      const list = [...this.dqfSubject.value];
+      const index = list.findIndex(d => d.driverId === driverCode);
+      if (index === -1 || !res.credentials) {
+        return;
+      }
+      const record: DQFRecord = JSON.parse(JSON.stringify(list[index]));
+      const now = new Date();
+      for (const cred of res.credentials) {
+        if (!cred.expiresAt) continue;
+        const exp = new Date(cred.expiresAt);
+        const status = exp < now ? 'expired'
+          : (exp.getTime() - now.getTime() <= 30 * 86400000 ? 'expiring_soon' : 'valid');
+        if (cred.type === 'LICENSE') {
+          record.license.expirationDate = cred.expiresAt;
+        } else if (cred.type === 'CPR') {
+          record.certifications.cprFirstAid.expirationDate = cred.expiresAt;
+          record.certifications.cprFirstAid.status = status;
+        } else if (cred.type === 'DOT_MEDICAL') {
+          record.medicalFitness.expirationDate = cred.expiresAt;
+        }
+      }
+      list[index] = record;
+      this.saveDQF(list);
+    } catch (err: unknown) {
+      if ((err as { status?: number })?.status === 0) {
+        this.apiReachable = false;
+      }
+      // No backend: keep the local DQF records exactly as they are.
+    }
   }
 
   /**
