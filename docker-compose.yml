@@ -1,0 +1,23 @@
+# FleetOS — local Postgres for the backend (dev only).
+# Start:  docker compose up -d        (or use the system Postgres already on this box)
+# Stop:   docker compose down
+services:
+  postgres:
+    image: postgres:16
+    container_name: fleetos-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fleetos}
+      POSTGRES_USER: ${POSTGRES_USER:-fleetos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fleetos}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - fleetos-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fleetos} -d ${POSTGRES_DB:-fleetos}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  fleetos-pgdata:

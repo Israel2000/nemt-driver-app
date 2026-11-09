@@ -175,26 +175,28 @@ export class AdminLoginComponent implements OnInit {
       return;
     }
 
-    const success = this.authService.login(this.email, this.password);
-    if (success) {
-      if (!this.authService.hasAdminAccess()) {
-        this.authService.logout();
-        this.errorMessage = 'That account is not an operator account. Driver accounts use the driver web app — sign in there instead.';
-        return;
+    this.authService.login(this.email, this.password).subscribe(success => {
+      if (success) {
+        if (!this.authService.hasAdminAccess()) {
+          this.authService.logout();
+          this.errorMessage = 'That account is not an operator account. Driver accounts use the driver web app — sign in there instead.';
+          return;
+        }
+        this.router.navigateByUrl(this.returnUrl);
+      } else {
+        this.errorMessage = 'Authentication failed. Please verify credentials or use One-Click Sign In.';
       }
-      this.router.navigateByUrl(this.returnUrl);
-    } else {
-      this.errorMessage = 'Authentication failed. Please verify credentials or use One-Click Sign In.';
-    }
+    });
   }
 
   onDemoLogin() {
-    this.authService.quickAdminDemoLogin();
-    this.router.navigateByUrl(this.returnUrl);
+    this.authService.quickAdminDemoLogin().subscribe(() => {
+      this.router.navigateByUrl(this.returnUrl);
+    });
   }
 
   onForgotPassword() {
     // Demo-only recovery hint (no backend mailer yet): show inline, no pop-up.
-    this.errorMessage = 'Demo recovery: the demo operator password is "admin". Or use "One-Click Sign In" above — no password needed.';
+    this.errorMessage = 'Demo recovery: the demo operator password is "admin123". Or use "One-Click Sign In" above — no password needed.';
   }
 }

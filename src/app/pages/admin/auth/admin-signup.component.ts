@@ -197,19 +197,20 @@ export class AdminSignupComponent implements OnInit {
       return;
     }
 
-    // Register account and immediately sign in
-    const success = this.authService.register(
+    // Register account and immediately sign in (uses the real password now)
+    this.authService.register(
       this.companyName.trim(),
       this.email.trim(),
       this.fleetSize,
       'growth',
-      'admin'
-    );
-
-    if (success) {
-      this.router.navigateByUrl(this.returnUrl);
-    } else {
-      this.errorMessage = 'Could not create workspace. Please check your information and try again.';
-    }
+      'admin',
+      this.password
+    ).subscribe(success => {
+      if (success) {
+        this.router.navigateByUrl(this.returnUrl);
+      } else {
+        this.errorMessage = 'Could not create workspace. Please check your information and try again.';
+      }
+    });
   }
 }
