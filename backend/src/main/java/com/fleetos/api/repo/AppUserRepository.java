@@ -12,4 +12,5 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
   @EntityGraph(attributePaths = "workspace")
   Optional<AppUser> findByEmailIgnoreCase(String email);
   boolean existsByEmailIgnoreCase(String email);
+  java.util.List<AppUser> findByWorkspaceId(String workspaceId);
 }

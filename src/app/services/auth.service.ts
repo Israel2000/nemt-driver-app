@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, switchMap } from 'rxjs';
+import { NotificationService } from './notification.service';
 
 export type SubscriptionTier = 'starter' | 'growth' | 'enterprise';
 export type UserRole = 'admin' | 'owner' | 'compliance_manager' | 'driver' | 'staff';
@@ -50,6 +51,8 @@ export class AuthService {
   private readonly API_URL = '/api/auth';
 
   private http = inject(HttpClient);
+  /** Phase 3: start in-app notification polling once an API session exists. */
+  private notifications = inject(NotificationService);
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$: Observable<User | null> = this.currentUserSubject.asObservable();
@@ -149,6 +152,10 @@ export class AuthService {
         this.currentUserSubject.next(session.user);
         this.currentWorkspaceSubject.next(session.workspace);
         this.isAuthenticatedSubject.next(true);
+        // Phase 3: a restored API session (with a JWT) can poll notifications.
+        if (session.token) {
+          this.notifications.startPolling();
+        }
       }
     } catch (e) {
       console.warn('Could not restore auth session', e);
@@ -423,9 +430,12 @@ export class AuthService {
     this.currentUserSubject.next(user);
     this.currentWorkspaceSubject.next(workspace);
     this.isAuthenticatedSubject.next(true);
+    // Phase 3: an API session exists, so in-app notifications can poll.
+    this.notifications.startPolling();
   }
 
   private clearSession(): void {
+    this.notifications.stopPolling();
     try {
       localStorage.removeItem(this.SESSION_KEY);
       localStorage.removeItem(this.JWT_KEY);

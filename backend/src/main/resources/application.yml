@@ -20,12 +20,26 @@ spring:
 
 server:
   port: ${PORT:8080}
+  # Binary proof uploads: images + PDF, max 10 MB per file.
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 app:
   jwt:
     # DEV-ONLY default. Set JWT_SECRET to a long random string in production.
     secret: ${JWT_SECRET:dev-only-change-me-in-production-use-a-long-random-secret-0123456789abcdef}
     expiration-ms: 86400000
+  # Local disk directory for binary proof uploads (gitignored).
+  uploads:
+    dir: ${UPLOADS_DIR:backend/uploads}
+  # Push notifications: no provider is configured. The in-app channel
+  # (stored notifications) is the real one; WebPush delivery needs VAPID
+  # keys + a service worker — see PushChannel / NoOpPushChannel.
+  push:
+    vapid-public-key: ${VAPID_PUBLIC_KEY:}
+    vapid-private-key: ${VAPID_PRIVATE_KEY:}
 
 management:
   endpoints:

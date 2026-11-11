@@ -65,6 +65,9 @@ public class SecurityConfig {
             // the response — if /error needs auth, the real status is replaced
             // by a bare 401 (found live: duplicate register returned 401).
             .requestMatchers("/api/auth/login", "/api/auth/register", "/actuator/health", "/error").permitAll()
+            // Rider tracking links are public by design: the token is the
+            // credential, and the endpoint returns only the safe subset.
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/public/tracking/**").permitAll()
             .anyRequest().authenticated())
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();

@@ -81,4 +81,72 @@
       </div>
     </div>
   </div>
+
+  <!-- Medicaid Claims (Phase 3): server list when the backend is reachable,
+       demo claims otherwise. Amounts use the documented $45.00 placeholder
+       rate until real broker rate tables exist. -->
+  <div class="admin-card claims-card">
+    <h3>
+      Medicaid Claims
+      <span class="claims-mode" [class.live]="serverMode()">
+        {{ serverMode() ? 'Live — server' : 'Demo — no backend connected' }}
+      </span>
+    </h3>
+    <p class="claims-note">
+      Claims are built from completed, billable trips. Amounts use the documented
+      $45.00 placeholder rate until real broker rate tables exist.
+    </p>
+    <div class="claims-table-wrap" *ngIf="claims().length > 0; else noClaims">
+      <table class="claims-table">
+        <thead>
+          <tr>
+            <th>Claim</th>
+            <th>Trip</th>
+            <th>Rider</th>
+            <th>Payer</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let claim of claims()">
+            <td class="mono-val">{{ claim.claimNumber }}</td>
+            <td class="mono-val">{{ claim.tripCode }}</td>
+            <td>{{ claim.riderName }}</td>
+            <td>{{ claim.payer || claim.broker || 'Medicaid' }}</td>
+            <td>${{ claim.amount.toFixed(2) }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="{
+                'status-draft': claim.status === 'DRAFT',
+                'status-submitted': claim.status === 'SUBMITTED',
+                'status-approved': claim.status === 'PAID',
+                'status-denied': claim.status === 'DENIED'
+              }">{{ claim.status }}</span>
+              <div class="denial-reason" *ngIf="claim.status === 'DENIED' && claim.denialReason">
+                {{ claim.denialReason }}
+              </div>
+            </td>
+            <td class="claims-actions">
+              <button type="button" class="claim-btn" *ngIf="claim.status === 'DRAFT'" (click)="submitClaim(claim)">Submit</button>
+              <button type="button" class="claim-btn" *ngIf="claim.status === 'SUBMITTED'" (click)="markPaidClaim(claim)">Mark paid</button>
+              <button type="button" class="claim-btn claim-btn-danger" *ngIf="claim.status === 'DRAFT' || claim.status === 'SUBMITTED'" (click)="markDeniedClaim(claim)">Deny</button>
+              <button type="button" class="claim-btn" (click)="viewCms1500(claim)">CMS-1500</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noClaims>
+      <p class="claims-note">No claims yet — complete a billable trip first.</p>
+    </ng-template>
+    <div class="cms1500-view" *ngIf="cms1500View">
+      <div class="cms1500-head">
+        <strong>CMS-1500 — {{ cms1500View.claimNumber }}</strong>
+        <button type="button" class="claim-btn" (click)="cms1500View = null; cms1500For = null">Close</button>
+      </div>
+      <p class="claims-note">{{ cms1500View.note }}</p>
+      <pre>{{ cms1500View.cms1500 | json }}</pre>
+    </div>
+  </div>
 </div>

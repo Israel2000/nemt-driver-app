@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 // Angular Material
 import { MatCardModule } from '@angular/material/card';
@@ -58,11 +60,50 @@ export class AuditShieldComponent implements OnInit {
     });
   }
 
-  runOigScan(): void {
+  private http = inject(HttpClient);
+
+  /**
+   * Phase 3: run the OIG/SAM scan against the server (POST
+   * /api/drivers/compliance/run-check) when the backend is reachable.
+   * The server check is SIMULATED — it records a timestamped result, it
+   * is NOT a live federal LEIE/SAM lookup, and the snackbar says so.
+   * When the backend is unreachable the local demo scan runs instead,
+   * and its message also stops claiming a live federal check.
+   */
+  async runOigScan(): Promise<void> {
+    const hasJwt = (() => {
+      try {
+        return !!localStorage.getItem('nemt_jwt');
+      } catch {
+        return false;
+      }
+    })();
+    if (hasJwt) {
+      try {
+        const res = await firstValueFrom(this.http.post<{
+          scannedCount: number;
+          clearedCount: number;
+          flaggedCount: number;
+          source: string;
+        }>('/api/drivers/compliance/run-check', { checkType: 'OIG' }));
+        this.snackBar.open(
+          `OIG/SAM scan recorded (SIMULATED — not a live federal lookup): ${res.clearedCount} of ${res.scannedCount} drivers clear.`,
+          'Recorded',
+          { duration: 5500 }
+        );
+        return;
+      } catch (err: unknown) {
+        if ((err as { status?: number })?.status !== 0) {
+          this.snackBar.open('The server refused the scan. Try again.', 'OK', { duration: 4000 });
+          return;
+        }
+        // status 0 = backend unreachable → fall through to the demo scan.
+      }
+    }
     const res = this.complianceService.runMonthlyOigSamBatchScan();
     this.snackBar.open(
-      `Monthly OIG/SAM Exclusion Scan Complete: ${res.clearedCount} of ${res.scannedCount} drivers verified cleared in federal LEIE database for Medicaid reimbursement.`,
-      'Verified',
+      `Demo OIG/SAM scan (local demo data — not a live federal lookup): ${res.clearedCount} of ${res.scannedCount} drivers clear.`,
+      'Demo',
       { duration: 5500 }
     );
   }

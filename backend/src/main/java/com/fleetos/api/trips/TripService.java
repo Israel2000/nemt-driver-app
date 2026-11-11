@@ -13,8 +13,10 @@ import com.fleetos.api.domain.TripStatus;
 import com.fleetos.api.domain.TripStatusEvent;
 import com.fleetos.api.domain.Vehicle;
 import com.fleetos.api.drivers.EligibilityService;
+import com.fleetos.api.notify.NotificationService;
 import com.fleetos.api.repo.AuditEventRepository;
 import com.fleetos.api.repo.DriverRepository;
+import com.fleetos.api.repo.ProofFileRepository;
 import com.fleetos.api.repo.TripMessageRepository;
 import com.fleetos.api.repo.TripRepository;
 import com.fleetos.api.repo.TripSecurementRepository;
@@ -60,12 +62,15 @@ public class TripService {
   private final TripSecurementRepository securements;
   private final TripMessageRepository messages;
   private final AuditEventRepository auditEvents;
+  private final ProofFileRepository proofFiles;
   private final EligibilityService eligibility;
+  private final NotificationService notifications;
 
   public TripService(TripRepository trips, DriverRepository drivers,
       VehicleRepository vehicles, TripStatusEventRepository statusEvents,
       TripSecurementRepository securements, TripMessageRepository messages,
-      AuditEventRepository auditEvents, EligibilityService eligibility) {
+      AuditEventRepository auditEvents, ProofFileRepository proofFiles,
+      EligibilityService eligibility, NotificationService notifications) {
     this.trips = trips;
     this.drivers = drivers;
     this.vehicles = vehicles;
@@ -73,7 +78,44 @@ public class TripService {
     this.securements = securements;
     this.messages = messages;
     this.auditEvents = auditEvents;
+    this.proofFiles = proofFiles;
     this.eligibility = eligibility;
+    this.notifications = notifications;
+  }
+
+  /** Persist a trip (used by services that attach evidence to it). */
+  @Transactional
+  public Trip saveTrip(Trip trip) {
+    trip.setUpdatedAt(Instant.now());
+    return trips.save(trip);
+  }
+
+  /**
+   * Proof-of-delivery requirements still missing for a trip. A requirement
+   * is satisfied by the JSON proof flags OR by an uploaded binary file of
+   * the matching kind (ODOMETER file → odometer, SIGNATURE_* files →
+   * signatures). An odometer file never invents a reading — it only
+   * satisfies the "evidence present" requirement.
+   */
+  @Transactional(readOnly = true)
+  public List<String> missingProof(Trip trip) {
+    List<String> missing = new ArrayList<>();
+    boolean odometerOk = trip.getOdometerEnd() != null
+        || proofFiles.existsByTripIdAndKind(trip.getId(), "ODOMETER");
+    boolean passengerOk = trip.isPassengerSignature()
+        || proofFiles.existsByTripIdAndKind(trip.getId(), "SIGNATURE_PASSENGER");
+    boolean driverOk = trip.isDriverSignature()
+        || proofFiles.existsByTripIdAndKind(trip.getId(), "SIGNATURE_DRIVER");
+    if (!odometerOk) {
+      missing.add("odometerEnd");
+    }
+    if (!passengerOk) {
+      missing.add("passengerSignature");
+    }
+    if (!driverOk) {
+      missing.add("driverSignature");
+    }
+    return missing;
   }
 
   // ---------------------------------------------------------------- helpers
@@ -299,6 +341,9 @@ public class TripService {
     audit(user, "TRIP_CREATED", "TRIP", trip.getCode(), null, null,
         "Dispatch created " + trip.getCode() + " — " + trip.getRiderName()
             + (driver == null ? " (unassigned)" : " → " + driver.displayName()));
+    if (driver != null) {
+      notifications.onTripStatus(trip, "scheduled");
+    }
     return toResponse(trip);
   }
 
@@ -327,6 +372,9 @@ public class TripService {
     audit(user, "TRIP_REASSIGNED", "TRIP", trip.getCode(), null, null,
         driver == null ? "Dispatch unassigned " + trip.getCode()
             : "Dispatch reassigned " + trip.getCode() + " → " + driver.displayName());
+    if (driver != null) {
+      notifications.onTripStatus(trip, "scheduled");
+    }
     return toResponse(trip);
   }
 
@@ -396,21 +444,14 @@ public class TripService {
     }
 
     // --- COMPLETED gate: proof of delivery — odometer + both signatures.
-    // Proof fields may ride along in this same request.
+    // Proof fields may ride along in this same request; binary proof files
+    // also count (see missingProof — an ODOMETER file satisfies the
+    // odometer requirement without inventing a reading).
     if (target == TripStatus.COMPLETED) {
       applyProofFields(trip, req.odometerEnd(), req.passengerSignature(),
           req.passengerSignatureData(), req.driverSignature(), req.driverSignatureData(),
           req.driverSignatureName(), req.signeeName(), req.signeeType());
-      List<String> missing = new ArrayList<>();
-      if (trip.getOdometerEnd() == null) {
-        missing.add("odometerEnd");
-      }
-      if (!trip.isPassengerSignature()) {
-        missing.add("passengerSignature");
-      }
-      if (!trip.isDriverSignature()) {
-        missing.add("driverSignature");
-      }
+      List<String> missing = missingProof(trip);
       if (!missing.isEmpty()) {
         throw ApiException.conflict(
             "Proof of delivery incomplete — cannot complete trip",
@@ -431,6 +472,8 @@ public class TripService {
     trip = trips.save(trip);
     recordStatusEvent(user, trip, target, lat, lng, gpsSource, byRole, byName,
         req.reasonCode(), req.reasonNote());
+    // Notify: dispatchers on en route / arrived / completed.
+    notifications.onTripStatus(trip, TripStatusMapper.toFrontend(target));
     return toResponse(trip);
   }
 
@@ -501,7 +544,7 @@ public class TripService {
     applyProofFields(trip, req.odometerEnd(), req.passengerSignature(),
         req.passengerSignatureData(), req.driverSignature(), req.driverSignatureData(),
         req.driverSignatureName(), req.signeeName(), req.signeeType());
-    if (trip.getOdometerEnd() != null && trip.isPassengerSignature() && trip.isDriverSignature()) {
+    if (missingProof(trip).isEmpty()) {
       trip.setBillable(true);
     }
     trip.setUpdatedAt(Instant.now());
@@ -542,6 +585,7 @@ public class TripService {
     message = messages.save(message);
     audit(user, "MESSAGE_SENT", "TRIP", trip.getCode(), null, null,
         senderName + " messaged on " + trip.getCode());
+    notifications.onMessage(trip, senderRole, senderName, req.body().trim());
     return new MessageResponse(
         message.getId(), trip.getCode(), message.getSenderRole(),
         message.getSenderName(), message.getBody(), message.getCreatedAt());

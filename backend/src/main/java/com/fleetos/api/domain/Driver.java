@@ -51,6 +51,29 @@ public class Driver {
   @Column(name = "phone")
   private String phone;
 
+  /**
+   * OIG / SAM / MVR compliance (Phase 3). Statuses are CLEAR | FLAG | null
+   * (never checked). Checks are recorded as SIMULATED or MANUAL — never a
+   * live federal lookup (see ComplianceCheck / ComplianceService).
+   */
+  @Column(name = "oig_status")
+  private String oigStatus;
+
+  @Column(name = "oig_last_checked")
+  private Instant oigLastChecked;
+
+  @Column(name = "sam_status")
+  private String samStatus;
+
+  @Column(name = "sam_last_checked")
+  private Instant samLastChecked;
+
+  @Column(name = "mvr_status")
+  private String mvrStatus;
+
+  @Column(name = "mvr_last_checked")
+  private Instant mvrLastChecked;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdAt = Instant.now();
 
@@ -84,5 +107,17 @@ public class Driver {
   public void setDqfId(String dqfId) { this.dqfId = dqfId; }
   public String getPhone() { return phone; }
   public void setPhone(String phone) { this.phone = phone; }
+  public String getOigStatus() { return oigStatus; }
+  public void setOigStatus(String oigStatus) { this.oigStatus = oigStatus; }
+  public Instant getOigLastChecked() { return oigLastChecked; }
+  public void setOigLastChecked(Instant oigLastChecked) { this.oigLastChecked = oigLastChecked; }
+  public String getSamStatus() { return samStatus; }
+  public void setSamStatus(String samStatus) { this.samStatus = samStatus; }
+  public Instant getSamLastChecked() { return samLastChecked; }
+  public void setSamLastChecked(Instant samLastChecked) { this.samLastChecked = samLastChecked; }
+  public String getMvrStatus() { return mvrStatus; }
+  public void setMvrStatus(String mvrStatus) { this.mvrStatus = mvrStatus; }
+  public Instant getMvrLastChecked() { return mvrLastChecked; }
+  public void setMvrLastChecked(Instant mvrLastChecked) { this.mvrLastChecked = mvrLastChecked; }
   public Instant getCreatedAt() { return createdAt; }
 }

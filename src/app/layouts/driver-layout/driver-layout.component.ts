@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { TripService, DQF_ID_BY_SESSION_ID } from '../../core/services/trip.service';
 import { ComplianceService } from '../../services/compliance.service';
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component';
 
 @Component({
   selector: 'app-driver-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterModule, RouterOutlet, RouterLink, RouterLinkActive, NotificationBellComponent],
   template: `
     <div class="min-h-screen bg-slate-100 flex flex-col justify-between font-sans">
       <!-- Top Mobile Status Bar -->
@@ -27,15 +28,19 @@ import { ComplianceService } from '../../services/compliance.service';
             }
           </div>
 
-          @if (tripService.driverSession().isOnDuty) {
-            <span class="text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">
-              ON DUTY
-            </span>
-          } @else {
-            <span class="text-[10px] bg-amber-900/60 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-medium">
-              PRE-SHIFT
-            </span>
-          }
+          <div class="flex items-center gap-2">
+            <!-- Phase 3: in-app notifications (server when reachable, silent offline) -->
+            <app-notification-bell></app-notification-bell>
+            @if (tripService.driverSession().isOnDuty) {
+              <span class="text-[10px] bg-emerald-900/60 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">
+                ON DUTY
+              </span>
+            } @else {
+              <span class="text-[10px] bg-amber-900/60 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-medium">
+                PRE-SHIFT
+              </span>
+            }
+          </div>
         </div>
       </header>
 

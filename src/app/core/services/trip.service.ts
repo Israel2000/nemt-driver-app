@@ -332,8 +332,14 @@ export class TripService {
     }
   }
 
-  /** Fire-and-forget server push: success reconciles, failure stays local. */
-  private pushToServer<T>(request: Promise<T>, onOk?: (res: T) => void): void {
+  /**
+   * Fire-and-forget server push: success reconciles, failure stays local.
+   * Phase 3: a network failure (status 0) also calls onNetworkFail, so
+   * the caller can retro-queue the event into the offline outbox — an
+   * event recorded while online must not be lost just because the
+   * backend was unreachable at that moment.
+   */
+  private pushToServer<T>(request: Promise<T>, onOk?: (res: T) => void, onNetworkFail?: () => void): void {
     if (!this.hasJwt() || this.apiReachable === false) {
       return;
     }
@@ -343,6 +349,7 @@ export class TripService {
     }).catch((err: unknown) => {
       if ((err as { status?: number })?.status === 0) {
         this.markApiResult(false);
+        onNetworkFail?.();
       }
       // 4xx from the server (e.g. proximity gate, DQF block) means the
       // server refused the change — the local optimistic state stands as
@@ -351,7 +358,7 @@ export class TripService {
     });
   }
 
-  private pushCreate(trip: Trip): void {
+  private pushCreate(trip: Trip, onNetworkFail?: () => void): void {
     const body = {
       code: trip.id,
       riderName: trip.patientName,
@@ -376,14 +383,16 @@ export class TripService {
         this.tripsSignal.update(trips =>
           trips.map(t => (t.id === merged.id ? { ...merged, statusEvents: t.statusEvents ?? merged.statusEvents } : t)));
         this.persist(this.tripsSignal());
-      }
+      },
+      onNetworkFail
     );
   }
 
   private pushStatus(
     tripId: string,
     status: TripStatus,
-    metadata?: Partial<Trip> & { reasonCode?: string; reasonNote?: string; fix?: GpsFix }
+    metadata?: Partial<Trip> & { reasonCode?: string; reasonNote?: string; fix?: GpsFix },
+    onNetworkFail?: () => void
   ): void {
     const body: Record<string, unknown> = {
       status,
@@ -409,22 +418,27 @@ export class TripService {
             ? { ...t, billable: serverTrip.billable, status: serverTrip.frontendStatus }
             : t)));
         this.persist(this.tripsSignal());
-      }
+      },
+      onNetworkFail
     );
   }
 
-  private pushAssign(tripId: string, driverId: string | undefined, vehicleNumber: string | undefined): void {
+  private pushAssign(tripId: string, driverId: string | undefined, vehicleNumber: string | undefined, onNetworkFail?: () => void): void {
     this.pushToServer(
       firstValueFrom(this.http.patch<ServerTrip>(
         `${this.API_URL}/${encodeURIComponent(tripId)}/assign`,
-        { driverCode: driverId, vehicleLabel: vehicleNumber }))
+        { driverCode: driverId, vehicleLabel: vehicleNumber })),
+      undefined,
+      onNetworkFail
     );
   }
 
-  private pushSecurement(tripId: string, securement: WheelchairSecurement): void {
+  private pushSecurement(tripId: string, securement: WheelchairSecurement, onNetworkFail?: () => void): void {
     this.pushToServer(
       firstValueFrom(this.http.post(
-        `${this.API_URL}/${encodeURIComponent(tripId)}/securement`, securement))
+        `${this.API_URL}/${encodeURIComponent(tripId)}/securement`, securement)),
+      undefined,
+      onNetworkFail
     );
   }
 
@@ -594,7 +608,7 @@ export class TripService {
     };
     this.tripsSignal.update(trips => [newTrip, ...trips]);
     this.persist(this.tripsSignal());
-    this.sync.recordEvent({
+    const createdEvent = this.sync.recordEvent({
       kind: 'assignment',
       tripId: newTrip.id,
       tripLabel: `${newTrip.patientName} (${newTrip.id})`,
@@ -619,7 +633,9 @@ export class TripService {
         odometerStart: newTrip.startOdometer,
       },
     });
-    this.pushCreate(newTrip);
+    // Phase 3 retro-queue: if the backend was unreachable, the event
+    // lands in the offline outbox and flushes on the next successful sync.
+    this.pushCreate(newTrip, () => this.sync.queueFailedEvent(createdEvent));
     return newTrip;
   }
 
@@ -631,7 +647,7 @@ export class TripService {
       trips.map(t => (t.id === tripId ? { ...t, driverId, driverName, vehicleNumber } : t))
     );
     this.persist(this.tripsSignal());
-    this.sync.recordEvent({
+    const assignEvent = this.sync.recordEvent({
       kind: 'assignment',
       tripId,
       tripLabel: `${trip.patientName} (${tripId})`,
@@ -642,7 +658,7 @@ export class TripService {
       byName: 'Dispatch',
       payload: { driverCode: driverId, vehicleLabel: vehicleNumber },
     });
-    this.pushAssign(tripId, driverId, vehicleNumber);
+    this.pushAssign(tripId, driverId, vehicleNumber, () => this.sync.queueFailedEvent(assignEvent));
   }
 
   /** Best-effort live GPS fix; falls back to the stop's known coordinates. */
@@ -752,7 +768,7 @@ export class TripService {
 
     const label = SyncService.statusLabel(status);
     const reason = reasonCode ? ` — ${reasonCode}${reasonNote ? `: ${reasonNote}` : ''}` : '';
-    this.sync.recordEvent({
+    const statusEvent = this.sync.recordEvent({
       kind: status === 'no_show' || status === 'cancelled' || status === 'delayed' ? 'exception' : 'status',
       tripId,
       tripLabel: `${trip.patientName} (${tripId})`,
@@ -779,7 +795,7 @@ export class TripService {
         signeeType: restMeta.signeeType,
       },
     });
-    this.pushStatus(tripId, status, metadata);
+    this.pushStatus(tripId, status, metadata, () => this.sync.queueFailedEvent(statusEvent));
   }
 
   /** Record wheelchair securement for a leg (before Boarded). */
@@ -792,7 +808,7 @@ export class TripService {
       trips.map(t => (t.id === tripId ? { ...t, wheelchairSecurement: done } : t))
     );
     this.persist(this.tripsSignal());
-    this.sync.recordEvent({
+    const securementEvent = this.sync.recordEvent({
       kind: 'securement',
       tripId,
       tripLabel: `${trip.patientName} (${tripId})`,
@@ -811,7 +827,7 @@ export class TripService {
         completedBy: this.driverSession().driverName,
       },
     });
-    this.pushSecurement(tripId, securement);
+    this.pushSecurement(tripId, securement, () => this.sync.queueFailedEvent(securementEvent));
   }
 
   /** Minutes from the driver's current position to a stop (30 mph estimate). */

@@ -19,6 +19,7 @@ import {
   ComplianceMetrics
 } from '../../services/driver-admin.service';
 import { AuthService, User, CompanyWorkspace } from '../../services/auth.service';
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component';
 
 @Component({
   selector: 'app-admin-layout',
@@ -31,7 +32,8 @@ import { AuthService, User, CompanyWorkspace } from '../../services/auth.service
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NotificationBellComponent
   ],
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.css']

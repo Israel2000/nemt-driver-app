@@ -239,6 +239,36 @@ export class SyncService {
   }
 
   /**
+   * Phase 3 retro-queue: the browser was online when the event was
+   * recorded, so recordEvent() marked it synced — but the backend call
+   * then failed (status 0). Put the event into the outbox (deduped by
+   * id) and flip the activity entry back to unsynced, so the next
+   * successful flush sends it to POST /api/sync/outbox with the same
+   * client-event id (server-side idempotency still applies).
+   */
+  queueFailedEvent(event: TripActivityEvent): void {
+    if (this.outboxSignal().some(q => q.id === event.id)) {
+      return;
+    }
+    this.outboxSignal.update(list => [
+      ...list,
+      {
+        id: event.id,
+        kind: event.kind,
+        tripId: event.tripId,
+        summary: event.summary,
+        queuedAtIso: event.atIso,
+        queuedAt: event.at,
+        payload: event.payload,
+      },
+    ]);
+    this.write(OUTBOX_KEY, this.outboxSignal());
+    this.activitySignal.update(list =>
+      list.map(e => (e.id === event.id ? { ...e, synced: false } : e)));
+    this.write(ACTIVITY_KEY, this.activitySignal());
+  }
+
+  /**
    * Flush the outbox on reconnect, oldest first. Phase 2: when a backend is
    * reachable the queued events go to POST /api/sync/outbox (idempotent —
    * the server reports APPLIED / REJECTED / DUPLICATE per event). Applied
@@ -331,19 +361,33 @@ export class SyncService {
         )).then(
           () => { this.apiReachable = true; },
           (err: unknown) => {
-            if ((err as { status?: number })?.status === 0) this.apiReachable = false;
+            if ((err as { status?: number })?.status === 0) {
+              // Phase 3 retro-queue: the message was sent while online
+              // but the backend was unreachable — queue it so the next
+              // successful flush delivers it instead of losing it.
+              this.apiReachable = false;
+              this.queueMessage(full);
+            }
           }
         );
       }
     } else {
-      this.outboxSignal.update(list => [
-        ...list,
-        { id: full.id, kind: 'message', tripId: full.tripId ?? undefined, summary: full.text, queuedAtIso: full.atIso, queuedAt: full.at,
-          payload: { body: full.text, fromName: full.fromName } },
-      ]);
-      this.write(OUTBOX_KEY, this.outboxSignal());
+      this.queueMessage(full);
     }
     return full;
+  }
+
+  /** Queue a dispatch message in the outbox (deduped by id). */
+  private queueMessage(full: DispatchMessage): void {
+    if (this.outboxSignal().some(q => q.id === full.id)) {
+      return;
+    }
+    this.outboxSignal.update(list => [
+      ...list,
+      { id: full.id, kind: 'message', tripId: full.tripId ?? undefined, summary: full.text, queuedAtIso: full.atIso, queuedAt: full.at,
+        payload: { body: full.text, fromName: full.fromName } },
+    ]);
+    this.write(OUTBOX_KEY, this.outboxSignal());
   }
 
   /**
